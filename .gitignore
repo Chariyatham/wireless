@@ -1,0 +1,20 @@
+# ===== repo นี้ public → เผยแพร่เฉพาะ "เว็บที่ทำเอง" เท่านั้น =====
+
+# Python venv (ก้อนใหญ่)
+tools/whisper-venv/
+__pycache__/
+*.pyc
+
+# วัตถุดิบต้นฉบับ = ลิขสิทธิ์อาจารย์ (เสียง + สไลด์ + transcript คำพูดตรงๆ)
+# → เก็บในเครื่องเท่านั้น ห้ามขึ้น public repo
+เนื้อหาเรียน/
+transcripts/
+
+# graphify ผลลัพธ์กลาง (ตัดสินใจทีหลังว่าจะขึ้นไหม)
+graphify-out/
+
+# tooling / os
+.DS_Store
+.claude/
+.agents/
+skills-lock.json
