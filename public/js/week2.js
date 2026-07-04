@@ -5,7 +5,7 @@ function cssVar(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   return v || fallback;
 }
-const PKT_COLORS = ['#3a7ca5', '#c46b3d', '#2f8a78'];
+const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
 
 // ---------------------------------------------------------------
 // 1) Encapsulation เต็มเส้นทาง: ผู้ส่ง → Router → ผู้รับ (fig 4.6 + 4.7)
@@ -450,7 +450,7 @@ const PKT_COLORS = ['#3a7ca5', '#c46b3d', '#2f8a78'];
       ctx.strokeStyle = color; ctx.lineWidth = 1.6;
       ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
     }
-    const req = '#b07a2b', acc = '#4a8a5c';
+    const req = '#ffd66b', acc = '#83c167';
     if (mode === 'cs') {
       let t = 0;
       for (let k = 0; k < 3; k++) { thinArrow(k, t, req, false); t += 1.2 + 0.9; } // request + processing/โหนด

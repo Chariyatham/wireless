@@ -3,7 +3,7 @@
   const holder = document.getElementById('conceptMap');
   if (!holder) return;
   const base = holder.dataset.base || '';
-  const WCOL = { 1: '#b07a2b', 2: '#3a7ca5', 3: '#2f8a78' };
+  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167' };
 
   // [id, ป้าย, week, anchor, x, y]
   const nodes = [

@@ -4,7 +4,7 @@ function cssVar3(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   return v || fallback;
 }
-const C3 = ['#3a7ca5', '#c46b3d', '#2f8a78'];
+const C3 = ['#58c4dd', '#f6a85f', '#83c167'];
 
 function fitCanvas(cv, ctx) {
   const w = cv.clientWidth, h = cv.clientHeight;
