@@ -68,10 +68,14 @@
 - ✅ interactive 6 ชิ้น (`public/js/week3.js`): Sine Lab (A/f/φ + ปุ่ม 4 กรณีตามรูป 2.3) · Fourier Lab (ประกอบ square wave จากฮาร์มอนิกคี่ + สเปกตรัม) · Amplifier vs Repeater · เครื่องคิด Nyquist–Shannon · การบ้านตารางข้อมูล×สัญญาณ (สไลด์ 28 — modem/codec/NRZ/PCM) · FDM vs TDM canvas
 - ✅ ปลดล็อก W3 ใน WeekNav + การ์ดหน้าแรก — **เนื้อหาครบทั้ง 3 สัปดาห์แล้ว**
 
+**✅ DEPLOYED (2026-07-04): https://chariyatham.github.io/wireless/**
+- แผนที่คอนเซปต์หน้าแรกเสร็จ (`public/js/conceptmap.js` — SVG คลิกได้ 22 โหนด + เส้นเชื่อมข้ามสัปดาห์ เช่น dB→SNR, สมบัติ log→Nyquist/Shannon, switching→FDM/TDM) — ทำเองแทน graphify (คุมคุณภาพได้)
+- push `main` แล้ว + เปิด Pages ผ่าน `gh api` (build_type=workflow) — deploy run แรกผ่าน ทุกหน้า 200
+- push ครั้งต่อไปที่ `main` = deploy อัตโนมัติ
+- 🔑 Groq key: kim สั่ง**เก็บไว้ ไม่ revoke** — ห้ามให้หลุดขึ้น git (ตรวจ `grep -rn "gsk_"` แล้วสะอาด; key ไม่เคยอยู่ในไฟล์ repo — อยู่ในแชท/scratchpad ที่ลบแล้วเท่านั้น)
+
 **เหลือทำ:**
-1. ให้ kim รีวิว week1/2/3 ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
-2. แผนที่ concept หน้าแรก (graphify)
-3. push ขึ้น GitHub → เปิด Pages (Settings → Pages → Source = GitHub Actions)
+1. ให้ kim รีวิวเว็บจริงทั้ง 3 สัปดาห์ ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
 
 **ถอดเสียง: ✅ เสร็จครบแล้ว (2026-07-04) — อยู่ใน `transcripts/` (w2_1, w2_2, w3 มีทั้ง .txt และ .segments.txt)**
 - ทำผ่าน **Groq API** (ฟรี, whisper-large-v3 / -turbo): local CPU ช้าเกิน (`small` = ผลมั่วใช้ไม่ได้, `medium` = 0.15x realtime)
