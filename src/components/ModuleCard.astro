@@ -1,0 +1,10 @@
+---
+const { num, title, hook, topics, href, disabled = false, note } = Astro.props;
+const Tag = disabled ? 'div' : 'a';
+---
+<Tag class="mod" href={disabled ? undefined : href} style={disabled ? 'cursor:not-allowed;opacity:.68' : undefined}>
+  <div class="num">{num}</div>
+  <h3>{title}</h3>
+  <div class="hook">{hook}</div>
+  <div class="topics" set:html={topics + (note ? `<br><small>${note}</small>` : '')}></div>
+</Tag>

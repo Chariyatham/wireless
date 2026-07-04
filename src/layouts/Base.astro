@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // '/wireless' (ตัด / ท้ายให้ชัวร์)
+const { title = 'Wireless ให้เห็นภาพ', desc = 'คอร์ส Wireless Communications แบบเห็นภาพ เชื่อมโลกจริง ไม่เน้นท่องจำ' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={desc} />
+  <script is:inline>
+    (function(){try{var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href={`${base}/`} style="text-decoration:none">📡 <span>Wireless</span> ให้เห็นภาพ</a>
+      <div class="spacer"></div>
+      <a class="navlink" href={`${base}/week1`}>Week 1</a>
+      <a class="navlink" href={`${base}/#modules`}>โมดูล</a>
+      <button id="themeBtn" class="theme-btn" type="button" aria-label="สลับธีม ขาว/ดำ">🌙</button>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <div class="wrap">
+      ทำเพื่อการเรียนรู้ · เนื้อหาอ้างอิงเลคเชอร์วิชา Wireless Communications (รศ.ดร.ธนภัทร์ อนุศาสน์อมรกุล) โดยได้รับอนุญาต
+    </div>
+  </footer>
+
+  <script is:inline type="module" src={`${base}/js/theme.js`}></script>
+</body>
+</html>

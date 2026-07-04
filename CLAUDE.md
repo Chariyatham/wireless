@@ -29,14 +29,54 @@
 
 ## การตัดสินใจ workflow (ตกลงกับ kim แล้ว)
 - **ถอดเสียง:** `faster-whisper` (เร็วบน CPU, ไม่ต้องโหลด torch) ติดตั้งใน venv ที่ `tools/whisper-venv/`
-  - เครื่อง: 16 cores, RAM 31GB, GPU Intel Iris Xe (ถอดด้วย CPU) → ใช้ model `large-v3` (แม่นสุด) หรือ `medium` ถ้าต้องการเร็ว, ภาษาไทย + ศัพท์เทคนิคอังกฤษ
+  - เครื่อง: 16 cores, RAM 31GB, GPU Intel Iris Xe (ถอดด้วย CPU), ภาษาไทย + ศัพท์เทคนิคอังกฤษ
+  - ⚠️ **บทเรียนความเร็ว:** `medium` + `beam_size=5` + `condition_on_previous_text=True` → **ช้าผิดปกติมาก** (ติด repetition loop, ใช้ CPU แค่ ~4 threads). แก้แล้วในสคริปต์: `beam_size=1`, `condition_on_previous_text=False`, `cpu_threads=8`, `vad_filter=True`, env `OMP_NUM_THREADS=8`. ถ้ายังช้าอีก ลดเป็น model `small`
+  - สคริปต์: `tools/transcribe.py` → เขียนผลไป `transcripts/<name>.txt` + `.segments.txt` (มี timestamp)
 - **สร้างเว็บ:** เขียนเอง (การันตีคุณภาพได้) — ไม่ลง skill ยอดต่ำมาใช้แบบปิดตา แต่หยิบไอเดียโครงสร้างคอร์สจาก `kevintsai1202/teaching-site-skills@teaching-site` และวิธีอธิบายศัพท์ทีละระดับจาก `szeyu/vibe-study-skills@concept-explainer`
-- **โครงสร้าง output:** static site (HTML/CSS/JS) ที่รันบน GitHub Pages ได้
+- **แนวทางทำภาพ (kim สั่ง):** ทำ **animation/ภาพต้นฉบับให้ดีกว่าสไลด์** เป็นค่าเริ่มต้น (คลื่นไซน์, packet วิ่ง, dB scale, FDM/TDM, switching ฯลฯ) — เข้าใจดีกว่าภาพนิ่ง
+  - อาจารย์อนุญาตแล้ว → **แคปภาพสไลด์มาใส่เว็บได้** เป็น fallback เมื่อวาดใหม่แล้วสู้ของเดิมไม่ได้ แต่ default ยังวาด/animate เองเพราะสอนได้ดีกว่า
+- **Stack:** ✅ **Astro** (kim เลือก 2026-07-03) — เว็บ content + interactive islands, static → GitHub Pages, ใส่ React component ได้ถ้าต้องการ
+  - `base: '/wireless'` ใน `astro.config.mjs` (project page) — ⚠️ `import.meta.env.BASE_URL` เวอร์ชันนี้ให้ `/wireless` (ไม่มี `/` ท้าย) ต้อง `.replace(/\/$/,'')` แล้วต่อ `${base}/path` เอง
+  - dev/preview: `npm run dev` / `npm run preview` → เปิด `http://localhost:4321/wireless/`
+  - deploy: GitHub Action `.github/workflows/deploy.yml` (withastro/action@v3 + deploy-pages) — push `main` แล้วขึ้น Pages อัตโนมัติ (ต้องเปิด Pages: Settings → Pages → Source = GitHub Actions)
 - **Deploy:** repo = `https://github.com/Chariyatham/wireless.git` (branch `main`) — **PUBLIC**
-  - ⚠️ เผยแพร่ **เฉพาะเว็บที่ทำเอง** เท่านั้น — เสียง/สไลด์/transcript = ลิขสิทธิ์อาจารย์ **ห้ามขึ้น public repo** (อยู่ใน `.gitignore` แล้ว)
-  - เว็บต้องเป็นคำอธิบายที่เรียบเรียงใหม่ + animation ของเราเอง ไม่ใช่ก๊อปเนื้อหาดิบ
+  - ✅ **อาจารย์อนุญาตให้เผยแพร่ได้แล้ว** (kim ยืนยัน 2026-07-03) → เสียง/สไลด์/transcript ขึ้น public repo ได้ (ปรับ `.gitignore` แล้ว)
+  - เว็บยังเน้นคำอธิบายเรียบเรียงใหม่ + animation ต้นฉบับของเราเอง (เพื่อการเรียนรู้) โดยอ้างอิง/แคปเนื้อหาอาจารย์ได้เต็มที่
 
 ## โครงไฟล์ (เริ่มทำ)
 - `เนื้อหาเรียน/` — สไลด์ PDF ต้นฉบับ (+ ไฟล์เสียงเมื่อได้รับ)
 - `tools/whisper-venv/` — Python venv สำหรับ faster-whisper (อย่า commit ขึ้น git)
-- (เว็บจะอยู่ในโฟลเดอร์แยก เช่น `site/` หรือ root ตามที่ kim ระบุตอน deploy)
+- โครง Astro: `src/pages/` (index.astro, week1.astro), `src/layouts/Base.astro`, `src/components/` (Step, ModuleCard), `src/styles/global.css`, `public/js/` (hero.js, module1.js — animation vanilla ใช้ต่อได้ทุก stack)
+- `transcripts/` — ผลถอดเสียง (ยังไม่มี w2/w3 จนกว่าถอดเสร็จ; ไม่มี w1 เพราะไม่มีเสียง)
+- ✅ Week 1 สร้างเสร็จแล้ว (จากสไลด์) มี 2 interactive lab: dB slider + link budget
+
+## 🔖 สถานะล่าสุด — หยุดไว้ 2026-07-04 (kim จะทำต่อพรุ่งนี้)
+**เสร็จแล้ว:**
+- Astro + workflow deploy GitHub Pages (`.github/workflows/deploy.yml`)
+- ดีไซน์: ธีมวิชาการ Distill/Seeing-Theory (พื้นกระดาษ + serif Noto Serif Thai) + **ปุ่มสลับ ขาว/ดำ** (`public/js/theme.js`, `data-theme`, จำใน localStorage, กัน flash ด้วย inline script ใน `<head>` ของ `Base.astro`)
+- **Week 1 เต็ม** (`src/pages/week1.astro`): log + สมบัติ log + dB/dBW/dBm + link budget, เน้นออกสอบ, 2 interactive lab (`public/js/module1.js`), sidebar ซ้าย + สารบัญ scrollspy (`public/js/toc.js`)
+- หน้าแรก (`src/pages/index.astro`): hero คลื่น + การ์ด 3 สัปดาห์ (W2/W3 ล็อกไว้ใน `WeekNav.astro` + index)
+
+**เสร็จเพิ่ม (2026-07-04 บ่าย):**
+- ✅ **week2.astro รื้อเขียนใหม่แบบละเอียดเต็ม** จากสไลด์ 68 แผ่น + transcript w2_1 — 21 sections, กล่อง "🎙 จากปากอาจารย์" 15 จุด (เนื้อหาเลคเชอร์ที่ไม่มีในสไลด์), ป้าย "เสริมจากผู้เขียน" แยกส่วนเสริมชัดเจน, ป้าย "ระวังสอบ" ตามที่อาจารย์เน้น
+- ✅ interactive 8 ชิ้นใน `public/js/week2.js` (เขียนใหม่): encapsulation ผ่าน router (fig 4.6/4.7) · store-and-forward · โทรศัพท์ 3 เฟส CS · กราฟเครือข่ายสวิตช์ fig 3.3 เล่นโหมด Datagram/VC ได้ · FDM vs TDM canvas · event timing canvas 3 โหมด · lab ขนาดแพ็กเก็ต (fig 3.9, ตัวเลข 129/92/77/84 ตรงสไลด์) · ตารางการบ้านอาจารย์ (สไลด์ 68) แบบกดตอบ+ตรวจ+เฉลยพร้อมเหตุผล
+- CSS ส่วนใหม่ต่อท้าย `global.css` (`.lect`, `.plus`, `.qc`, phone-net, netgraph ฯลฯ) — รองรับธีมมืดแล้ว
+
+**เสร็จเพิ่ม (2026-07-04 เย็น):**
+- ✅ **week1 อุดช่องว่างเทียบสไลด์ครบ**: ตาราง W/dBW/dBm เต็ม 14 แถว (ถึง 1 GW), วิธีที่ 3 ของโจทย์ link budget (คิดแบบ dBm เริ่ม 47 dBm), คำเตือน "dB เป็นค่ากลาง ระวังหน่วย", ลิงก์ mathsisfun จากสไลด์
+- ✅ **week3.astro สร้างเสร็จเต็มรูปแบบ** (สไลด์ 50 แผ่น + transcript w3, กล่อง 🎙 10 จุด): ประวัติ→สัญญาณ→โดเมนเวลา/ความถี่→BW→data/signal→amp/repeater→Nyquist/Shannon/SNR→โจทย์เดินสด (B=1MHz, 24dB → 8Mbps → M=16)→สื่อ/สเปกตรัม/microwave/ดาวเทียม/วิทยุ→FDM/TDM
+- ✅ interactive 6 ชิ้น (`public/js/week3.js`): Sine Lab (A/f/φ + ปุ่ม 4 กรณีตามรูป 2.3) · Fourier Lab (ประกอบ square wave จากฮาร์มอนิกคี่ + สเปกตรัม) · Amplifier vs Repeater · เครื่องคิด Nyquist–Shannon · การบ้านตารางข้อมูล×สัญญาณ (สไลด์ 28 — modem/codec/NRZ/PCM) · FDM vs TDM canvas
+- ✅ ปลดล็อก W3 ใน WeekNav + การ์ดหน้าแรก — **เนื้อหาครบทั้ง 3 สัปดาห์แล้ว**
+
+**เหลือทำ:**
+1. ให้ kim รีวิว week1/2/3 ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
+2. แผนที่ concept หน้าแรก (graphify)
+3. push ขึ้น GitHub → เปิด Pages (Settings → Pages → Source = GitHub Actions)
+
+**ถอดเสียง: ✅ เสร็จครบแล้ว (2026-07-04) — อยู่ใน `transcripts/` (w2_1, w2_2, w3 มีทั้ง .txt และ .segments.txt)**
+- ทำผ่าน **Groq API** (ฟรี, whisper-large-v3 / -turbo): local CPU ช้าเกิน (`small` = ผลมั่วใช้ไม่ได้, `medium` = 0.15x realtime)
+- สูตรที่ใช้ได้: loudnorm → mp3 mono 16kHz 32kbps → **หั่นท่อนละ 10 นาที** (ไฟล์ยาว 56 นาทีทั้งก้อนโดน Internal Server Error) → ยิงทีละท่อน → merge + เลื่อน timestamp (สคริปต์เก็บใน scratchpad ของ session 2026-07-04)
+- โควตาฟรี large-v3 ชนง่าย → fallback เป็น `whisper-large-v3-turbo` (โควตาแยก คุณภาพใกล้กัน)
+- คุณภาพ transcript: ตามเนื้อหาได้จริง แต่คำเพี้ยนประปราย ช่วงต้นคาบ/เสียงคุยเพี้ยนหนัก → **ใช้เป็นตัวบอกว่าอาจารย์เน้น/ยกตัวอย่างอะไร แล้วเทียบสไลด์เสมอ ห้ามลอกคำเพี้ยนลงเว็บ**
+⚠️ **บทเรียน pkill:** อย่าใส่ `pkill/pgrep -f` ในคำสั่งเดียวกับที่มีคำว่า `transcribe.py`/`whisper` (จะ match+ฆ่า shell ตัวเอง) — ใช้ regex bracket หรือแยกคำสั่ง
+**รันเว็บ:** `npm run dev` → `http://localhost:4321/wireless/`

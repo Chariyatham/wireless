@@ -1,16 +1,12 @@
-# ===== repo นี้ public → เผยแพร่เฉพาะ "เว็บที่ทำเอง" เท่านั้น =====
+# ===== repo public — อาจารย์อนุญาตให้เผยแพร่สไลด์/เสียง/transcript ได้แล้ว =====
+# (เสียง/สไลด์/transcript จึง "ไม่" ถูก ignore แล้ว — ขึ้น repo ได้)
 
-# Python venv (ก้อนใหญ่)
+# Python venv (ก้อนใหญ่ + regenerate ได้ ไม่ควรขึ้น git)
 tools/whisper-venv/
 __pycache__/
 *.pyc
 
-# วัตถุดิบต้นฉบับ = ลิขสิทธิ์อาจารย์ (เสียง + สไลด์ + transcript คำพูดตรงๆ)
-# → เก็บในเครื่องเท่านั้น ห้ามขึ้น public repo
-เนื้อหาเรียน/
-transcripts/
-
-# graphify ผลลัพธ์กลาง (ตัดสินใจทีหลังว่าจะขึ้นไหม)
+# graphify ผลลัพธ์กลาง (build artifact — ตัวคอนเซปต์แมปสุดท้ายจะ copy ไป site/ ต่างหาก)
 graphify-out/
 
 # tooling / os
@@ -18,3 +14,10 @@ graphify-out/
 .claude/
 .agents/
 skills-lock.json
+
+# Node / Astro
+node_modules/
+dist/
+.astro/
+
+tools/_audio_tmp/

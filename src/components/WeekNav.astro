@@ -1,0 +1,25 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const { week = 1, sections = [] } = Astro.props;
+const weeks = [
+  { n: 1, t: 'คณิตที่วิศวกรใช้', href: `${base}/week1`, locked: false },
+  { n: 2, t: 'ข้อมูลเดินทางยังไง', href: `${base}/week2`, locked: false },
+  { n: 3, t: 'คลื่นไร้สายของจริง', href: `${base}/week3`, locked: false },
+];
+---
+<aside class="sidebar">
+  <div class="side-block">
+    <div class="side-title">สัปดาห์</div>
+    {weeks.map((w) => (
+      w.locked
+        ? <span class="wk lock">Week {w.n} · {w.t} 🔒</span>
+        : <a class={`wk ${w.n === week ? 'active' : ''}`} href={w.href}>Week {w.n} · {w.t}</a>
+    ))}
+  </div>
+  {sections.length > 0 && (
+    <nav class="side-block toc" id="toc">
+      <div class="side-title">ในหน้านี้</div>
+      {sections.map((s) => <a href={`#${s.id}`}>{s.label}</a>)}
+    </nav>
+  )}
+</aside>

@@ -1,0 +1,8 @@
+---
+// ขั้นการสอน 1 บล็อก ตาม template: real / intu / anim / deep / check
+const { kind = 'intu', icon = '💡', title = '', id } = Astro.props;
+---
+<div class={`step ${kind}`} id={id}>
+  <div class="tag">{icon} {title}</div>
+  <slot />
+</div>

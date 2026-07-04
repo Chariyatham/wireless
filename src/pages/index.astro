@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import ModuleCard from '../components/ModuleCard.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Wireless Communications — เข้าใจให้เห็นภาพ">
+  <header class="hero">
+    <div class="wrap">
+      <div class="badge">คอร์สสำหรับเด็กคอมปี 4 · เน้นเข้าใจ ไม่เน้นท่อง</div>
+      <h1>เข้าใจ <span class="grad">การสื่อสารไร้สาย</span><br />แบบเห็นภาพจริง</h1>
+      <p class="lead">ทุกเรื่องเริ่มจากคำถามว่า “เอาไปใช้ทำอะไร” ก่อนเจอสูตร — แล้วค่อยลงลึกทีละคำ พร้อม animation ให้เห็นว่ามันทำงานยังไง</p>
+      <canvas id="heroWave" aria-hidden="true"></canvas>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="modules">
+      <div class="grid">
+        <ModuleCard
+          num="WEEK 1"
+          title="เลขที่วิศวกรใช้จริง"
+          hook="“ทำไมมือถือขึ้น −90 dBm ถึงเรียกว่าสัญญาณดี?”"
+          topics="Logarithm · Decibel (dB) · dBW / dBm · Link budget"
+          href={`${base}/week1`}
+        />
+        <ModuleCard
+          num="WEEK 2"
+          title="ข้อมูลเดินทางยังไง"
+          hook="“กด Enter แล้วข้อความวิ่งผ่านอะไรบ้างกว่าจะถึง?”"
+          topics="Protocol · TCP/IP · OSI · Switching"
+          href={`${base}/week2`}
+        />
+        <ModuleCard
+          num="WEEK 3"
+          title="คลื่นไร้สายของจริง"
+          hook="“ทำไม WiFi ช้าลงเวลาคนเยอะ? ทำไมเน็ตมีเพดานความเร็ว?”"
+          topics="สัญญาณ · Bandwidth · Nyquist/Shannon · Spectrum · FDM/TDM"
+          href={`${base}/week3`}
+        />
+      </div>
+
+      <section id="conceptmap" style="margin: 10px 0 40px;">
+        <h2 style="font-size:1.4rem; margin-bottom:6px;">🗺️ แผนที่คอนเซปต์ทั้งคอร์ส</h2>
+        <p class="hint" style="margin-top:0;">ทุกหัวข้อเชื่อมถึงกันหมด — <b>กดที่กล่องเพื่อกระโดดไปเรียนหัวข้อนั้นทันที</b> · เส้นประสีส้ม = แนวคิดที่ข้ามสัปดาห์ (เช่น dB ของ Week 1 กลับมาเป็น SNR ใน Week 3)</p>
+        <div class="cmap-wrap">
+          <div id="conceptMap" data-base={base}></div>
+          <div class="cmap-legend">
+            <span><span class="dot" style="background:#b07a2b"></span>Week 1 · คณิตของสัญญาณ</span>
+            <span><span class="dot" style="background:#3a7ca5"></span>Week 2 · ข้อมูลเดินทาง</span>
+            <span><span class="dot" style="background:#2f8a78"></span>Week 3 · คลื่นของจริง</span>
+            <span style="color:var(--accent-warm)">- - - เชื่อมข้ามสัปดาห์</span>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script is:inline type="module" src={`${base}/js/hero.js`}></script>
+  <script is:inline type="module" src={`${base}/js/conceptmap.js`}></script>
+</Base>

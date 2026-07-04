@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+import Step from '../components/Step.astro';
+import WeekNav from '../components/WeekNav.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const sections = [
+  { id: 'why', label: 'ทำไมต้องเรียนเลขนี้' },
+  { id: 'log', label: 'Logarithm คืออะไร' },
+  { id: 'props', label: 'สมบัติของ log (ออกสอบ)' },
+  { id: 'db', label: 'Decibel (dB)' },
+  { id: 'units', label: 'dBW / dBm' },
+  { id: 'linkbudget', label: 'Link budget' },
+  { id: 'practice', label: 'โจทย์ + เฉลย' },
+  { id: 'summary', label: 'สรุปสูตรสำคัญ' },
+];
+---
+<Base title="Week 1 — คณิตที่วิศวกรใช้ (ออกสอบ)">
+  <main class="wrap">
+    <div class="crumb"><a href={`${base}/`}>หน้าแรก</a> / Week 1</div>
+    <h2>Week 1 · คณิตที่วิศวกรสื่อสารใช้จริง</h2>
+    <p class="hint">Logarithm · Decibel · dBW/dBm · Link budget — <b>ออกสอบเยอะ</b> เราจะเรียนให้เข้าใจ (ไม่ท่อง) แต่ครบพอทำข้อสอบได้จริง</p>
+
+    <div class="shell">
+      <WeekNav week={1} sections={sections} />
+
+      <div class="lesson-main">
+
+        <Step kind="real" icon="🎯" title="ทำไมต้องเรียนเลขชุดนี้" id="why">
+          <p>สัปดาห์นี้เป็น<b>คณิตล้วน</b> และ<b>ออกสอบเยอะ</b> — แต่เราจะไม่ท่องสูตร เราจะเข้าใจว่าแต่ละเครื่องมือ <i>เอาไปทำอะไร</i> พอเข้าใจแล้วสูตรจะติดเอง</p>
+          <p class="why">ภาพรวมทั้งเรื่องต่อกันเป็นชิ้นเดียว: สัญญาณจริงมีค่าตั้งแต่ระดับ <code>วัตต์</code> ไปจนถึง <code>0.000000000001 วัตต์</code> ต่างกันเป็นล้านล้านเท่า → <span class="term">Logarithm</span> คือเครื่องมือบีบเลขมหาศาลให้สั้นอ่านง่าย (กลายเป็น <span class="term">dB</span>) → แล้ว <span class="term">Link budget</span> คือการเอา dB มาบวกลบ เช็กว่า “สัญญาณรอดถึงปลายทางไหม”</p>
+        </Step>
+
+        <Step kind="intu" icon="💡" title="Logarithm คืออะไร (แบบเห็นภาพ)" id="log">
+          <p>นิยามทางการ: <code>y = log_b(x)  ⟺  b^y = x</code> &nbsp;(โดย x&gt;0, b&gt;0, b≠1)</p>
+          <p>แปลเป็นภาษาคน: <b>“ต้องเอาฐาน b มายกกำลังกี่ครั้ง ถึงได้ x”</b></p>
+          <div class="formula">log₁₀(1000) = 3    ← 10 ยก 3 ครั้ง (10×10×10) หรือ “นับศูนย์” = 3 ตัว
+log₂(8)     = 3    ← 2 ยก 3 ครั้ง (2×2×2)</div>
+          <p><b>ทำไมมีหลายฐาน?</b> เพราะใช้คนละงาน:</p>
+          <ul>
+            <li>ฐาน <b>10</b> → ใช้ทำ <span class="term">dB</span> วัดกำลังสัญญาณ (เรื่องหลักสัปดาห์นี้)</li>
+            <li>ฐาน <b>2</b> → ใช้กับ “จำนวนบิต/ข้อมูล” (เจอในสูตร Shannon สัปดาห์ 3)</li>
+            <li>ฐาน <b>e</b> (ln) → คณิตต่อเนื่อง/แคลคูลัส</li>
+          </ul>
+          <p class="why">หัวใจที่ทำให้ log มีประโยชน์: มันเปลี่ยน “ตัวเลขที่โตแบบทวีคูณ” ให้เป็น “สเกลที่เดินทีละขั้นเท่าๆ กัน” เลยเอามาวัดของที่ต่างกันเป็นล้านเท่าบนกราฟเดียวได้</p>
+        </Step>
+
+        <Step kind="deep" icon="📐" title="สมบัติของ log — ตัวที่ออกสอบ (จำว่าใช้ตอนไหน)" id="props">
+          <p>อย่าท่องเฉยๆ — จำคู่กับว่า<b>เอาไปใช้ทำอะไร</b> แล้วจะไม่ลืม:</p>
+          <table class="tbl">
+            <thead><tr><th>สมบัติ</th><th>สูตร</th><th>ใช้ทำอะไรจริง</th></tr></thead>
+            <tbody>
+              <tr><td>คูณ → บวก</td><td>log(x·y) = log x + log y</td><td>link budget: คูณ gain/loss หลายตัว = บวก dB</td></tr>
+              <tr><td>หาร → ลบ</td><td>log(x/y) = log x − log y</td><td>SNR = สัญญาณ ÷ รบกวน → เป็น dB คือลบกัน</td></tr>
+              <tr><td>ยกกำลัง → คูณ</td><td>log(xⁿ) = n · log x</td><td>ที่มาของเลข 10 ใน dB, path loss ∝ dⁿ</td></tr>
+              <tr><td>เปลี่ยนฐาน</td><td>log_b x = log_a x ÷ log_a b</td><td>เครื่องคิดเลขมีแค่ log₁₀/ln → แปลงฐานอื่นได้</td></tr>
+              <tr><td>ผกผัน</td><td>b^(log_b x) = x , log_b(bˣ) = x</td><td>log กับ ยกกำลัง = ตรงข้าม (ลบล้างกัน)</td></tr>
+            </tbody>
+          </table>
+          <p>ค่าพิเศษที่ต้องจำ (ออกบ่อย): <code>log_b 1 = 0</code> · <code>log_b b = 1</code> · <code>log_b b² = 2</code> · <code>log_a b = 1 ÷ log_b a</code></p>
+          <div class="note">⚠️ <b>กับดักข้อสอบ!</b> สองอันนี้ <u>ผิด</u> ห้ามทำเด็ดขาด:<br>
+            <code>log(x + y) ≠ log x + log y</code> &nbsp;·&nbsp; <code>log(x − y) ≠ log x − log y</code><br>
+            แยกได้เฉพาะตอน <b>คูณ/หาร</b> ข้างใน log เท่านั้น — <b>บวก/ลบ</b> ข้างในแยกไม่ได้</div>
+          <details class="sol"><summary>ดูตัวอย่างเฉลยทีละข้อ</summary>
+            <div class="body formula">log_b 1  = 0          (เพราะ b⁰ = 1)
+log_b b  = 1          (เพราะ b¹ = b)
+log_b b² = 2          (b ต้องยก 2 ครั้ง)
+b^(log_b x) = x       (ยกกำลังลบล้าง log)
+log_a b  = 1 ÷ log_b a  (เปลี่ยนฐานสลับที่)</div>
+          </details>
+        </Step>
+
+        <Step kind="anim" icon="🎬" title="Decibel (dB) — ลองเล่นให้เห็น ×10 = +10" id="db">
+          <p><span class="term">Decibel (dB)</span> คือการเอาสมบัติ log มาใช้จริง: <code>dB = 10 · log₁₀(อัตราส่วนกำลัง)</code></p>
+          <p>สองสูตรที่เจอตลอด (มาจากสมบัติ หาร→ลบ):</p>
+          <div class="formula">Loss(dB) = 10 · log₁₀(P_in ÷ P_out)    ← เสียไปเท่าไร
+Gain(dB) = 10 · log₁₀(P_out ÷ P_in)    ← ขยายกี่เท่า</div>
+          <div class="note">⚠️ <b>คำเตือนจากสไลด์:</b> เดซิเบลเป็น "ค่ากลาง" — ค่าเดียวกันจะมีความหมายก็ต่อเมื่อรู้ว่า<b>เอาไปเทียบกับอะไร</b> และค่าที่เอามาเข้า log ต้อง<b>ไม่มีหน่วย</b> (เป็นอัตราส่วนล้วนๆ เช่น W÷W) → <b>ระวังเรื่องหน่วยให้ดี</b> อย่าเอา W ไปหารกับ mW ตรงๆ โดยไม่แปลงก่อน — นี่คือจุดที่คะแนนหายบ่อยสุด</div>
+          <p>หัวใจ: <b>×10 ของกำลังจริง = +10 dB</b> เสมอ — ลองเลื่อนดู 👇</p>
+          <div class="lab">
+            <h4>🔬 dB Lab — เลื่อนกำลัง แล้วดูค่า dB</h4>
+            <div id="zeros"></div>
+            <div class="row" style="margin-top:10px">
+              <input type="range" id="dbSlider" min="-6" max="9" step="1" value="0" />
+            </div>
+            <div class="readout">
+              <div class="cell"><div class="k">กำลังจริง</div><div class="v" id="dbWatt">1.00 W</div></div>
+              <div class="cell"><div class="k">เทียบ 1 วัตต์</div><div class="v" id="dbW">0 dBW</div></div>
+              <div class="cell"><div class="k">เทียบ 1 มิลลิวัตต์</div><div class="v" id="dbm">+30 dBm</div></div>
+            </div>
+            <p class="hint">สังเกต: เลื่อน 1 ขั้น (×10) → dBW ขยับทีละ 10 พอดีทุกครั้ง = “dB คือการนับจำนวนศูนย์”</p>
+          </div>
+        </Step>
+
+        <Step kind="deep" icon="🔍" title="dBW กับ dBm — ต่างกันแค่จุดอ้างอิง" id="units">
+          <p>dB บอกได้แค่ “อัตราส่วน” ต้องมี<b>จุดอ้างอิง</b>ถึงเป็นค่ากำลังจริง:</p>
+          <div class="formula">dBW = 10 · log₁₀(P ÷ 1 W)     ← อ้างอิง 1 วัตต์
+dBm = 10 · log₁₀(P ÷ 1 mW)    ← อ้างอิง 1 มิลลิวัตต์</div>
+          <p>เพราะ 1 W = 1000 mW (ต่างกัน 3 ศูนย์ = 30 dB) เลยได้กฎลัด: <code>dBm = dBW + 30</code></p>
+          <p>ตารางเต็มจากสไลด์ (ไล่ครบทุกขั้น ×10 — สังเกตว่า dBW/dBm ขยับทีละ 10 เป๊ะ และสองคอลัมน์ต่างกัน 30 ตลอด):</p>
+          <table class="tbl">
+            <thead><tr><th>P (วัตต์)</th><th>อ่านว่า</th><th>dBW</th><th>dBm</th></tr></thead>
+            <tbody>
+              <tr><td>0.000001</td><td>1 µW (ไมโครวัตต์)</td><td>−60</td><td>−30</td></tr>
+              <tr><td>0.00001</td><td>10 µW</td><td>−50</td><td>−20</td></tr>
+              <tr><td>0.0001</td><td>100 µW</td><td>−40</td><td>−10</td></tr>
+              <tr><td>0.001</td><td>1 mW (มิลลิวัตต์)</td><td>−30</td><td>0</td></tr>
+              <tr><td>0.01</td><td>10 mW</td><td>−20</td><td>+10</td></tr>
+              <tr><td>0.1</td><td>100 mW</td><td>−10</td><td>+20</td></tr>
+              <tr><td>1</td><td>1 W (วัตต์)</td><td>0</td><td>+30</td></tr>
+              <tr><td>10</td><td>10 W</td><td>+10</td><td>+40</td></tr>
+              <tr><td>100</td><td>100 W</td><td>+20</td><td>+50</td></tr>
+              <tr><td>1,000</td><td>1 kW (กิโลวัตต์)</td><td>+30</td><td>+60</td></tr>
+              <tr><td>10,000</td><td>10 kW</td><td>+40</td><td>+70</td></tr>
+              <tr><td>100,000</td><td>100 kW</td><td>+50</td><td>+80</td></tr>
+              <tr><td>1,000,000</td><td>1 MW (เมกะวัตต์)</td><td>+60</td><td>+90</td></tr>
+              <tr><td>1,000,000,000</td><td>1 GW (กิกะวัตต์)</td><td>+90</td><td>+120</td></tr>
+            </tbody>
+          </table>
+          <p>ตัวอย่างแปลงไว (โจทย์แทรกในสไลด์): <code>1 mW = −30 dBW = 0 dBm</code> · <code>100 W = +20 dBW = +50 dBm</code> — เช็กกับตารางได้เลย</p>
+          <p class="why">เลข <code>−90 dBm</code> บนมือถือ = กำลังจริงราว <code>10⁻¹² W</code> เห็นไหมว่า dBm ทำให้เลขโหดๆ อ่านง่ายขึ้นเยอะ</p>
+        </Step>
+
+        <Step kind="anim" icon="📡" title="Link budget — คำนวณ 2 วิธี (วัตต์ vs dB)" id="linkbudget">
+          <p>งานจริงของวิศวกร: เช็กว่ากำลังจากตัวส่ง กว่าจะถึงตัวรับเหลือพอไหม เจอทั้ง<b>ตัวขยาย</b> (เสาอากาศ) และ<b>ตัวหักลบ</b> (สายส่ง, ระยะทางในอากาศ) — พอเป็น dB ก็<b>บวกลบตรงๆ</b> (ขอบคุณสมบัติ คูณ→บวก ที่เพิ่งเรียน)</p>
+          <div class="lab">
+            <h4>📡 ส่งสัญญาณ Tx → Rx (ตัวอย่างจากสไลด์: เริ่ม 50 W)</h4>
+            <div class="chain" id="chain">
+              <div class="node tx"><div class="lbl">Tx (50 W)</div><div class="db"></div></div>
+              <div class="node"><div class="lbl">สายส่ง</div><div class="db"></div></div>
+              <div class="node"><div class="lbl">เสาอากาศส่ง</div><div class="db"></div></div>
+              <div class="node"><div class="lbl">อากาศ (ระยะทาง)</div><div class="db"></div></div>
+              <div class="node"><div class="lbl">เสาอากาศรับ</div><div class="db"></div></div>
+              <div class="node rx"><div class="lbl">สายรับ → Rx</div><div class="db"></div></div>
+            </div>
+            <div class="readout">
+              <div class="cell"><div class="k">กำลังสะสม (dBW)</div><div class="v" id="budgetTotal">17 dBW</div></div>
+              <div class="cell"><div class="k">คิดเป็นกำลังจริง</div><div class="v" id="budgetWatt">50.0 W</div></div>
+            </div>
+            <button class="btn" id="runBudget">▶ ส่งสัญญาณ</button>
+          </div>
+          <p>ลองเทียบ 2 วิธี ให้เห็นว่าได้คำตอบเดียวกัน:</p>
+          <details class="sol"><summary>วิธีที่ 1 — คิดแบบวัตต์ (คูณ/หารเลขยักษ์)</summary>
+            <div class="body formula">P = 50 × 0.5 × 20 × 10⁻¹⁰ × 20 × 0.5
+  = 5 × 10⁻⁷ W = 0.5 µW</div></details>
+          <details class="sol"><summary>วิธีที่ 2 — คิดแบบ dBW (บวกลบ ง่ายกว่ามาก)</summary>
+            <div class="body formula">เริ่ม 50 W = 10·log₁₀(50) = 17 dBW
+แปลงทุกตัวเป็น dB: ×0.5 = −3 dB · ×20 = +13 dB · ×10⁻¹⁰ = −100 dB
+17 + (−3) + (+13) + (−100) + (+13) + (−3) = −63 dBW
+−63 dBW = 10^(−6.3) W = 0.5 µW   ✓ เท่ากัน!</div>
+            <p class="body why">บวกลบ 5 ตัวจบ ไม่ต้องคูณเลขยักษ์ — <b>นี่คือเหตุผลที่วิศวกรทั้งวงการใช้ dB</b></p></details>
+          <details class="sol"><summary>วิธีที่ 3 — คิดแบบ dBm (สไลด์มีครบ 3 วิธี — ต่างจากวิธีที่ 2 แค่จุดตั้งต้น)</summary>
+            <div class="body formula">เริ่ม 50 W = 50,000 mW → 10·log₁₀(50000) = 47 dBm   (= 17 dBW + 30 พอดี)
+47 + (−3) + (+13) + (−100) + (+13) + (−3) = −33 dBm
+−33 dBm = −63 dBW = 0.5 µW   ✓ เท่ากันทั้ง 3 วิธี!</div>
+            <p class="body why">ตัวเพิ่ม/ลด (dB) ชุดเดียวกันเป๊ะ เปลี่ยนแค่จุดอ้างอิงตั้งต้น — คำตอบ dBm จะโตกว่า dBW อยู่ 30 เสมอ ใช้เช็กความถูกของตัวเองได้: ถ้าลบกันแล้วไม่ได้ 30 แปลว่าคำนวณพลาด</p></details>
+        </Step>
+
+        <Step kind="check" icon="✍️" title="โจทย์ฝึก (แนวข้อสอบ) — ลองก่อนเปิดเฉลย" id="practice">
+          <div class="q">
+            <div class="qh">1) 30 W = ? dBm <span class="exam-badge">ออกสอบ</span></div>
+            <details class="sol"><summary>เฉลย</summary><div class="body formula">dBW = 10 · log₁₀(30) = 14.77 dBW
+dBm = dBW + 30 = 44.77 dBm</div></details>
+          </div>
+          <div class="q">
+            <div class="qh">2) 1 dBm = ? dBW = ? W <span class="exam-badge">ออกสอบ</span></div>
+            <details class="sol"><summary>เฉลย</summary><div class="body formula">dBW = 1 − 30 = −29 dBW
+P = 10^(−29 ÷ 10) = 10^(−2.9) = 1.26 × 10⁻³ W = 1.26 mW</div></details>
+          </div>
+          <div class="q">
+            <div class="qh">3) ทำไม X dBm − Y dBm = Z dB (ไม่ใช่ Z dBm)?</div>
+            <details class="sol"><summary>เฉลย</summary><div class="body">ลบ dBm สองตัว = หารกำลังสองค่า (mW ที่อ้างอิงตัดกันหมด) เหลือ “อัตราส่วนเปล่าๆ” ที่ไม่มีจุดอ้างอิง → จึงเป็น <b>dB</b> ไม่ใช่ dBm</div></details>
+          </div>
+          <div class="q">
+            <div class="qh">4) Loss = 3 dB แปลว่ากำลังเหลือเท่าไร?</div>
+            <details class="sol"><summary>เฉลย</summary><div class="body">เหลือ 10^(−3 ÷ 10) = 0.50 = <b>เหลือครึ่งเดียว</b> (เสียไปครึ่งนึง) — จำง่ายๆ ว่า “3 dB = 2 เท่า / ครึ่งนึง” เสมอ</div></details>
+          </div>
+          <div class="q">
+            <div class="qh">5) สัญญาณแรงขึ้น 100 เท่า = กี่ dB?</div>
+            <details class="sol"><summary>เฉลย</summary><div class="body formula">100 = 10²  →  10 · log₁₀(100) = 10 × 2 = +20 dB</div></details>
+          </div>
+        </Step>
+
+        <Step kind="intu" icon="🧾" title="สรุปสูตรสำคัญ (แผ่นเดียวจบ ก่อนสอบ)" id="summary">
+          <div class="formula">dB   = 10 · log₁₀(P₁ ÷ P₂)
+dBW  = 10 · log₁₀(P ÷ 1W)      dBm = 10 · log₁₀(P ÷ 1mW)      dBm = dBW + 30
+คูณ→บวก:  log(x·y) = log x + log y       หาร→ลบ:  log(x/y) = log x − log y</div>
+          <p><b>กฎลัดจำง่าย (คิดในหัวได้เลย ไม่ต้องกดเครื่องคิดเลข):</b></p>
+          <table class="tbl">
+            <tbody>
+              <tr><td>+10 dB</td><td>× 10</td></tr>
+              <tr><td>+3 dB</td><td>× 2 (โดยประมาณ)</td></tr>
+              <tr><td>−3 dB</td><td>เหลือครึ่ง</td></tr>
+              <tr><td>0 dB</td><td>เท่าเดิม (× 1)</td></tr>
+              <tr><td>+30</td><td>แปลง dBW → dBm</td></tr>
+            </tbody>
+          </table>
+        </Step>
+
+        <div class="note">Week 1 ครอบคลุมสไลด์ครบทุกหน้า (สัปดาห์นี้ไม่มีไฟล์เสียงเลคเชอร์ จึงอิงสไลด์ล้วน) · สไลด์อาจารย์แนะนำแหล่งฝึก log เพิ่ม: <a href="https://www.mathsisfun.com/algebra/logarithms.html" target="_blank" rel="noopener">mathsisfun.com — Logarithms</a></div>
+
+      </div>
+    </div>
+  </main>
+
+  <script is:inline type="module" src={`${base}/js/module1.js`}></script>
+  <script is:inline type="module" src={`${base}/js/toc.js`}></script>
+</Base>
