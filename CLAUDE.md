@@ -34,7 +34,10 @@
 - **ตัวเลขทุกตัวยืนยันด้วยสคริปต์ node ก่อนใส่** (ห้ามคิดในหัวแล้วพิมพ์) — เก็บสคริปต์ verify ใน scratchpad
 - **ตรวจจบด้วย Playwright** (chromium `/usr/bin/chromium`): screenshot ทุก section, กดปุ่มทุกตัว, console error = 0, เช็คธีมขาว/ดำทั้งคู่
 - อัปเดต **progress checklist** (`public/js/progress.js`), **แผนที่คอนเซปต์** (conceptmap.js), **การ์ดหน้าแรก + WeekNav**, และเพิ่มโจทย์บทใหม่เข้า**คลังข้อสอบรวม** (`src/pages/exam.astro` + `public/js/exam.js`)
-- pipeline เนื้อหาใหม่: รับเสียง → ถอดผ่าน Groq (สูตรด้านล่าง) → อ่าน PDF ทุกหน้า (หน้าไดอะแกรมเปิดเป็นภาพ) → เสนอ "โครง + animation ที่จะสร้าง" ให้ kim ดูก่อนลงมือ → เขียน → verify → Playwright → commit (push เมื่อ kim สั่ง)
+- **pipeline เนื้อหาใหม่ (kim ยืนยัน 2026-07-11 — ทำตามนี้ทุกรอบ ไม่ต้องรอสั่ง):**
+  1. kim วางไฟล์ (เสียง/สไลด์) แล้วบอกว่าเพิ่มเนื้อหา → ถอดเสียงผ่าน Groq (สูตรด้านล่าง) + อ่าน PDF ทุกหน้า (หน้าไดอะแกรมเปิดเป็นภาพ)
+  2. **เสนอแผนให้ kim recheck ก่อนเสมอ**: โครง sections + animation ที่จะสร้าง + โจทย์/ตัวเลขที่จะใช้ — **รอ kim ยืนยันแล้วจึงเริ่มเขียน**
+  3. เขียนด้วยเครื่องมือกลาง → verify เลขด้วย node → Playwright console=0 → อัปเดต progress/conceptmap/BANK ใน exam.js → commit (push เมื่อ kim สั่ง)
 
 ## วัตถุดิบ (source materials)
 - `เนื้อหาเรียน/wireless-w1.pdf` (4 หน้า) — **Week 1: Basic Math** = Logarithm (สมบัติ), Decibel (dB/dBW/dBm), การแปลงกำลังงาน, โจทย์ link budget (Tx→cable loss→antenna gain→wireless loss→Rx), แบบฝึกหัด
