@@ -280,3 +280,93 @@ html[data-theme="light"] .nav { background: rgba(251,250,247,.86); }
 html[data-theme="light"] .qc.bad { background:#f7e5e0; border-color:#c0492f; color:#c0492f; }
 #cmpOut ul { margin:8px 0 0; padding-left:20px; }
 #cmpOut li { margin:6px 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   Week 1 v2 — step player กลาง + viz + exam (แนว Numer Master)
+   ═══════════════════════════════════════════════════════════ */
+/* --- step player (stepper.js) --- */
+.stepper { border:1px solid var(--line-2); border-radius:12px; background:var(--card); padding:14px 16px 10px; margin:16px 0; }
+.stepper-stage { min-height:60px; }
+.stepper-bar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; border-top:1px dashed var(--line); margin-top:10px; padding-top:10px; }
+.sbtn { background:var(--paper-2); color:var(--text); border:1px solid var(--line-2); border-radius:7px; padding:5px 12px; cursor:pointer; font-family:var(--mono); font-size:.85rem; }
+.sbtn:hover:not(:disabled) { border-color:var(--accent); color:var(--accent-ink); }
+.sbtn:disabled { opacity:.4; cursor:default; }
+.sbtn.primary { background:var(--accent); color:#08222a; border-color:var(--accent); font-weight:700; }
+.sbtn.primary:hover:not(:disabled) { color:#08222a; filter:brightness(1.1); }
+.sbtn.ghost { background:transparent; }
+.stepper-label { font-family:var(--mono); font-size:.78rem; color:var(--accent-ink); white-space:nowrap; }
+.stepper-scrub { flex:1 1 120px; min-width:100px; height:20px !important; }
+.stage-cap { font-size:.92rem; color:var(--text); border-left:2px solid var(--accent); padding:2px 0 2px 12px; margin-top:10px; min-height:3em; }
+.stage-cap b, .stage-cap strong { color:var(--ink); }
+
+/* --- SVG viz --- */
+.svgviz { width:100%; height:auto; display:block; }
+.svgviz .grid { stroke:var(--line); stroke-dasharray:2 4; }
+.svgviz .ticktxt { font-size:10.5px; fill:var(--text-dim); font-family:var(--mono); }
+.svgviz .viztxt { font-size:12.5px; fill:var(--text); font-family:var(--sans); }
+.svgviz .vzaxis { stroke:var(--rule); stroke-width:1.6; }
+.svgviz .vzline { stroke:var(--line-2); stroke-width:1.2; }
+.svgviz .vzdash { stroke:var(--text-dim); stroke-width:1.2; stroke-dasharray:4 4; }
+.svgviz .wf-pos { fill:var(--deep-bg); }
+.svgviz .wf-neg { fill:#2c1712; }
+html[data-theme="light"] .svgviz .wf-neg { fill:#f7e5e0; }
+
+/* --- quiz log (สไลด์ 4-5) --- */
+.lq { display:flex; align-items:center; gap:12px; flex-wrap:wrap; border:1px solid var(--line); border-radius:9px; background:var(--card); padding:10px 14px; margin:8px 0; }
+.lq-q { font-family:var(--mono); font-size:1rem; color:var(--ink); min-width:130px; }
+.lq-opts { display:flex; gap:8px; flex-wrap:wrap; }
+.lq .qc { min-width:64px; text-align:center; font-family:var(--mono); }
+.lq .qc:disabled { cursor:default; }
+.lq-why { flex-basis:100%; font-size:.88rem; color:var(--text-dim); border-top:1px dashed var(--line); padding-top:8px; }
+.lq-score { margin-top:10px; }
+
+/* --- walkthrough เดินมือทีละขั้น --- */
+.walk { border:1px solid var(--line-2); border-radius:10px; background:var(--card); padding:12px 16px; margin:12px 0; }
+.walk-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+.walk-count { font-family:var(--mono); font-size:.75rem; color:var(--text-dim); white-space:nowrap; }
+.walk-title { font-weight:700; color:var(--ink); font-size:.98rem; }
+.walk-body { font-family:var(--mono); font-size:.92rem; line-height:1.7; background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:12px 16px; margin:0; white-space:pre-wrap; overflow-x:auto; color:var(--ink); }
+.walk-note { font-size:.86rem; color:var(--text-dim); font-style:italic; margin-top:8px; border-left:2px solid var(--line-2); padding-left:10px; }
+
+/* --- link budget calculator --- */
+.lbc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:6px; }
+@media (max-width:700px){ .lbc-grid { grid-template-columns:1fr 1fr; } }
+.lbc-grid label, #conv label { display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--text-dim); }
+.lbc-grid input, #conv input[type=number] { background:var(--paper-2); border:1px solid var(--line-2); border-radius:7px; color:var(--ink); font-family:var(--mono); font-size:.95rem; padding:7px 10px; width:100%; }
+.lbc-grid input:focus, #conv input[type=number]:focus { outline:none; border-color:var(--accent); }
+
+/* --- เกม dB --- */
+.game-top { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:10px; }
+.game-top .cell { background:var(--paper-2); border:1px solid var(--line); border-radius:9px; padding:10px 16px; flex:1; min-width:150px; }
+.game-top .k { font-size:.72rem; color:var(--text-dim); }
+.game-top .v { font-size:1.2rem; font-weight:700; font-family:var(--mono); color:var(--accent-ink); }
+.game-msg { min-height:2.4em; font-size:.92rem; color:var(--text); border-left:2px solid var(--check); padding-left:12px; }
+
+/* --- JS runner --- */
+.run-bar { display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
+.run-title { font-family:var(--mono); font-size:.82rem; color:var(--accent-ink); }
+#runCode { width:100%; background:var(--paper-2); color:var(--ink); border:1px solid var(--line-2); border-radius:8px; font-family:var(--mono); font-size:.86rem; line-height:1.6; padding:12px 14px; resize:vertical; }
+#runCode:focus { outline:none; border-color:var(--accent); }
+.run-out { background:#0d1a10; border:1px solid var(--check); border-radius:8px; font-family:var(--mono); font-size:.86rem; padding:12px 14px; color:var(--check); white-space:pre-wrap; margin:10px 0 0; }
+.run-out.err { background:#2c1712; border-color:#f0696b; color:#f0696b; }
+html[data-theme="light"] .run-out { background:#eef5ee; }
+html[data-theme="light"] .run-out.err { background:#f7e5e0; border-color:#c0492f; color:#c0492f; }
+
+/* --- TimedExam --- */
+#exam-timer { border:1px solid var(--line-2); border-left:3px solid var(--accent); border-radius:12px; background:var(--card); padding:14px 18px; margin:14px 0; }
+.exam-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.exam-clock { font-family:var(--mono); font-size:1.9rem; font-weight:700; letter-spacing:2px; color:var(--text-dim); }
+.exam-clock.run { color:var(--intu); }
+.exam-clock.low { color:#f0696b; }
+.exam-mid { flex:1; min-width:200px; font-size:.85rem; color:var(--text-dim); }
+.exam-track { height:6px; background:var(--paper-2); border-radius:3px; margin-top:6px; overflow:hidden; }
+.exam-fill { height:100%; background:var(--intu); border-radius:3px; transition:width 1s linear; }
+.exam-fill.low { background:#f0696b; }
+details.sol.locked summary { cursor:not-allowed; opacity:.55; }
+details.sol.locked summary::before { content:"🔒 "; }
+.shake { animation:shake .4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
+/* ป้ายอ้างเลคเชอร์ข้ามสัปดาห์ */
+.lect .from { font-size:.68rem; color:var(--text-dim); border:1px solid var(--line-2); border-radius:5px; padding:0 7px; margin-left:8px; vertical-align:middle; }
+#cmpOut ul { margin:8px 0 0; padding-left:20px; }
