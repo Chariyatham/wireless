@@ -369,4 +369,18 @@ details.sol.locked summary::before { content:"🔒 "; }
 
 /* ป้ายอ้างเลคเชอร์ข้ามสัปดาห์ */
 .lect .from { font-size:.68rem; color:var(--text-dim); border:1px solid var(--line-2); border-radius:5px; padding:0 7px; margin-left:8px; vertical-align:middle; }
+
+/* --- progress dots (localStorage) --- */
+.prog { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; border-top:1px dashed var(--line); padding-top:10px; }
+.prog:empty { display:none; }
+.prog-dot { font-size:.72rem; font-family:var(--mono); color:var(--text-dim); border:1px solid var(--line-2); border-radius:999px; padding:1px 9px; }
+.prog-dot.on { color:var(--check); border-color:var(--check); background:var(--check-bg); }
+.examcta { margin:0 0 40px; }
+.examcta .mod { border-color:var(--accent-warm); }
+.examcta .mod:hover { border-color:var(--accent-warm); }
+
+/* --- exam hub (/exam) --- */
+.hub-modes { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.hub-q-week { display:inline-block; font-size:.68rem; font-family:var(--mono); color:var(--accent-ink); border:1px solid var(--line-2); border-radius:5px; padding:0 7px; margin-right:6px; vertical-align:middle; }
+.hub-link { font-size:.8rem; }
 #cmpOut ul { margin:8px 0 0; padding-left:20px; }

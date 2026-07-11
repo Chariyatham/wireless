@@ -22,6 +22,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           hook="“ทำไมมือถือขึ้น −90 dBm ถึงเรียกว่าสัญญาณดี?”"
           topics="Logarithm · Decibel (dB) · dBW / dBm · Link budget"
           href={`${base}/week1`}
+          week="w1"
         />
         <ModuleCard
           num="WEEK 2"
@@ -29,6 +30,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           hook="“กด Enter แล้วข้อความวิ่งผ่านอะไรบ้างกว่าจะถึง?”"
           topics="Protocol · TCP/IP · OSI · Switching"
           href={`${base}/week2`}
+          week="w2"
         />
         <ModuleCard
           num="WEEK 3"
@@ -36,7 +38,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           hook="“ทำไม WiFi ช้าลงเวลาคนเยอะ? ทำไมเน็ตมีเพดานความเร็ว?”"
           topics="สัญญาณ · Bandwidth · Nyquist/Shannon · Spectrum · FDM/TDM"
           href={`${base}/week3`}
+          week="w3"
         />
+      </div>
+
+      <div class="examcta">
+        <a class="mod" href={`${base}/exam`} style="display:block">
+          <div class="num">🏁 MIDTERM MODE</div>
+          <h3>คลังข้อสอบรวม + สอบจำลองจับเวลา</h3>
+          <div class="hook">รวมโจทย์ทั้ง 3 สัปดาห์ 15 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
+          <div class="prog" data-progress-week="exam"></div>
+        </a>
+        <button id="progReset" class="sbtn ghost" hidden style="margin-top:10px">↺ ล้างความคืบหน้าทั้งหมด</button>
       </div>
 
       <section id="conceptmap" style="margin: 10px 0 40px;">

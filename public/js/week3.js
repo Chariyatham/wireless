@@ -324,8 +324,15 @@ function onReady(fn) {
   const cv = document.getElementById('mux3Canvas');
   if (!cv) return;
   const ctx = cv.getContext('2d');
-  let t = 0;
+  let t = 0, paused = false;
+  cv.style.cursor = 'pointer';
+  cv.title = 'คลิกเพื่อหยุด/เล่น';
+  cv.addEventListener('click', () => {
+    paused = !paused;
+    if (!paused) requestAnimationFrame(draw);
+  });
   function draw() {
+    if (paused) return;
     const [cw, ch] = fitCanvas(cv, ctx);
     ctx.clearRect(0, 0, cw, ch);
     const ink = cssVar3('--text-dim', '#7c7f8a');

@@ -242,18 +242,19 @@ export function mountExam(presets = [10, 15, 20]) {
         </div>
       </div>`;
   }
+  const examDone = () => document.dispatchEvent(new CustomEvent('wl:examdone')); // ให้ progress.js นับ
   box.addEventListener('click', (e) => {
     const b = e.target.closest('[data-x]');
     if (!b) return;
     const v = b.dataset.x;
-    if (v === 'give') { status = 'surrendered'; clearInterval(timer); lock(false); draw(); return; }
+    if (v === 'give') { status = 'surrendered'; clearInterval(timer); lock(false); examDone(); draw(); return; }
     if (v === 'reset') { status = 'idle'; remaining = 0; lock(false); draw(); return; }
     total = +v * 60; remaining = total; status = 'running';
     lock(true);
     clearInterval(timer);
     timer = setInterval(() => {
       remaining--;
-      if (remaining <= 0) { remaining = 0; status = 'done'; clearInterval(timer); lock(false); }
+      if (remaining <= 0) { remaining = 0; status = 'done'; clearInterval(timer); lock(false); examDone(); }
       draw();
     }, 1000);
     draw();

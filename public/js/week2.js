@@ -321,8 +321,15 @@ const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
   const cv = document.getElementById('muxCanvas');
   if (!cv) return;
   const ctx = cv.getContext('2d');
-  let t = 0;
+  let t = 0, paused = false;
+  cv.style.cursor = 'pointer';
+  cv.title = 'คลิกเพื่อหยุด/เล่น';
+  cv.addEventListener('click', () => {
+    paused = !paused;
+    if (!paused) requestAnimationFrame(draw);
+  });
   function draw() {
+    if (paused) return;
     const w = cv.width = cv.clientWidth * devicePixelRatio;
     const h = cv.height = cv.clientHeight * devicePixelRatio;
     ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
@@ -387,16 +394,29 @@ const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
   const cv = document.getElementById('timingCanvas');
   if (!cv) return;
   const ctx = cv.getContext('2d');
-  const capEl = document.getElementById('timingCap');
+  const holder = document.getElementById('timingStepper');
   const btns = Array.from(document.querySelectorAll('[data-timing]'));
 
-  const caps = {
-    cs: 'Circuit switching: เสียเวลาช่วงแรกให้ "สัญญาณขอสร้างวงจร" วิ่งไป-กลับ (มี processing ที่ทุกโหนด) แต่พอวงจรพร้อม ข้อมูลไหลรวดเดียวถึงปลายทาง ไม่ต้องแวะคิดที่โหนดอีก — เหมาะกับการคุยต่อเนื่องยาวๆ',
-    vc: 'Virtual circuit: มีเฟสส่ง call request "วางเส้นทาง" ก่อนเหมือนกัน (ไป-กลับ) จากนั้นแพ็กเก็ต 1,2,3 วิ่งตามกันแบบ store-and-forward — เร็วกว่า datagram ต่อแพ็กเก็ตเพราะโหนดไม่ต้องเลือกทางซ้ำ',
-    dg: 'Datagram: ไม่ต้องรออะไรเลย ส่งแพ็กเก็ตแรกได้ทันที! แต่ทุกโหนดต้องรับให้ครบก้อน→เลือกเส้นทาง→ส่งต่อ (บันไดทีละขั้น) — ข้อความสั้นๆ แบบนี้ datagram จบก่อนเพื่อน เพราะไม่เสียค่า setup',
+  // v3: step player ต่อโหมด — เดินดูทีละเฟสว่าเวลาหายไปกับอะไร
+  const PHASES = {
+    cs: [
+      'เฟส 1/3 — คำขอสร้างวงจร (เส้นเหลืองบาง) วิ่งจาก A ไป B โดย<b>แวะประมวลผลที่ทุกโหนด</b> (ช่องว่างระหว่างลูกศร = เวลาที่โหนดใช้จองวงจร)',
+      'เฟส 2/3 — สัญญาณตอบรับ (เส้นเขียว) วิ่งกลับ B → A แบบ<b>ไม่ต้องแวะคิดแล้ว</b> เพราะวงจรถูกจองครบทางขากลับ — จบสองเฟสนี้ = เสียเวลา setup ไปก้อนใหญ่โดยยังไม่ได้ส่งข้อมูลจริงเลย',
+      'เฟส 3/3 — ข้อมูลจริง (แถบฟ้า) <b>ไหลยาวรวดเดียวทะลุถึง B</b> ไม่หยุดแวะที่โหนดอีก (วงจรต่อถึงกันแล้ว!) — นี่คือจุดแข็ง: setup แพงครั้งเดียว แลกกับการส่งต่อเนื่องแบบไร้รอยต่อ เหมาะคุยยาว',
+    ],
+    vc: [
+      'เฟส 1/3 — call request packet (เส้นเหลือง) วิ่งไป "วางเส้นทาง" โดยแวะประมวลผลทุกโหนดเหมือน circuit switching',
+      'เฟส 2/3 — call accept (เส้นเขียว) วิ่งกลับ — เส้นทางถูกจดในตารางของทุกโหนดแล้ว แต่<b>ไม่ได้จองความจุ</b> (ต่างจาก circuit!)',
+      'เฟส 3/3 — แพ็กเก็ต 1, 2, 3 วิ่งตามกันแบบ<b>บันได</b> (store-and-forward ทีละลิงก์) บนเส้นทางเดิม — โหนดไม่ต้องคิดเส้นทางซ้ำ แค่เปิดตารางส่งต่อ จึงเร็วกว่า datagram ต่อก้อน',
+    ],
+    dg: [
+      'ขั้น 1/2 — <b>ไม่มีเฟส setup เลย!</b> แพ็กเก็ตแรกออกเดินทางทันที — สำหรับข้อความสั้น ๆ นี่คือแต้มต่อที่ใหญ่มาก (circuit/VC ยังไม่ทันเริ่มส่งเลย)',
+      'ขั้น 2/2 — แต่ทุกโหนดมีจังหวะ "คิดเส้นทาง" สั้น ๆ ก่อนส่งต่อ<b>ทุกก้อน</b> (ช่องว่างแนวตั้งระหว่างบันได) — ก้อน 1,2,3 อาจไปคนละทางและถึงไม่เรียงในของจริง · ข้อความสั้น datagram จบก่อนเพื่อน เพราะไม่เสียค่า setup',
+    ],
   };
+  let mode = 'cs';
 
-  function draw(mode) {
+  function draw(mode, upto = 99) {
     const w = cv.clientWidth, h = cv.clientHeight;
     cv.width = w * devicePixelRatio; cv.height = h * devicePixelRatio;
     ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
@@ -444,38 +464,60 @@ const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
       ctx.fillStyle = ink; ctx.textAlign = 'left'; ctx.font = '11px sans-serif';
       ctx.fillText('คำขอสร้างวงจร (แวะประมวลผลทุกโหนด)', xs[0] + 8, top + 1 * unit);
       let t2 = t + 0.4;
-      for (let k = 2; k >= 0; k--) { thinArrow(k, t2, acc, true); t2 += 1.2; } // accept กลับ ไม่ต้องคิดแล้ว
-      ctx.fillText('ตอบรับ — วงจรพร้อม', xs[1] + 8, top + (t + 1.6) * unit);
-      // user data: ไหลยาวรวดเดียว ไม่มี per-node delay
-      const t3 = t2 + 0.4;
-      for (let k = 0; k < 3; k++) band(k, t3 + k * 1.2, 9, PKT_COLORS[0] + 'cc', k === 1 ? 'ข้อมูลไหลต่อเนื่อง' : '');
+      if (upto >= 1) {
+        for (let k = 2; k >= 0; k--) { thinArrow(k, t2, acc, true); t2 += 1.2; } // accept กลับ ไม่ต้องคิดแล้ว
+        ctx.fillText('ตอบรับ — วงจรพร้อม', xs[1] + 8, top + (t + 1.6) * unit);
+      } else t2 += 3.6;
+      if (upto >= 2) {
+        // user data: ไหลยาวรวดเดียว ไม่มี per-node delay
+        const t3 = t2 + 0.4;
+        for (let k = 0; k < 3; k++) band(k, t3 + k * 1.2, 9, PKT_COLORS[0] + 'cc', k === 1 ? 'ข้อมูลไหลต่อเนื่อง' : '');
+      }
     } else if (mode === 'vc') {
       let t = 0;
       for (let k = 0; k < 3; k++) { thinArrow(k, t, req, false); t += 1.2 + 0.9; }
       ctx.fillStyle = ink; ctx.textAlign = 'left'; ctx.font = '11px sans-serif';
       ctx.fillText('call request packet — วางเส้นทาง', xs[0] + 8, top + 1 * unit);
       let t2 = t + 0.4;
-      for (let k = 2; k >= 0; k--) { thinArrow(k, t2, acc, true); t2 += 1.2; }
-      const t3 = t2 + 0.4, dt = 2.2;
-      for (let p = 0; p < 3; p++)
-        for (let k = 0; k < 3; k++)
-          band(k, t3 + (p + k) * dt, 2, PKT_COLORS[p] + 'cc', 'Pkt' + (p + 1));
+      if (upto >= 1) {
+        for (let k = 2; k >= 0; k--) { thinArrow(k, t2, acc, true); t2 += 1.2; }
+      } else t2 += 3.6;
+      if (upto >= 2) {
+        const t3 = t2 + 0.4, dt = 2.2;
+        for (let p = 0; p < 3; p++)
+          for (let k = 0; k < 3; k++)
+            band(k, t3 + (p + k) * dt, 2, PKT_COLORS[p] + 'cc', 'Pkt' + (p + 1));
+      }
     } else {
       const dt = 2.2, proc = 0.7; // datagram: เริ่มทันที แต่มี processing เลือกเส้นทางทุกโหนด
-      for (let p = 0; p < 3; p++)
+      const pmax = upto >= 1 ? 3 : 1;
+      for (let p = 0; p < pmax; p++)
         for (let k = 0; k < 3; k++)
           band(k, p * dt + k * (dt + proc), 2, PKT_COLORS[p] + 'cc', 'Pkt' + (p + 1));
       ctx.fillStyle = ink; ctx.textAlign = 'left'; ctx.font = '11px sans-serif';
       ctx.fillText('ส่งได้ทันที ไม่มีเฟสสร้างวงจร', xs[0] + 8, top + 0.8 * unit);
     }
-    if (capEl) capEl.textContent = caps[mode];
     btns.forEach((b) => b.classList.toggle('ghost', b.dataset.timing !== mode));
   }
-  btns.forEach((b) => b.addEventListener('click', () => draw(b.dataset.timing)));
-  const start = () => draw('cs');
+
+  let curStep = 0;
+  function mountTimingStepper() {
+    holder.innerHTML = '';
+    createStepper(holder, {
+      steps: PHASES[mode].length, stepDuration: 2400,
+      label: (s) => ({ cs: 'Circuit', vc: 'Virtual Circuit', dg: 'Datagram' })[mode] + ` · ${s + 1}/${PHASES[mode].length}`,
+      render(stage, step) {
+        curStep = step;
+        draw(mode, step);
+        stage.innerHTML = '<div class="enc-cap">' + PHASES[mode][step] + '</div>';
+      },
+    });
+  }
+  btns.forEach((b) => b.addEventListener('click', () => { mode = b.dataset.timing; mountTimingStepper(); }));
+  const start = () => mountTimingStepper();
   if (document.readyState === 'complete') start();
   else window.addEventListener('load', start);
-  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => draw(document.querySelector('[data-timing]:not(.ghost)')?.dataset.timing || 'cs'), 150); });
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => draw(mode, curStep), 150); });
 })();
 
 // ---------------------------------------------------------------

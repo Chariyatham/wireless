@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="คลังข้อสอบรวม — สอบจำลอง 3 สัปดาห์จับเวลา">
+  <main class="wrap">
+    <div class="crumb"><a href={`${base}/`}>หน้าแรก</a> / สอบรวม</div>
+    <h2>🏁 คลังข้อสอบรวม · สอบจำลองจับเวลา</h2>
+    <p class="hint" style="max-width:730px">รวมโจทย์จากข้อสอบจำลองทั้ง 3 สัปดาห์ (15 ข้อ — ข้อคำนวณตัวเลขยืนยันด้วยโปรแกรมแล้วทุกตัว)
+      เลือกชุดด้านล่าง ระบบจะ<b>สุ่มสลับลำดับข้อ</b>ให้เหมือนไม่รู้ว่าข้อไหนมาจากบทไหน แล้วกดจับเวลา — <b>เฉลยล็อกจนหมดเวลา/ยอมแพ้</b>
+      · แต่ละข้อมีลิงก์กลับไปหัวข้อในบทเรียน ไว้ทวนตรงจุดที่พลาด</p>
+    <div class="note" style="margin-bottom:16px">💡 วิธีใช้ให้ได้ผลสุด: ทำบนกระดาษจริง + เครื่องคิดเลขตัวที่จะใช้สอบ — โหมด "สุ่ม 6 ข้อ" เหมาะทำวนหลายรอบ (ได้ชุดไม่ซ้ำ) ส่วน "ชุดเต็ม" ไว้ซ้อมใหญ่ก่อนสอบจริง</div>
+
+    <div id="examHub" data-base={base}>
+      <div class="hub-modes" id="hubModes"></div>
+      <div id="hubBox"></div>
+    </div>
+  </main>
+
+  <script is:inline type="module" src={`${base}/js/exam.js`}></script>
+</Base>
