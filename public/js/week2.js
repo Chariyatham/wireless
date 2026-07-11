@@ -1,4 +1,5 @@
-// ===== Week 2 — animations & labs (v2: ละเอียดตามเลคเชอร์ + fig 4.6/4.7, 3.3, 3.7, 3.9) =====
+// ===== Week 2 — animations & labs (v3: encapsulation เป็น step player + walkthrough + runner + exam) =====
+import { createStepper, mountWalk, mountRunner, mountExam } from './stepper.js';
 
 // อ่านสี CSS variable (รองรับสลับธีม ขาว/ดำ)
 function cssVar(name, fallback) {
@@ -9,12 +10,11 @@ const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
 
 // ---------------------------------------------------------------
 // 1) Encapsulation เต็มเส้นทาง: ผู้ส่ง → Router → ผู้รับ (fig 4.6 + 4.7)
+//    v3: ขับด้วย step player กลาง — เล่น/ถอยหลัง/เดินหน้า/ลาก scrubber ได้
 // ---------------------------------------------------------------
 (function () {
-  const run = document.getElementById('encRun');
-  if (!run) return;
-  const packet = document.getElementById('encPacket');
-  const cap = document.getElementById('encCap');
+  const holder = document.getElementById('encStepper');
+  if (!holder) return;
   const stacks = {
     send: document.getElementById('sendStack'),
     rtr: document.getElementById('rtrStack'),
@@ -57,36 +57,23 @@ const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
       cap: '⑯ ส่งขึ้น Application — ผู้รับได้ข้อมูลเดิม ครบ ถูกต้อง เรียงลำดับ ✓' },
   ];
 
-  function render(s) {
-    document.querySelectorAll('.enc3 .lyr.active').forEach((e) => e.classList.remove('active'));
-    const stack = stacks[s.st];
-    if (stack) {
-      const lyr = stack.querySelector('.lyr[data-l="' + s.l + '"]');
-      if (lyr) lyr.classList.add('active');
-    }
-    packet.innerHTML = s.segs.map((x) => '<span class="seg ' + x[0] + '">' + x[1] + '</span>').join('');
-    cap.innerHTML = s.cap;
-  }
-
-  let timer = null, idx = 0;
-  const next = document.getElementById('encNext');
-  function stop() { if (timer) { clearInterval(timer); timer = null; } run.textContent = '▶ เล่นอัตโนมัติ'; }
-  run.addEventListener('click', () => {
-    if (timer) { stop(); return; }
-    if (idx >= steps.length - 1) idx = -1;
-    run.textContent = '⏸ หยุด';
-    timer = setInterval(() => {
-      idx++;
-      if (idx >= steps.length) { stop(); return; }
-      render(steps[idx]);
-    }, 2400);
+  const phaseName = (i) => i <= 4 ? 'ผู้ส่งห่อ' : i <= 10 ? 'Router' : 'ผู้รับแกะ';
+  createStepper(holder, {
+    steps: steps.length, stepDuration: 2600,
+    label: (i) => `ขั้น ${i + 1}/${steps.length} · ${phaseName(i)}`,
+    render(stage, i) {
+      const s = steps[i];
+      document.querySelectorAll('.enc3 .lyr.active').forEach((e) => e.classList.remove('active'));
+      const stack = stacks[s.st];
+      if (stack) {
+        const lyr = stack.querySelector('.lyr[data-l="' + s.l + '"]');
+        if (lyr) lyr.classList.add('active');
+      }
+      stage.innerHTML = '<div class="packet">' +
+        s.segs.map((x) => '<span class="seg ' + x[0] + '">' + x[1] + '</span>').join('') +
+        '</div><div class="enc-cap">' + s.cap + '</div>';
+    },
   });
-  if (next) next.addEventListener('click', () => {
-    stop();
-    idx = (idx + 1) % steps.length;
-    render(steps[idx]);
-  });
-  render(steps[0]);
 })();
 
 // ---------------------------------------------------------------
@@ -643,3 +630,64 @@ const PKT_COLORS = ['#58c4dd', '#f6a85f', '#83c167'];
     outEl.innerHTML = '';
   });
 })();
+
+// ---------------------------------------------------------------
+// 9) Walkthrough: เดินเลขตารางขนาดแพ็กเก็ต fig 3.9 ทีละขั้น (ทำมือ)
+//    ตัวเลข 129/92/77/84 ตรงสไลด์ — ยืนยันด้วยโปรแกรมแล้ว
+// ---------------------------------------------------------------
+mountWalk('walk-psize', [
+  { title: 'ตั้งหลัก: อ่านโจทย์ให้ครบก่อนคิด',
+    body: `ข้อความ M = 40 ไบต์ · header h = 3 ไบต์/แพ็กเก็ต
+เส้นทาง X → a → b → Y  →  นับ "ลิงก์" ได้ L = 3
+หน่วยเวลา: 1 time-byte = เวลาส่ง 1 ไบต์ผ่าน 1 ลิงก์`,
+    note: 'จุดพลาดอันดับหนึ่ง: นับ L ผิด — นับ "เส้นเชื่อม" ไม่ใช่นับโหนด (2 โหนดกลาง = 3 ลิงก์)' },
+  { title: 'หลักคิด: ก้อนแรกเดินเต็มทาง ที่เหลือตามหลังทีละก้อน',
+    body: `แต่ละก้อนขนาด s = M/N + h ไบต์
+ก้อนแรกใช้เวลา s ต่อลิงก์ × L ลิงก์ = s·L
+ก้อนถัดไปตามหลังห่างกันก้อนละ s (pipeline!)
+→ เวลารวม T = s·L + (N−1)·s = s × (N + L − 1)`,
+    note: 'สูตรรวมเป็นส่วนเสริมจากผู้เขียน (สไลด์ใช้วิธีนับจากรูป) — แต่แทนเลขแล้วตรงสไลด์ทุกกรณี ใช้ได้ในห้องสอบ' },
+  { title: 'กรณี a · ก้อนเดียว (N = 1)',
+    body: `s = 40/1 + 3 = 43 ไบต์
+T = 43 × (1 + 3 − 1) = 43 × 3 = 129 time-byte`,
+    note: 'ไม่มี pipeline เลย — ลิงก์ถัดไปต้องนั่งรอรับครบทั้ง 43 ไบต์ก่อน' },
+  { title: 'กรณี b · สองก้อน (N = 2)',
+    body: `s = 40/2 + 3 = 23 ไบต์
+T = 23 × (2 + 2) = 92 time-byte   (เร็วขึ้น 37 หน่วย!)`,
+    note: 'เริ่มซ้อนงานได้: ระหว่างลิงก์สองส่งก้อนแรก ลิงก์แรกส่งก้อนสองพร้อมกัน' },
+  { title: 'กรณี c · ห้าก้อน (N = 5) — แชมป์ของสไลด์',
+    body: `s = 40/5 + 3 = 11 ไบต์
+T = 11 × (5 + 2) = 77 time-byte 🏆`,
+    note: 'pipelining เกือบเต็มประสิทธิภาพ และ header ยังไม่ท่วม (3 จาก 11 ไบต์)' },
+  { title: 'กรณี d · สิบก้อน (N = 10) — เล็กเกินไป!',
+    body: `s = 40/10 + 3 = 7 ไบต์
+T = 7 × (10 + 2) = 84 time-byte   (แย่ลงกว่า N=5!)
+เหตุผล: ข้อมูลจริงก้อนละ 4 ไบต์ แต่แบก header 3 ไบต์
+→ ภาษี header = 3/7 ≈ 43% ของทุกก้อน`,
+    note: 'นี่คือเหตุผลที่ "ยิ่งเล็กยิ่งดี" ผิด — กราฟเวลารวมเป็นรูปตัว U มีจุดต่ำสุดตรงกลาง (อาจารย์เตือนไว้ตรงๆ ว่าอย่าตอบแบบนั้น)' },
+]);
+
+// ---------------------------------------------------------------
+// 10) JS runner: คำนวณตารางเวลารวมทุกการแบ่ง — ตรวจการบ้าน/ลองเลขใหม่
+// ---------------------------------------------------------------
+mountRunner('runner', `// ขนาดแพ็กเก็ตกับเวลารวม (fig 3.9) — แก้เลขเป็นโจทย์อื่นได้เลย
+const M = 40;   // ขนาดข้อความ (ไบต์)
+const h = 3;    // header ต่อแพ็กเก็ต (ไบต์)
+const L = 3;    // จำนวนลิงก์ (X→a→b→Y = 3 ลิงก์)
+
+const T = (N) => (M / N + h) * (N + L - 1);
+
+// ลองทุกการแบ่งที่หารลงตัว
+let best = null;
+for (const N of [1, 2, 4, 5, 8, 10, 20, 40]) {
+  const t = T(N);
+  console.log(\`แบ่ง \${N} ก้อน → ก้อนละ \${M / N + h} ไบต์ → รวม \${t} time-byte\`);
+  if (!best || t < best[1]) best = [N, t];
+}
+console.log(\`\\nดีที่สุด: แบ่ง \${best[0]} ก้อน = \${best[1]} time-byte\`);
+console.log("เทียบสไลด์: 129 / 92 / 77 / 84 (N = 1, 2, 5, 10) ต้องตรงกัน");`);
+
+// ---------------------------------------------------------------
+// 11) TimedExam — ข้อสอบจำลอง week 2
+// ---------------------------------------------------------------
+mountExam([12, 18, 25]);

@@ -128,3 +128,135 @@ export function svgAxes({ W, H, pad, xDomain, yDomain, xTicks = [], yTicks = [],
   }
   return s;
 }
+
+/* ════════════════════════════════════════════════════════════
+   Walkthrough — เดินตัวอย่างทำมือทีละขั้น (ใช้ร่วมกันทุกบท)
+   steps: [{ title, body, note? }]  · body = ข้อความ pre-formatted
+   ════════════════════════════════════════════════════════════ */
+export function mountWalk(id, steps) {
+  const el = typeof id === 'string' ? document.getElementById(id) : id;
+  if (!el) return;
+  let i = 0;
+  el.classList.add('walk');
+  function draw() {
+    el.innerHTML = `
+      <div class="walk-head">
+        <button class="sbtn" data-w="prev" ${i === 0 ? 'disabled' : ''}>◀</button>
+        <span class="walk-count">ขั้น ${i + 1}/${steps.length}</span>
+        <button class="sbtn primary" data-w="next" ${i === steps.length - 1 ? 'disabled' : ''}>ถัดไป ▶</button>
+        <span class="walk-title">${steps[i].title}</span>
+      </div>
+      <pre class="walk-body">${steps[i].body}</pre>
+      ${steps[i].note ? `<div class="walk-note">${steps[i].note}</div>` : ''}`;
+  }
+  el.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-w]');
+    if (!b) return;
+    if (b.dataset.w === 'next' && i < steps.length - 1) i++;
+    if (b.dataset.w === 'prev' && i > 0) i--;
+    draw();
+  });
+  draw();
+}
+
+/* ════════════════════════════════════════════════════════════
+   JS runner — โค้ดรันได้ในหน้า (ใช้ร่วมกันทุกบท)
+   ════════════════════════════════════════════════════════════ */
+export function mountRunner(id, initial) {
+  const el = typeof id === 'string' ? document.getElementById(id) : id;
+  if (!el) return;
+  el.innerHTML = `
+    <div class="run-bar">
+      <span class="run-title">▸ JavaScript — แก้โค้ดได้เลย</span>
+      <span style="flex:1"></span>
+      <button class="btn" data-r="run">▶ Run</button>
+      <button class="btn ghost" data-r="reset">↺ รีเซ็ต</button>
+    </div>
+    <textarea id="runCode" spellcheck="false" rows="14"></textarea>
+    <pre class="run-out" hidden></pre>`;
+  const code = el.querySelector('textarea'), out = el.querySelector('.run-out');
+  code.value = initial;
+  el.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-r]');
+    if (!b) return;
+    if (b.dataset.r === 'reset') { code.value = initial; out.hidden = true; return; }
+    const lines = [];
+    const fakeLog = (...a) => lines.push(a.map((x) => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' '));
+    out.hidden = false;
+    try {
+      new Function('console', code.value)({ log: fakeLog, error: fakeLog, warn: fakeLog });
+      out.textContent = lines.length ? lines.join('\n') : '(รันเสร็จ — ไม่มี console.log)';
+      out.classList.remove('err');
+    } catch (err) {
+      out.textContent = '✗ ' + err.message;
+      out.classList.add('err');
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   TimedExam — จับเวลา + ล็อกเฉลยจนหมดเวลา (port จาก Numer Master)
+   ต้องมี #exam-timer (แถบจับเวลา) และ #exam-area (ครอบ details.sol)
+   ════════════════════════════════════════════════════════════ */
+export function mountExam(presets = [10, 15, 20]) {
+  const box = document.getElementById('exam-timer');
+  const area = document.getElementById('exam-area');
+  if (!box || !area) return;
+  const sols = [...area.querySelectorAll('details.sol')];
+  let total = 0, remaining = 0, timer = null, status = 'idle'; // idle|running|done|surrendered
+  const mmss = (s) => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  function lock(on) {
+    sols.forEach((d) => {
+      if (on) { d.open = false; d.classList.add('locked'); }
+      else d.classList.remove('locked');
+    });
+  }
+  area.addEventListener('toggle', (e) => {
+    if (status === 'running' && e.target.matches('details.sol') && e.target.open) {
+      e.target.open = false;
+      const msg = box.querySelector('#exMsg');
+      msg.textContent = `🔒 เฉลยล็อกระหว่างจับเวลา (เหลือ ${mmss(remaining)}) — ทำเหมือนสอบจริง หรือกด "ยอมแพ้"`;
+      msg.classList.add('shake');
+      setTimeout(() => msg.classList.remove('shake'), 500);
+    }
+  }, true);
+  function draw() {
+    const running = status === 'running';
+    const low = running && remaining <= 60;
+    box.innerHTML = `
+      <div class="exam-row">
+        <div class="exam-clock ${low ? 'low' : running ? 'run' : ''}">⏱ ${running || status === 'done' ? mmss(remaining) : mmss((total || presets[presets.length - 1] * 60))}</div>
+        <div class="exam-mid">
+          <span id="exMsg">${
+            status === 'idle' ? 'เลือกเวลาแล้วกดเริ่ม — ระหว่างจับเวลา เฉลยทุกข้อจะกดไม่ออก 🔒' :
+            running ? 'กำลังจับเวลา — เฉลยล็อกอยู่ ทำเหมือนสอบจริง ✍️' :
+            status === 'done' ? '⏰ หมดเวลา! เฉลยเปิดแล้ว — ตรวจคำตอบเลย' :
+            'เปิดเฉลยก่อนหมดเวลา — รอบหน้าลองอึดอีกนิด 💪'
+          }</span>
+          ${running || status === 'done' ? `<div class="exam-track"><div class="exam-fill ${low ? 'low' : ''}" style="width:${total ? (remaining / total) * 100 : 0}%"></div></div>` : ''}
+        </div>
+        <div class="btnrow" style="margin:0">
+          ${!running ? presets.map((m) => `<button class="btn" data-x="${m}">▸ ${m} นาที</button>`).join('') : ''}
+          ${running ? '<button class="btn ghost" data-x="give">ยอมแพ้ · เปิดเฉลย</button>' : ''}
+          ${status === 'done' || status === 'surrendered' ? '<button class="btn ghost" data-x="reset">↺ จับเวลาใหม่</button>' : ''}
+        </div>
+      </div>`;
+  }
+  box.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-x]');
+    if (!b) return;
+    const v = b.dataset.x;
+    if (v === 'give') { status = 'surrendered'; clearInterval(timer); lock(false); draw(); return; }
+    if (v === 'reset') { status = 'idle'; remaining = 0; lock(false); draw(); return; }
+    total = +v * 60; remaining = total; status = 'running';
+    lock(true);
+    clearInterval(timer);
+    timer = setInterval(() => {
+      remaining--;
+      if (remaining <= 0) { remaining = 0; status = 'done'; clearInterval(timer); lock(false); }
+      draw();
+    }, 1000);
+    draw();
+  });
+  draw();
+}
