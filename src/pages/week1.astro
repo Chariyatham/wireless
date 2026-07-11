@@ -256,6 +256,21 @@ Note:  P มีหน่วยเป็นวัตต์  ·  P_dBm = P_dBW + 3
               <tr><td>เช็กคำตอบ</td><td>dBm − dBW ต้อง = 30 · ทางเลือก: คิดวิธีวัตต์เทียบ</td><td>~30 วิ</td></tr>
             </tbody>
           </table>
+
+          <div class="lab">
+            <h4>📟 fx-991CW — กดจริงทีละปุ่ม (3 ท่าที่ใช้ทั้งวิชา)</h4>
+            <p style="margin-top:0"><b>ท่า 1 · W → dB</b> (เช่น 50 W → dBW):</p>
+            <div class="formula">กด <kbd>1</kbd><kbd>0</kbd> <kbd>×</kbd> <kbd>log</kbd> <kbd>5</kbd><kbd>0</kbd> <kbd>)</kbd> <kbd>=</kbd>  →  จอขึ้น 16.9897 ≈ 17 dBW</div>
+            <p><b>ท่า 2 · dB → เท่า/วัตต์</b> (เช่น −63 dBW → W) — ใช้แม่แบบ <code>10^□</code>:</p>
+            <div class="formula">กด <kbd>SHIFT</kbd> <kbd>log</kbd> (ได้ 10^□) → พิมพ์ <kbd>(</kbd> <kbd>(−)</kbd><kbd>6</kbd><kbd>3</kbd> <kbd>÷</kbd> <kbd>1</kbd><kbd>0</kbd> <kbd>)</kbd> <kbd>=</kbd>
+→ จอขึ้น 5.0119×10⁻⁷ W ≈ 0.5 µW</div>
+            <div class="note" style="max-width:100%">⚠️ จุดพลาดคลาสสิก: เลขติดลบต้องใช้ปุ่ม <kbd>(−)</kbd> (เครื่องหมายลบหน้าเลข) ไม่ใช่ปุ่ม <kbd>−</kbd> (การลบ) — กดผิดเครื่องฟ้อง Syntax Error หรือได้ค่าผิดเงียบ ๆ</div>
+            <p><b>ท่า 3 · link budget ทั้งข้อ รวดเดียวด้วย <code>Ans</code></b>:</p>
+            <div class="formula">บวกยาวทีเดียว:  <kbd>1</kbd><kbd>7</kbd> <kbd>−</kbd> <kbd>3</kbd> <kbd>+</kbd> <kbd>1</kbd><kbd>3</kbd> <kbd>−</kbd> <kbd>1</kbd><kbd>0</kbd><kbd>0</kbd> <kbd>+</kbd> <kbd>1</kbd><kbd>3</kbd> <kbd>−</kbd> <kbd>3</kbd> <kbd>=</kbd>  → −63
+ถอดกลับเป็นวัตต์ต่อเลย:  <kbd>SHIFT</kbd> <kbd>log</kbd> → <kbd>(</kbd> <kbd>Ans</kbd> <kbd>÷</kbd> <kbd>1</kbd><kbd>0</kbd> <kbd>)</kbd> <kbd>=</kbd>  → 5.0119×10⁻⁷ W
+(Ans = ค่าล่าสุดบนจอ — ไม่ต้องจด −63 แล้วพิมพ์ใหม่ ลดโอกาสลอกเลขผิด)</div>
+            <p class="hint" style="margin:4px 0 0">ส่วน dBm ⇄ dBW ไม่ต้องแตะเครื่องเลย — บวก/ลบ 30 ในหัวเร็วกว่าและพลาดยากกว่า</p>
+          </div>
         </Step>
 
         <!-- ════════════ 8 · โค้ด ════════════ -->
