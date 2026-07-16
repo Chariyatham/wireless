@@ -43,7 +43,8 @@
 - `เนื้อหาเรียน/wireless-w1.pdf` (4 หน้า) — **Week 1: Basic Math** = Logarithm (สมบัติ), Decibel (dB/dBW/dBm), การแปลงกำลังงาน, โจทย์ link budget (Tx→cable loss→antenna gain→wireless loss→Rx), แบบฝึกหัด
 - `เนื้อหาเรียน/wireless-w2.pdf` (17 หน้า) — **Week 2: Protocols & TCP/IP** = องค์ประกอบการสื่อสาร, ฟีเจอร์โพรโทคอล (Syntax/Semantic/Timing), TCP/IP 5 ชั้น, OSI 7 ชั้น, OSI vs TCP/IP, ศัพท์เครือข่าย (ES/IS/bridge/router), LAN/MAN/WAN, Circuit/Packet switching (Datagram & Virtual Circuit), ขนาดแพ็กเก็ต
   - หมายเหตุ: บางหน้าเป็นรูปไดอะแกรมล้วน (TCP/IP example, switching network) → pdftotext ดึงไม่ได้ ต้อง render เป็นภาพ/animation แทน
-- **ไฟล์เสียง:** ยังไม่ได้รับจาก kim (รอส่ง)
+- `เนื้อหาเรียน/wireless-w4.pdf` (22 หน้า = 88 สไลด์) — **Week 4: สายอากาศและการแพร่กระจายสัญญาณ** = radiation pattern, ชนิดสายอากาศ (isotropic/dipole/parabola/directional), antenna gain + effective area (ตารางสไลด์ 17), propagation 3 โหมด (ground ≤2MHz / sky 2-30MHz / LOS >30MHz), สมการ LOS (3.57√Kh, K=4/3), free space loss (20logf+20logd−147.56), Friis + เกน, path loss exponent, noise/thermal (kTB, −228.6), Eb/N0, multipath/fading, FEC/equalization/diversity/MIMO
+- **ไฟล์เสียง:** `เนื้อหาเรียน/` มี w2_1, w2_2, w3, w4, สอนต่อจากหน้า10+เฉลยการบ้านและทดสอบ1ข้อw3 (ครบ, ถอดแล้วทั้งหมดใน `transcripts/`)
 - อาจารย์ผู้สอน: รศ.ดร.ธนภัทร์ อนุศาสน์อมรกุล
 
 ## การตัดสินใจ workflow (ตกลงกับ kim แล้ว)
@@ -93,8 +94,19 @@
 - push ครั้งต่อไปที่ `main` = deploy อัตโนมัติ
 - 🔑 Groq key: kim สั่ง**เก็บไว้ ไม่ revoke** — ห้ามให้หลุดขึ้น git (ตรวจ `grep -rn "gsk_"` แล้วสะอาด; key ไม่เคยอยู่ในไฟล์ repo — อยู่ในแชท/scratchpad ที่ลบแล้วเท่านั้น)
 
+**เสร็จเพิ่ม (2026-07-16): เนื้อหาคาบ 15 ก.ค. (w3 จบ + w4 เท่าที่สอน)**
+- ✅ ถอดเสียง 2 ไฟล์ใหม่ (Groq สูตรเดิม): `w4` (64 นาที) + `สอนต่อจากหน้า10+เฉลยการบ้านและทดสอบ1ข้อw3` (54 นาที)
+- ✅ **week4.astro ใหม่** ครอบสไลด์ 1–40 **เท่าที่อาจารย์สอน** (kim ยืนยัน 15 ก.ค.: "ทำเท่าที่สอน") — สไลด์ 41–88 (path loss exponent → MIMO) มี section "⏳ ที่เหลือของ Week 4" ระบุหัวข้อรอเรียนต่อ · interactive 6 ชิ้น (`public/js/week4.js`): antenna pattern stepper (AF จริง N=5 + คำนวณ beamwidth −3dB เชิงตัวเลข) · dipole lab (f→λ→L เทียบตัวคน) · gain lab (6 ชนิดตามตารางสไลด์ 17) · propagation 3 โหมด stepper (โลกโค้ง) · LOS lab (h₁,h₂,K toggle) · FSL sphere stepper + กราฟ dB ทรงสไลด์ 39 — walkthrough 4 ชุด (dipole 1.5m / จาน 45.46dB / เสา 41.2กม.→47ม. / **การบ้านดาวเทียม 35,368กม. 4GHz: 195.45dB, −171.47dBW, 103.45dB, −79.47dBW — kim สั่งเปิดเฉลยเลย**) + คิดไว + fx-991CW + runner + ข้อสอบ 5 ข้อ
+- ✅ **week1**: กล่อง 🎙 เฉลย hw1 ฉบับอาจารย์ (คาบ 15 ก.ค. — ตรงเฉลยเราทุกข้อ, ข้อ 6 อาจารย์ยืนยันตีความ Loss=1.5 เป็นอัตราส่วน + ใช้เป็น**ข้อทดสอบเก็บคะแนนจริง**) + **การบ้านชุดใหม่ Loss=25dB, Pt=50W → Pr −8.01dBW = 21.99dBm** (kim พิมพ์โจทย์ยืนยัน + เลือก 25 dB ไม่ใช่ 25 เท่า)
+- ✅ **week3**: กล่อง 🎙 คาบสอนต่อ 3 จุด (Wi-Fi omni + "λ=c/f สอบไม่ให้สูตร" / เสาไมโครเวฟยอดตึก + ดาวเทียม=relay / FDM เก่ากว่า TDM)
+- ✅ conceptmap เพิ่มคอลัมน์ W4 (6 โหนด ม่วง #c792ea + เส้นข้าม: sine→ant, spec→prop4, lb→friis4) · exam.js BANK → 21 ข้อ (W1+ข้อทดสอบจริง, W4 ×5) · การ์ดหน้าแรก + WeekNav ปลดล็อก W4
+- ✅ ตัวเลข verify ด้วย node 43 ค่า (สคริปต์ใน scratchpad) · Playwright ผ่าน: console error = 0 ทุกหน้า, กดปุ่มทุกตัว, เลขใน lab/runner ตรง, เฉลยล็อก/ปลดถูก, 2 ธีม
+- ⚠️ เลขสไลด์ 35,368 กม. ต่างจาก Stallings (35,863) — เว็บคิดตามสไลด์ + ใส่หมายเหตุ .plus เทียบตำรา (ต่าง ~0.12 dB)
+
 **เหลือทำ:**
-1. ให้ kim รีวิวเว็บจริงทั้ง 3 สัปดาห์ ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
+1. ให้ kim รีวิวเว็บจริงทั้ง 4 สัปดาห์ ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
+2. รอเลคเชอร์ w4 คาบต่อ (สไลด์ 41–88: path loss exponent, noise, Eb/N0, fading, MIMO) → เติม week4 + ย้ายโจทย์ path loss exponent เข้าบท
+3. เฉลย "การบ้าน 2 ตาราง" (W2 CS/DG/VC + W3 ข้อมูล×สัญญาณ) ยังไม่มาในเสียง 15 ก.ค. — รอคาบหน้า
 
 **ถอดเสียง: ✅ เสร็จครบแล้ว (2026-07-04) — อยู่ใน `transcripts/` (w2_1, w2_2, w3 มีทั้ง .txt และ .segments.txt)**
 - ทำผ่าน **Groq API** (ฟรี, whisper-large-v3 / -turbo): local CPU ช้าเกิน (`small` = ผลมั่วใช้ไม่ได้, `medium` = 0.15x realtime)

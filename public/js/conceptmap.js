@@ -3,7 +3,7 @@
   const holder = document.getElementById('conceptMap');
   if (!holder) return;
   const base = holder.dataset.base || '';
-  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167' };
+  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167', 4: '#c792ea' };
 
   // [id, ป้าย, week, anchor, x, y]
   const nodes = [
@@ -31,6 +31,13 @@
     ['nysh', 'Nyquist–Shannon', 3, 'week3#worked', 790, 275],
     ['spec', 'สเปกตรัม · ดาวเทียม', 3, 'week3#spectrum', 885, 345],
     ['mux', 'FDM / TDM', 3, 'week3#mux', 745, 390],
+
+    ['ant', 'สายอากาศ · pattern', 4, 'week4#pattern', 1105, 55],
+    ['gain4', 'เกน + Ae', 4, 'week4#gain', 1105, 130],
+    ['prop4', 'Ground / Sky / LOS', 4, 'week4#prop', 1105, 205],
+    ['los4', 'สมการเส้นสายตา', 4, 'week4#los', 1105, 280],
+    ['fsl4', 'Free space loss', 4, 'week4#fsl', 1105, 355],
+    ['friis4', 'Friis = link budget', 4, 'week4#friis', 1105, 420],
   ];
   // [จาก, ไป, ข้ามสัปดาห์?]
   const edges = [
@@ -43,11 +50,16 @@
     ['props', 'nysh', 1],  // log2 + เปลี่ยนฐาน โผล่ในโจทย์ Shannon
     ['lb', 'snr', 1],      // กำลังรับที่เหลือ = S ใน SNR
     ['cps', 'mux', 1],     // ลิงก์โหนด-โหนดใช้ FDM/TDM
+    ['ant', 'gain4'], ['ant', 'prop4'], ['prop4', 'los4'], ['los4', 'fsl4'],
+    ['fsl4', 'friis4'], ['gain4', 'friis4'],
+    ['sine', 'ant', 1],    // λ = c/f กำหนดขนาดเสา (ไดโพล λ/2)
+    ['spec', 'prop4', 1],  // ย่านความถี่เลือกโหมดการแพร่
+    ['lb', 'friis4', 1],   // Friis คือที่มาของ loss ใน link budget
   ];
 
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', '0 0 960 430');
+  svg.setAttribute('viewBox', '0 0 1250 460');
   svg.classList.add('cmap');
   holder.appendChild(svg);
 
@@ -94,7 +106,7 @@
   });
 
   // ป้ายชื่อสัปดาห์เหนือแต่ละกลุ่ม
-  [['WEEK 1 · คณิตของสัญญาณ', 110, 18, 1], ['WEEK 2 · ข้อมูลเดินทาง', 420, 18, 2], ['WEEK 3 · คลื่นของจริง', 800, 18, 3]].forEach(([txt, x, y, w]) => {
+  [['WEEK 1 · คณิตของสัญญาณ', 110, 18, 1], ['WEEK 2 · ข้อมูลเดินทาง', 420, 18, 2], ['WEEK 3 · คลื่นของจริง', 800, 18, 3], ['WEEK 4 · สายอากาศ', 1105, 18, 4]].forEach(([txt, x, y, w]) => {
     const t = document.createElementNS(NS, 'text');
     t.setAttribute('x', x); t.setAttribute('y', y);
     t.setAttribute('class', 'cm-week');

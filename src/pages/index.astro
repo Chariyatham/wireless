@@ -40,13 +40,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           href={`${base}/week3`}
           week="w3"
         />
+        <ModuleCard
+          num="WEEK 4 · ใหม่"
+          title="สายอากาศ + การแพร่คลื่น"
+          hook="“เสาสูงตั้ง 100 เมตร ส่งได้แค่ 41 กม. — โลกโค้งโหดกว่าที่คิด”"
+          topics="Radiation pattern · เกน/Ae · Ground/Sky/LOS · Free space loss · Friis"
+          href={`${base}/week4`}
+          week="w4"
+        />
       </div>
 
       <div class="examcta">
         <a class="mod" href={`${base}/exam`} style="display:block">
           <div class="num">🏁 MIDTERM MODE</div>
           <h3>คลังข้อสอบรวม + สอบจำลองจับเวลา</h3>
-          <div class="hook">รวมโจทย์ทั้ง 3 สัปดาห์ 15 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
+          <div class="hook">รวมโจทย์ทั้ง 4 สัปดาห์ 21 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
           <div class="prog" data-progress-week="exam"></div>
         </a>
         <button id="progReset" class="sbtn ghost" hidden style="margin-top:10px">↺ ล้างความคืบหน้าทั้งหมด</button>
@@ -61,6 +69,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <span><span class="dot" style="background:#ffd66b"></span>Week 1 · คณิตของสัญญาณ</span>
             <span><span class="dot" style="background:#58c4dd"></span>Week 2 · ข้อมูลเดินทาง</span>
             <span><span class="dot" style="background:#83c167"></span>Week 3 · คลื่นของจริง</span>
+            <span><span class="dot" style="background:#c792ea"></span>Week 4 · สายอากาศ</span>
             <span style="color:var(--accent-warm)">- - - เชื่อมข้ามสัปดาห์</span>
           </div>
         </div>
