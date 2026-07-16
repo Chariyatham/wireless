@@ -44,6 +44,7 @@
 - `เนื้อหาเรียน/wireless-w2.pdf` (17 หน้า) — **Week 2: Protocols & TCP/IP** = องค์ประกอบการสื่อสาร, ฟีเจอร์โพรโทคอล (Syntax/Semantic/Timing), TCP/IP 5 ชั้น, OSI 7 ชั้น, OSI vs TCP/IP, ศัพท์เครือข่าย (ES/IS/bridge/router), LAN/MAN/WAN, Circuit/Packet switching (Datagram & Virtual Circuit), ขนาดแพ็กเก็ต
   - หมายเหตุ: บางหน้าเป็นรูปไดอะแกรมล้วน (TCP/IP example, switching network) → pdftotext ดึงไม่ได้ ต้อง render เป็นภาพ/animation แทน
 - `เนื้อหาเรียน/wireless-w4.pdf` (22 หน้า = 88 สไลด์) — **Week 4: สายอากาศและการแพร่กระจายสัญญาณ** = radiation pattern, ชนิดสายอากาศ (isotropic/dipole/parabola/directional), antenna gain + effective area (ตารางสไลด์ 17), propagation 3 โหมด (ground ≤2MHz / sky 2-30MHz / LOS >30MHz), สมการ LOS (3.57√Kh, K=4/3), free space loss (20logf+20logd−147.56), Friis + เกน, path loss exponent, noise/thermal (kTB, −228.6), Eb/N0, multipath/fading, FEC/equalization/diversity/MIMO
+- `เนื้อหาเรียน/040613503 hw2.pdf` — **การบ้านครั้งที่ 2** (4 ข้อ, ส่ง 19 ก.ค. 2569 เที่ยงคืน, เขียนมือ): ข้อ 1-2 ดาวเทียม 35,368 กม./4 GHz (ตรงโจทย์ท้ายคาบ) · ข้อ 3 จาน Ø 100 ซม./40 GHz (Ae 0.44 m², G 49.90 dB) · ข้อ 4 ดาวเทียม 20,000 กม./5 GHz/120 W/เกน 20+45 → Pr = −76.65 dBm — **เฉลยเปิดทั้งหมดบน week4 (kim สั่ง 16 ก.ค.)**
 - **ไฟล์เสียง:** `เนื้อหาเรียน/` มี w2_1, w2_2, w3, w4, สอนต่อจากหน้า10+เฉลยการบ้านและทดสอบ1ข้อw3 (ครบ, ถอดแล้วทั้งหมดใน `transcripts/`)
 - อาจารย์ผู้สอน: รศ.ดร.ธนภัทร์ อนุศาสน์อมรกุล
 

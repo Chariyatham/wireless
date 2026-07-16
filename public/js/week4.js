@@ -494,12 +494,23 @@ console.log('③ d =', d.toFixed(1), 'km');
 const h1 = (d/3.57 - Math.sqrt(K*10))**2 / K;
 console.log('   เสารับ 10 m → เสาส่งเหลือ', h1.toFixed(1), 'm');
 
-// ④ การบ้านดาวเทียม: 35,368 km @ 4 GHz, Pt = 250 W, เกน 44+48 dB
+// ④ การบ้านครั้งที่ 2 ข้อ 1-2: ดาวเทียม 35,368 km @ 4 GHz, Pt = 250 W, เกน 44+48 dB
 const Ldb = 20*log10(4e9) + 20*log10(35368e3) - 147.56;
 const Pt = 10*log10(250);
 console.log('④ L_iso =', Ldb.toFixed(2), 'dB · Pr =', (Pt - Ldb).toFixed(2), 'dBW');
 const Lg = Ldb - 44 - 48;
 console.log('   มีเกน: L_G =', Lg.toFixed(2), 'dB · Pr =', (Pt - Lg).toFixed(2), 'dBW');
+
+// ⑤ การบ้านครั้งที่ 2 ข้อ 3: จาน Ø 100 cm (= 1 m!) @ 40 GHz
+const lam5 = c / 40e9, A5 = Math.PI * (1/2)**2;
+console.log('⑤ Ae =', (0.56*A5).toFixed(4), 'm² · G =', (7*A5/lam5**2).toFixed(0),
+  '=', (10*log10(7*A5/lam5**2)).toFixed(2), 'dB');
+
+// ⑥ การบ้านครั้งที่ 2 ข้อ 4: 20,000 km @ 5 GHz, Pt = 120 W, เกน 20+45 dB → dBm
+const L6 = 20*log10(5e9) + 20*log10(2e7) - 147.56;
+const Lg6 = L6 - 20 - 45;
+console.log('⑥ L_iso =', L6.toFixed(2), '· L_G =', Lg6.toFixed(2),
+  'dB · Pr =', (10*log10(120) + 30 - Lg6).toFixed(2), 'dBm');
 `);
 
 // ---------------------------------------------------------------
