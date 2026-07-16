@@ -8,13 +8,22 @@
     const el = document.getElementById(id);
     if (el) map.set(el, a);
   });
+  // ถ้า sidebar เลื่อนในตัวเองได้ (จอเตี้ย) เลื่อนตามให้หัวข้อ active อยู่ในสายตาเสมอ
+  function reveal(a) {
+    const sb = a.closest('.sidebar');
+    if (!sb || sb.scrollHeight <= sb.clientHeight) return;
+    const sbR = sb.getBoundingClientRect();
+    const aR = a.getBoundingClientRect();
+    if (aR.top < sbR.top) sb.scrollTop += aR.top - sbR.top - 8;
+    else if (aR.bottom > sbR.bottom) sb.scrollTop += aR.bottom - sbR.bottom + 8;
+  }
   const obs = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) {
           links.forEach((l) => l.classList.remove('active'));
           const a = map.get(e.target);
-          if (a) a.classList.add('active');
+          if (a) { a.classList.add('active'); reveal(a); }
         }
       });
     },
