@@ -177,6 +177,10 @@ details.sol .body { padding: 2px 0 10px; }
 table.tbl { border-collapse: collapse; width: 100%; font-size: .9rem; margin: 12px 0; max-width: var(--measure); }
 table.tbl th, table.tbl td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: center; }
 table.tbl th { font-family: var(--serif); color: var(--ink); border-bottom: 2px solid var(--rule); }
+/* จอแคบ: ตารางกว้างกว่าจอ → เลื่อนในตัวเอง ไม่ดันทั้งหน้าให้ล้น */
+@media (max-width: 700px){
+  table.tbl { display: block; overflow-x: auto; }
+}
 
 /* ===== theme toggle button ===== */
 .theme-btn { background: transparent; border: 1px solid var(--line-2); border-radius: 8px; width: 38px; height: 32px; cursor: pointer; font-size: 1rem; line-height: 1; color: var(--text); display: inline-flex; align-items: center; justify-content: center; }
@@ -307,6 +311,7 @@ html[data-theme="light"] .qc.bad { background:#f7e5e0; border-color:#c0492f; col
 .sbtn.primary:hover:not(:disabled) { color:#08222a; filter:brightness(1.1); }
 .sbtn.ghost { background:transparent; }
 .stepper-label { font-family:var(--mono); font-size:.78rem; color:var(--accent-ink); white-space:nowrap; }
+@media (max-width: 700px){ .stepper-label { white-space: normal; } } /* จอแคบ: คำอธิบายขั้นยาว ต้องตัดบรรทัดได้ */
 .stepper-scrub { flex:1 1 120px; min-width:100px; height:20px !important; }
 .stage-cap { font-size:.92rem; color:var(--text); border-left:2px solid var(--accent); padding:2px 0 2px 12px; margin-top:10px; min-height:3em; }
 .stage-cap b, .stage-cap strong { color:var(--ink); }
