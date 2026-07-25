@@ -41,12 +41,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           week="w3"
         />
         <ModuleCard
-          num="WEEK 4 · ใหม่"
+          num="WEEK 4 · ครบทั้งบท"
           title="สายอากาศ + การแพร่คลื่น"
           hook="“เสาสูงตั้ง 100 เมตร ส่งได้แค่ 41 กม. — โลกโค้งโหดกว่าที่คิด”"
-          topics="Radiation pattern · เกน/Ae · Ground/Sky/LOS · Free space loss · Friis"
+          topics="Radiation pattern · เกน/Ae · LOS · Free space loss · Friis · path loss exponent · noise/Eb·N₀ · fading · MIMO"
           href={`${base}/week4`}
           week="w4"
+        />
+        <ModuleCard
+          num="WEEK 5 · ใหม่"
+          title="เทคนิคการเข้ารหัสสัญญาณ"
+          hook="“อากาศส่ง 0 กับ 1 ไม่ได้ — แล้ว WiFi เอาบิตยัดใส่คลื่นยังไง?”"
+          topics="ASK/FSK/PSK/QAM · bit rate vs baud rate · ประสิทธิภาพสเปกตรัม · AM/FM/PM · PCM/DM · NRZ/Manchester"
+          href={`${base}/week5`}
+          week="w5"
         />
       </div>
 
@@ -54,7 +62,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <a class="mod" href={`${base}/exam`} style="display:block">
           <div class="num">🏁 MIDTERM MODE</div>
           <h3>คลังข้อสอบรวม + สอบจำลองจับเวลา</h3>
-          <div class="hook">รวมโจทย์ทั้ง 4 สัปดาห์ 21 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
+          <div class="hook">รวมโจทย์ทั้ง 5 สัปดาห์ 28 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
           <div class="prog" data-progress-week="exam"></div>
         </a>
         <button id="progReset" class="sbtn ghost" hidden style="margin-top:10px">↺ ล้างความคืบหน้าทั้งหมด</button>
@@ -70,6 +78,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <span><span class="dot" style="background:#58c4dd"></span>Week 2 · ข้อมูลเดินทาง</span>
             <span><span class="dot" style="background:#83c167"></span>Week 3 · คลื่นของจริง</span>
             <span><span class="dot" style="background:#c792ea"></span>Week 4 · สายอากาศ</span>
+            <span><span class="dot" style="background:#f78c6c"></span>Week 5 · เข้ารหัสสัญญาณ</span>
             <span style="color:var(--accent-warm)">- - - เชื่อมข้ามสัปดาห์</span>
           </div>
         </div>

@@ -511,9 +511,477 @@ const L6 = 20*log10(5e9) + 20*log10(2e7) - 147.56;
 const Lg6 = L6 - 20 - 45;
 console.log('⑥ L_iso =', L6.toFixed(2), '· L_G =', Lg6.toFixed(2),
   'dB · Pr =', (10*log10(120) + 30 - Lg6).toFixed(2), 'dBm');
+
+// ═══ สไลด์ 41–88 ═══
+// ⑦ Path loss exponent (สไลด์ 46): 1.9 GHz, 1.5 km, โล่ง vs เมือง n = 3.1
+const lam7 = c / 1.9e9, K7 = 20*log10(4*Math.PI/lam7), d7 = 1500;
+const pl = (n) => K7 + 10*n*log10(d7);
+console.log('⑦ ก้อนความถี่ =', K7.toFixed(2), 'dB · โล่ง(n=2) =', pl(2).toFixed(2),
+  '· เมือง(n=3.1) =', pl(3.1).toFixed(2), '→ ต่าง', (pl(3.1)-pl(2)).toFixed(2), 'dB');
+
+// ⑧ Thermal noise: T = 290 K, B = 1 MHz
+const T = 290, B = 1e6, kB = 1.3803e-23;
+console.log('⑧ 10log k =', (10*log10(kB)).toFixed(2), '· N0 =', (10*log10(kB*T)).toFixed(2),
+  'dBW/Hz · N =', (10*log10(kB*T*B)).toFixed(2), 'dBW');
+
+// ⑨ การบ้านครั้งที่ 3 ข้อ 1: Eb/N0 = 8.4 dB, T = 290 K, R = 2400 bps → S?
+const S9 = 8.4 + 10*log10(2400) - 228.6 + 10*log10(290);
+console.log('⑨ S =', S9.toFixed(2), 'dBW =', (S9+30).toFixed(2), 'dBm');
+console.log('   ตรวจย้อน Eb/N0 =',
+  (10*log10(Math.pow(10, S9/10) / (2400 * kB * 290))).toFixed(2), 'dB');
+
+// ⑩ การบ้านครั้งที่ 3 ข้อ 2: spectral efficiency 6 bps/Hz → Eb/N0?
+const snr10 = Math.pow(2, 6) - 1;
+console.log('⑩ S/N =', snr10, '=', (10*log10(snr10)).toFixed(2), 'dB → Eb/N0 =',
+  (snr10/6).toFixed(2), '=', (10*log10(snr10/6)).toFixed(2), 'dB');
+
+// ⑪ การบ้านครั้งที่ 3 ข้อ 3: ฮอร์น r = 25 cm @ 5 GHz
+const A11 = Math.PI * 0.25**2, lam11 = c/5e9;
+console.log('⑪ A =', A11.toFixed(4), 'm² · Ae = 0.81A =', (0.81*A11).toFixed(4),
+  'm² · G = 10A/λ² =', (10*A11/lam11**2).toFixed(1),
+  '=', (10*log10(10*A11/lam11**2)).toFixed(2), 'dB');
 `);
 
+/* ═══════════════════════════════════════════════════════════════
+   ส่วนที่ 2 ของ Week 4 — สไลด์ 41–88
+   (path loss exponent · noise · Eb/N0 · multipath/fading · การชดเชย)
+   ⚠️ คาบ 20 ก.ค. อาจารย์สอนส่วนนี้ แต่ไฟล์เสียงเสีย (อัดได้ 14 วินาที)
+   → เนื้อหาส่วนนี้เรียบเรียงจาก "สไลด์" เป็นหลัก ไม่มีกล่อง 🎙
+   ตัวเลขทุกตัว verify ด้วย node แล้ว
+   ═══════════════════════════════════════════════════════════════ */
+
 // ---------------------------------------------------------------
-// 9) ข้อสอบจับเวลา
+// 10) Stepper: path loss exponent — โลกจริงชันกว่าอวกาศว่าง
+// ---------------------------------------------------------------
+(function () {
+  const el = document.getElementById('pleStepper');
+  if (!el) return;
+  const W = 580, H = 320, pad = { l: 52, r: 16, t: 16, b: 40 };
+  const c = 3e8, f = 1.9e9, lam = c / f;
+  const K0 = 20 * log10(4 * Math.PI / lam);          // 38.02 dB — เทอมความถี่
+  const loss = (d, n) => K0 + 10 * n * log10(d);      // d เป็นเมตร
+  const d0 = 10, d1 = 10000;                          // 10 m → 10 km
+  const sx = (d) => pad.l + (log10(d) - log10(d0)) / (log10(d1) - log10(d0)) * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v - 40) / (170 - 40) * (H - pad.t - pad.b);
+  const CURVES = [
+    { n: 2, c: C4.ok, lbl: 'n = 2 · ที่โล่ง/อวกาศว่าง' },
+    { n: 2.7, c: C4.sig, lbl: 'n = 2.7 · เมือง (ขอบล่าง)' },
+    { n: 3.1, c: C4.warn, lbl: 'n = 3.1 · เมือง (โจทย์)' },
+    { n: 4.8, c: C4.bad, lbl: 'n = 4.8 · ในตึกมีสิ่งกีดขวาง' },
+  ];
+  const LBL = [
+    'ขั้น 1 · เริ่มจากที่เรารู้แล้ว: อวกาศว่าง n = 2 — กำลังลดตาม 1/d² (แผ่บนผิวทรงกลม)',
+    'ขั้น 2 · เมืองจริง n = 2.7–3.5 — ตึกบัง สะท้อน กระเจิง → เส้น "ชันขึ้น" กำลังหายเร็วกว่าเดิม',
+    'ขั้น 3 · โจทย์สไลด์ 46: n = 3.1 ที่ 1.9 GHz — ลากไปที่ d = 1.5 กม.',
+    'ขั้น 4 · อ่านผลต่าง: ที่ 1.5 กม. โล่ง = 101.54 dB · เมือง = 136.48 dB → ต่างกัน 34.94 dB!',
+    'ขั้น 5 · ในตึก n สูงถึง 4–6 — นี่คือเหตุผลที่ Wi-Fi ทะลุ 2 ห้องแล้วสัญญาณหายไปเกือบหมด',
+  ];
+  function curvePath(n) {
+    let d = '', started = false;
+    for (let i = 0; i <= 60; i++) {
+      const dd = Math.pow(10, log10(d0) + (log10(d1) - log10(d0)) * i / 60);
+      const v = loss(dd, n);
+      if (v > 168) break;                     // ตัดไม่ให้เส้นทะลุกรอบบน
+      d += (started ? 'L' : 'M') + sx(dd).toFixed(1) + ',' + sy(v).toFixed(1);
+      started = true;
+    }
+    return d;
+  }
+  createStepper(el, {
+    steps: 5, stepDuration: 1500,
+    label: (s) => LBL[s],
+    render(stage, step, t) {
+      const ink = cssVar('--ink', '#1d1f2b'), line = cssVar('--line-2', '#ccc');
+      const show = step === 0 ? 1 : step === 1 ? 2 : step >= 4 ? 4 : 3;
+      let g = '';
+      // grid
+      for (const v of [60, 90, 120, 150]) {
+        g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${sy(v)}" y2="${sy(v)}" stroke="${line}" stroke-dasharray="2 4"/>
+              <text x="${pad.l - 6}" y="${sy(v) + 4}" text-anchor="end" font-size="10" fill="${ink}">${v}</text>`;
+      }
+      for (const v of [10, 100, 1000, 10000]) {
+        g += `<line x1="${sx(v)}" x2="${sx(v)}" y1="${pad.t}" y2="${H - pad.b}" stroke="${line}" stroke-dasharray="2 4"/>
+              <text x="${sx(v)}" y="${H - pad.b + 15}" text-anchor="middle" font-size="10" fill="${ink}">${v >= 1000 ? (v / 1000) + ' กม.' : v + ' m'}</text>`;
+      }
+      for (let i = 0; i < show; i++) {
+        const cv = CURVES[i];
+        const grow = i === show - 1 ? (0.25 + 0.75 * easeOut(t)) : 1;
+        g += `<path d="${curvePath(cv.n)}" fill="none" stroke="${cv.c}" stroke-width="${cv.n === 3.1 ? 3 : 2}"
+                 stroke-dasharray="${W * 2}" stroke-dashoffset="${(1 - grow) * W * 2}" opacity="${cv.n === 3.1 && step >= 2 ? 1 : .85}"/>`;
+        // legend มุมซ้ายบน (ไม่ทับเส้น/ไม่ทับป้ายระยะ)
+        const ly = pad.t + 16 + i * 15;
+        g += `<line x1="${pad.l + 6}" x2="${pad.l + 26}" y1="${ly}" y2="${ly}" stroke="${cv.c}" stroke-width="3"/>
+              <text x="${pad.l + 31}" y="${ly + 3.5}" font-size="10.5" fill="${cv.c}" font-weight="700">${cv.lbl}</text>`;
+      }
+      if (step >= 2) {
+        const dm = 1500;
+        g += `<line x1="${sx(dm)}" x2="${sx(dm)}" y1="${pad.t}" y2="${H - pad.b}" stroke="${C4.main}" stroke-width="2"/>
+              <text x="${sx(dm) + 5}" y="${pad.t + 12}" font-size="11" fill="${C4.main}" font-weight="700">d = 1.5 กม.</text>`;
+        if (step >= 3) {
+          const y2 = sy(loss(dm, 2)), y31 = sy(loss(dm, 3.1));
+          g += `<circle cx="${sx(dm)}" cy="${y2}" r="5" fill="${C4.ok}"/><circle cx="${sx(dm)}" cy="${y31}" r="5" fill="${C4.warn}"/>
+                <line x1="${sx(dm) - 34}" x2="${sx(dm) - 34}" y1="${y2}" y2="${y31}" stroke="${C4.bad}" stroke-width="2"/>
+                <text x="${sx(dm) - 40}" y="${(y2 + y31) / 2}" text-anchor="end" font-size="12" fill="${C4.bad}" font-weight="700">Δ 34.94 dB</text>
+                <text x="${sx(dm) + 6}" y="${y2 + 4}" font-size="10.5" fill="${C4.ok}">101.54 dB</text>
+                <text x="${sx(dm) + 6}" y="${y31 + 4}" font-size="10.5" fill="${C4.warn}">136.48 dB</text>`;
+        }
+      }
+      stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:340px">
+        <text x="10" y="${pad.t + 2}" font-size="10.5" fill="${ink}">Path loss (dB) — ที่ 1.9 GHz</text>
+        ${g}
+        <text x="${W / 2}" y="${H - 4}" text-anchor="middle" font-size="10.5" fill="${ink}">ระยะทาง (สเกล log)</text>
+      </svg>`;
+    },
+  });
+})();
+
+// ---------------------------------------------------------------
+// 11) Lab: เครื่องคิด path loss แบบมี n (ปรับเองได้)
+// ---------------------------------------------------------------
+(function () {
+  const fS = document.getElementById('pleF');
+  if (!fS) return;
+  const dS = document.getElementById('pleD'), nS = document.getElementById('pleN');
+  const out = document.getElementById('pleOut');
+  function draw() {
+    const fGHz = parseFloat(fS.value), dkm = parseFloat(dS.value), n = parseFloat(nS.value);
+    document.getElementById('lblPleF').textContent = fGHz.toFixed(2);
+    document.getElementById('lblPleD').textContent = dkm.toFixed(2);
+    document.getElementById('lblPleN').textContent = n.toFixed(1);
+    const lam = 3e8 / (fGHz * 1e9), d = dkm * 1000;
+    const term1 = 20 * log10(4 * Math.PI / lam), term2 = 10 * n * log10(d);
+    const free = term1 + 20 * log10(d);
+    out.innerHTML = `λ = c/f = <b>${lam.toFixed(4)} m</b> · 20·log(4π/λ) = <b>${term1.toFixed(2)} dB</b> (เทอมความถี่ — ไม่ขึ้นกับระยะ)
+      <br/>10·n·log(d) = 10 × ${n.toFixed(1)} × log(${d.toFixed(0)}) = <b>${term2.toFixed(2)} dB</b> (เทอมระยะ — n คูณตรงนี้)
+      <br/>Path loss = <b style="font-size:1.15em">${(term1 + term2).toFixed(2)} dB</b>
+      · เทียบที่โล่ง (n=2) = ${free.toFixed(2)} dB → <b style="color:${C4.bad}">แพงขึ้น ${(term1 + term2 - free).toFixed(2)} dB</b>`;
+  }
+  [fS, dS, nS].forEach((s) => s.addEventListener('input', draw));
+  draw();
+})();
+
+// ---------------------------------------------------------------
+// 12) Stepper: thermal noise — ทำไมต้อง −228.6
+// ---------------------------------------------------------------
+(function () {
+  const el = document.getElementById('noiseStepper');
+  if (!el) return;
+  const W = 580, H = 250;
+  const LBL = [
+    'ขั้น 1 · อิเล็กตรอนในตัวนำ "สั่น" ตามความร้อน → เกิดสัญญาณรบกวนพื้นฐานที่กำจัดไม่ได้',
+    'ขั้น 2 · ความหนาแน่นของ noise: N₀ = kT  (วัตต์ต่อ 1 Hz) — k = 1.3803×10⁻²³ J/K',
+    'ขั้น 3 · เปิดแบนด์วิดท์กว้างขึ้น = กวาด noise เข้ามามากขึ้น → N = kTB (วัตต์)',
+    'ขั้น 4 · เป็น dB: N = 10log k + 10log T + 10log B = −228.6 + 10log T + 10log B  (dBW)',
+    'ขั้น 5 · ตัวอย่าง T = 290 K, B = 1 MHz → N = −228.6 + 24.62 + 60 = −143.98 dBW',
+  ];
+  createStepper(el, {
+    steps: 5, stepDuration: 1500,
+    label: (s) => LBL[s],
+    render(stage, step, t) {
+      const ink = cssVar('--ink', '#1d1f2b'), line = cssVar('--line-2', '#ccc');
+      const bw = step >= 2 ? (step === 2 ? 90 + 200 * easeOut(t) : 290) : 90;
+      let g = '';
+      // แกนความถี่ + พื้น noise
+      const y0 = 170, x0 = 60;
+      g += `<line x1="${x0}" y1="${y0}" x2="${W - 20}" y2="${y0}" stroke="${ink}" stroke-width="1.5"/>
+            <text x="${W - 20}" y="${y0 + 18}" text-anchor="end" font-size="10.5" fill="${ink}">ความถี่ →</text>`;
+      // อิเล็กตรอนสั่น (ขั้น 1)
+      if (step === 0) {
+        for (let i = 0; i < 14; i++) {
+          const px = x0 + 20 + i * 32, jitter = Math.sin(t * 12 + i) * 7;
+          g += `<circle cx="${px}" cy="${100 + jitter}" r="5" fill="${C4.warn}" opacity=".85"/>`;
+        }
+        g += `<text x="${W / 2}" y="${60}" text-anchor="middle" font-size="12" fill="${ink}">อิเล็กตรอนปั่นป่วนตามอุณหภูมิ — ยิ่งร้อน ยิ่งสั่นแรง</text>`;
+      }
+      // แถบ noise floor
+      if (step >= 1) {
+        const hgt = 26;
+        g += `<rect x="${x0}" y="${y0 - hgt}" width="${bw}" height="${hgt}" fill="${C4.bad}55" stroke="${C4.bad}"/>
+              <text x="${x0 + bw / 2}" y="${y0 - hgt - 8}" text-anchor="middle" font-size="11.5" fill="${C4.bad}" font-weight="700">${step >= 2 ? 'N = k·T·B' : 'N₀ = k·T (ต่อ 1 Hz)'}</text>`;
+        if (step >= 2) g += `<line x1="${x0}" x2="${x0 + bw}" y1="${y0 + 22}" y2="${y0 + 22}" stroke="${C4.sig}" stroke-width="2"/>
+              <text x="${x0 + bw / 2}" y="${y0 + 36}" text-anchor="middle" font-size="11" fill="${C4.sig}">B (แบนด์วิดท์)</text>`;
+      }
+      if (step >= 3) {
+        g += `<text x="${x0}" y="${40}" font-size="13" fill="${ink}" font-family="var(--mono)">N(dBW) = −228.6 + 10·log T + 10·log B</text>`;
+        if (step >= 4) g += `<text x="${x0}" y="${64}" font-size="13" fill="${C4.main}" font-family="var(--mono)" font-weight="700">= −228.6 + 24.62 + 60.00 = −143.98 dBW</text>`;
+      }
+      stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:270px">${g}</svg>`;
+    },
+  });
+})();
+
+// ---------------------------------------------------------------
+// 13) Lab: Eb/N0 ↔ กำลังส่ง (ตรงกับการบ้านครั้งที่ 3 ข้อ 1)
+// ---------------------------------------------------------------
+(function () {
+  const eS = document.getElementById('ebE');
+  if (!eS) return;
+  const rS = document.getElementById('ebR'), tS = document.getElementById('ebT');
+  const out = document.getElementById('ebOut');
+  function draw() {
+    const eb = parseFloat(eS.value), rExp = parseFloat(rS.value), T = parseFloat(tS.value);
+    const R = Math.pow(10, rExp);
+    document.getElementById('lblEbE').textContent = eb.toFixed(1);
+    document.getElementById('lblEbR').textContent = R >= 1e6 ? (R / 1e6).toFixed(2) + ' Mbps' : R >= 1e3 ? (R / 1e3).toFixed(2) + ' kbps' : R.toFixed(0) + ' bps';
+    document.getElementById('lblEbT').textContent = T.toFixed(0);
+    const S = eb + 10 * log10(R) - 228.6 + 10 * log10(T);
+    out.innerHTML = `S(dBW) = (Eb/N₀) + 10·log R − 228.6 + 10·log T
+      <br/>= ${eb.toFixed(1)} + <b>${(10 * log10(R)).toFixed(2)}</b> − 228.6 + <b>${(10 * log10(T)).toFixed(2)}</b>
+      = <b style="font-size:1.15em">${S.toFixed(2)} dBW</b> (= ${(S + 30).toFixed(2)} dBm = ${Math.pow(10, S / 10).toExponential(2)} W)
+      <br/><span class="hint">N₀ = kT = ${(10 * log10(1.3803e-23 * T)).toFixed(2)} dBW/Hz · ส่งเร็วขึ้น 2 เท่า = ต้องเพิ่มกำลัง 3 dB เป๊ะ ๆ</span>`;
+  }
+  [eS, rS, tS].forEach((s) => s.addEventListener('input', draw));
+  draw();
+})();
+
+// ---------------------------------------------------------------
+// 14) Stepper: multipath → ISI
+// ---------------------------------------------------------------
+(function () {
+  const el = document.getElementById('mpStepper');
+  if (!el) return;
+  const W = 580, H = 360;
+  const LBL = [
+    'ขั้น 1 · เส้นตรง (LOS) — คลื่นวิ่งตรงจากเสาถึงมือถือ ถึงก่อนเพื่อนเสมอ (ทางสั้นสุด)',
+    'ขั้น 2 · การสะท้อน (reflection) — ชนผิวใหญ่กว่าความยาวคลื่นมาก (ตึก/พื้น) เด้งกลับมา',
+    'ขั้น 3 · การเลี้ยวเบน (diffraction) — เจอ "ขอบ/มุม" ของสิ่งกีดขวาง คลื่นโค้งอ้อมไปได้',
+    'ขั้น 4 · การกระเจิง (scattering) — ชนวัตถุเล็ก ๆ ใกล้ ๆ ความยาวคลื่น (ใบไม้/ป้าย) → แตกกระจายหลายทิศ',
+    'ขั้น 5 · ผลรวมที่ตัวรับ: ก๊อปปี้เดียวกันมาถึงคนละเวลา → เฟสบวก/หักล้างกัน + ล้ำเข้าไปในบิตถัดไป = ISI',
+  ];
+  const bs = cssVar('--paper-2', '#f4f2ee');
+  createStepper(el, {
+    steps: 5, stepDuration: 1700,
+    label: (s) => LBL[s],
+    render(stage, step, t) {
+      const ink = cssVar('--ink', '#1d1f2b'), line = cssVar('--line-2', '#ccc');
+      const TX = { x: 60, y: 110 }, RX = { x: 500, y: 195 };
+      let g = `<rect x="0" y="0" width="${W}" height="${H}" fill="${bs}" rx="8"/>`;
+      // ตึก / พื้น / ต้นไม้ (จัดให้ไม่ทับแผงพัลส์ด้านล่าง)
+      g += `<rect x="230" y="40" width="70" height="120" fill="${line}" stroke="${ink}" opacity=".55"/>
+            <text x="265" y="34" text-anchor="middle" font-size="10" fill="${ink}">ตึก</text>
+            <rect x="340" y="222" width="120" height="12" fill="${line}" stroke="${ink}" opacity=".55"/>
+            <text x="400" y="248" text-anchor="middle" font-size="10" fill="${ink}">พื้น</text>
+            <circle cx="165" cy="222" r="15" fill="${line}" stroke="${ink}" opacity=".5"/>
+            <text x="165" y="252" text-anchor="middle" font-size="10" fill="${ink}">ต้นไม้</text>`;
+      // เสา + มือถือ
+      g += `<line x1="${TX.x}" y1="${TX.y}" x2="${TX.x}" y2="${TX.y + 90}" stroke="${C4.main}" stroke-width="4"/>
+            <circle cx="${TX.x}" cy="${TX.y}" r="6" fill="${C4.main}"/>
+            <text x="${TX.x}" y="${TX.y - 12}" text-anchor="middle" font-size="11" fill="${C4.main}" font-weight="700">เสาส่ง</text>
+            <rect x="${RX.x - 10}" y="${RX.y - 18}" width="20" height="34" rx="4" fill="${C4.sig}"/>
+            <text x="${RX.x}" y="${RX.y + 32}" text-anchor="middle" font-size="11" fill="${C4.sig}" font-weight="700">มือถือ</text>`;
+      const paths = [
+        { d: `M${TX.x},${TX.y} L${RX.x},${RX.y}`, c: C4.ok, lbl: 'ตรง (LOS)', delay: 0 },
+        { d: `M${TX.x},${TX.y} L265,${40} L${RX.x},${RX.y}`, c: C4.warn, lbl: 'สะท้อนตึก', delay: 0.22 },
+        { d: `M${TX.x},${TX.y} Q230,170 300,155 T${RX.x},${RX.y}`, c: C4.sig, lbl: 'เลี้ยวเบนขอบตึก', delay: 0.4 },
+        { d: `M${TX.x},${TX.y} L165,222 L${RX.x},${RX.y}`, c: C4.bad, lbl: 'กระเจิงจากต้นไม้', delay: 0.6 },
+      ];
+      const nShow = Math.min(step + 1, 4);
+      for (let i = 0; i < nShow; i++) {
+        const p = paths[i], grow = (i === step && step < 4) ? easeOut(t) : 1;
+        g += `<path id="mp${i}" d="${p.d}" fill="none" stroke="${p.c}" stroke-width="2" stroke-dasharray="1200"
+                 stroke-dashoffset="${(1 - grow) * 1200}" opacity=".9"/>`;
+      }
+      if (step === 4) {
+        // แผงล่าง: พัลส์มาถึงคนละเวลา (วางใต้ฉากทั้งหมด ไม่ทับอะไร)
+        const top = 278, base = 336;
+        g += `<rect x="24" y="${top}" width="${W - 48}" height="66" fill="${cssVar('--card', '#fff')}" stroke="${line}" rx="6"/>
+              <text x="36" y="${top + 15}" font-size="10.5" fill="${ink}">พัลส์ของ "บิตเดียวกัน" มาถึงตัวรับคนละเวลา (ก๊อปปี้ที่ช้ากว่าจะไปทับบิตถัดไป):</text>
+              <line x1="36" y1="${base}" x2="${W - 36}" y2="${base}" stroke="${line}"/>`;
+        for (let i = 0; i < 4; i++) {
+          const x = 150 + paths[i].delay * 250, h = 30 * (1 - i * 0.2);
+          g += `<rect x="${x}" y="${base - h}" width="10" height="${h}" fill="${paths[i].c}"/>`;
+        }
+        g += `<rect x="${150 + 0.62 * 250}" y="${top + 22}" width="${W - 36 - (150 + 0.62 * 250)}" height="${base - top - 22}" fill="${C4.bad}18"/>
+              <text x="${W - 40}" y="${top + 34}" text-anchor="end" font-size="10.5" fill="${C4.bad}" font-weight="700">ล้ำเข้าช่องเวลาบิตถัดไป = ISI</text>`;
+      }
+      // ป้ายชื่อเส้นล่าสุด
+      if (step < 4) g += `<text x="${W / 2}" y="${H - 14}" text-anchor="middle" font-size="12.5" fill="${paths[Math.min(step, 3)].c}" font-weight="700">${paths[Math.min(step, 3)].lbl}</text>`;
+      stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:380px">${g}</svg>`;
+    },
+  });
+})();
+
+// ---------------------------------------------------------------
+// 15) Stepper: fading — ใหญ่/เล็ก, ช้า/เร็ว, flat/selective
+// ---------------------------------------------------------------
+(function () {
+  const el = document.getElementById('fadeStepper');
+  if (!el) return;
+  const W = 580, H = 280, pad = { l: 46, r: 14, t: 18, b: 38 };
+  const sx = (i) => pad.l + i / 400 * (W - pad.l - pad.r);
+  const sy = (v) => H - pad.b - (v + 40) / 60 * (H - pad.t - pad.b); // dB: −40..+20
+  // เส้นทาง: path loss เชิงเส้นบนสเกล log + shadowing + fast fading
+  const base = (i) => -6 - 22 * (i / 400);
+  const slow = (i) => 7 * Math.sin(i / 62) + 3 * Math.sin(i / 23 + 1.2);
+  const fast = (i) => 6 * Math.sin(i / 2.1) * Math.sin(i / 7.3 + .5) - 3 * Math.abs(Math.sin(i / 5.7));
+  const LBL = [
+    'ขั้น 1 · เส้นตรงเอียงลง = path loss เฉลี่ย (ยิ่งไกลยิ่งอ่อน) — นี่คือสิ่งที่สูตรบทนี้คำนวณให้',
+    'ขั้น 2 · เฟดดิงขนาดใหญ่ (large-scale) = เงา (shadowing) จากตึก/เนินเขา — ช้า ค่อย ๆ ขึ้นลง',
+    'ขั้น 3 · เฟดดิงขนาดเล็ก (small-scale) = multipath หักล้างกัน — เปลี่ยนเร็วมากในระยะ ~½ ความยาวคลื่น',
+    'ขั้น 4 · Fast fading = จุดรับเปลี่ยนเร็วกว่าคาบสัญลักษณ์ · Slow fading = ช้ากว่า → ออกแบบคนละแบบ',
+    'ขั้น 5 · Flat fading = ทุกความถี่ตกพร้อมกัน · Selective fading = บางความถี่ตกลึก บางความถี่รอด',
+  ];
+  createStepper(el, {
+    steps: 5, stepDuration: 1600,
+    label: (s) => LBL[s],
+    render(stage, step, t) {
+      const ink = cssVar('--ink', '#1d1f2b'), line = cssVar('--line-2', '#ccc');
+      let g = '';
+      for (const v of [10, 0, -10, -20, -30]) {
+        g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${sy(v)}" y2="${sy(v)}" stroke="${line}" stroke-dasharray="2 4"/>
+              <text x="${pad.l - 6}" y="${sy(v) + 4}" text-anchor="end" font-size="10" fill="${ink}">${v}</text>`;
+      }
+      const mk = (fn, upto) => { let d = ''; for (let i = 0; i <= upto; i++) d += (i === 0 ? 'M' : 'L') + sx(i).toFixed(1) + ',' + sy(fn(i)).toFixed(1); return d; };
+      const upto = step === 0 ? Math.round(400 * (0.2 + 0.8 * easeOut(t))) : 400;
+      if (step < 4) {
+        g += `<path d="${mk(base, 400)}" fill="none" stroke="${C4.ok}" stroke-width="2.5" stroke-dasharray="6 4"/>`;
+        if (step >= 1) g += `<path d="${mk((i) => base(i) + slow(i), step === 1 ? upto : 400)}" fill="none" stroke="${C4.warn}" stroke-width="2.5"/>`;
+        if (step >= 2) g += `<path d="${mk((i) => base(i) + slow(i) + fast(i), 400)}" fill="none" stroke="${C4.sig}" stroke-width="1.3" opacity=".95"/>`;
+        g += `<text x="${W - pad.r}" y="${pad.t + 12}" text-anchor="end" font-size="10.5" fill="${C4.ok}">— — path loss เฉลี่ย</text>`;
+        if (step >= 1) g += `<text x="${W - pad.r}" y="${pad.t + 26}" text-anchor="end" font-size="10.5" fill="${C4.warn}">— เฟดดิงใหญ่ (เงา)</text>`;
+        if (step >= 2) g += `<text x="${W - pad.r}" y="${pad.t + 40}" text-anchor="end" font-size="10.5" fill="${C4.sig}">— เฟดดิงเล็ก (multipath)</text>`;
+        if (step === 3) {
+          g += `<rect x="${sx(40)}" y="${pad.t}" width="${sx(120) - sx(40)}" height="${H - pad.t - pad.b}" fill="${C4.bad}22" stroke="${C4.bad}"/>
+                <text x="${sx(80)}" y="${pad.t + 14}" text-anchor="middle" font-size="10.5" fill="${C4.bad}" font-weight="700">deep fade</text>`;
+        }
+        g += `<text x="${W / 2}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="${ink}">ระยะทาง / เวลา ที่ตัวรับเคลื่อนที่ →</text>
+              <text x="10" y="${pad.t}" font-size="10.5" fill="${ink}">กำลังรับ (dB)</text>`;
+      } else {
+        // flat vs selective: กราฟ 2 อัน แกนความถี่
+        const half = (W - 40) / 2;
+        for (let k = 0; k < 2; k++) {
+          const ox = 20 + k * (half + 8);
+          const H2 = H - pad.b - pad.t;
+          g += `<rect x="${ox}" y="${pad.t}" width="${half}" height="${H2}" fill="none" stroke="${line}"/>`;
+          let d = '';
+          for (let i = 0; i <= 60; i++) {
+            const x = ox + i / 60 * half;
+            const v = k === 0 ? -8 + 2 * Math.sin(t * 3) : -6 - 18 * Math.exp(-Math.pow((i - 34) / 6, 2)) - 6 * Math.exp(-Math.pow((i - 12) / 4, 2));
+            d += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + (pad.t + H2 - (v + 34) / 40 * H2).toFixed(1);
+          }
+          g += `<path d="${d}" fill="none" stroke="${k === 0 ? C4.ok : C4.bad}" stroke-width="2.5"/>
+                <text x="${ox + half / 2}" y="${pad.t - 4}" text-anchor="middle" font-size="11.5" fill="${k === 0 ? C4.ok : C4.bad}" font-weight="700">${k === 0 ? 'Flat fading — ตกเท่ากันทั้งแบนด์' : 'Selective — บางความถี่ตกลึก'}</text>
+                <text x="${ox + half / 2}" y="${H - 10}" text-anchor="middle" font-size="10" fill="${ink}">ความถี่ →</text>`;
+        }
+      }
+      stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:300px">${g}</svg>`;
+    },
+  });
+})();
+
+// ---------------------------------------------------------------
+// 16) Stepper: วิธีชดเชย — FEC · equalization · diversity · MIMO
+// ---------------------------------------------------------------
+(function () {
+  const el = document.getElementById('fixStepper');
+  if (!el) return;
+  const W = 580, H = 260;
+  const LBL = [
+    'ขั้น 1 · ปัญหา: บิตพังจาก fading/ISI — ส่งซ้ำก็ช้า จะแก้ที่ต้นทางยังไง?',
+    'ขั้น 2 · FEC — เติม "บิตตรวจสอบ" ไปกับข้อมูล ตัวรับคำนวณเองว่าบิตไหนพัง แล้วซ่อมได้เลย ไม่ต้องขอส่งใหม่',
+    'ขั้น 3 · Adaptive equalization — รวบพลังงานที่กระจายเลอะข้ามบิต (ISI) กลับเข้าช่องเวลาเดิม',
+    'ขั้น 4 · Diversity — ส่งซ้ำคนละ "ช่อง" ที่เฟดไม่พร้อมกัน: ต่างเสา (space) · ต่างความถี่ · ต่างเวลา',
+    'ขั้น 5 · MIMO — หลายเสาส่ง × หลายเสารับ พร้อมกัน: ได้ทั้งความทน (diversity) และความเร็ว (หลายสตรีม)',
+  ];
+  createStepper(el, {
+    steps: 5, stepDuration: 1600,
+    label: (s) => LBL[s],
+    render(stage, step, t) {
+      const ink = cssVar('--ink', '#1d1f2b'), line = cssVar('--line-2', '#ccc');
+      const card = cssVar('--card', '#fff');
+      let g = `<rect x="0" y="0" width="${W}" height="${H}" fill="${card}" rx="8" stroke="${line}"/>`;
+      const bit = (x, y, v, c) => `<rect x="${x}" y="${y}" width="17" height="20" rx="3" fill="${c}"/><text x="${x + 8.5}" y="${y + 15}" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">${v}</text>`;
+      if (step === 0) {
+        const bits = [1, 0, 1, 1, 0, 0, 1, 0];
+        bits.forEach((b, i) => { g += bit(90 + i * 24, 110, b, i === 3 || i === 6 ? C4.bad : C4.sig); });
+        g += `<text x="${W / 2}" y="90" text-anchor="middle" font-size="12.5" fill="${ink}">บิตที่รับมา — สีแดง = พังเพราะ fading/ISI</text>
+              <text x="${W / 2}" y="170" text-anchor="middle" font-size="12" fill="${C4.bad}">ส่งใหม่ทั้งชุด = เสียเวลา · ทำไงให้ "ซ่อมเองได้"?</text>`;
+      } else if (step === 1) {
+        const bits = [1, 0, 1, 1, 0, 0, 1, 0];
+        bits.forEach((b, i) => { g += bit(70 + i * 24, 100, b, C4.sig); });
+        const par = [1, 0, 1];
+        par.forEach((b, i) => { g += bit(70 + 8 * 24 + 10 + i * 24, 100, b, C4.ok); });
+        g += `<text x="${W / 2}" y="78" text-anchor="middle" font-size="12.5" fill="${ink}">ข้อมูล + รหัสแก้ไข (สีเขียว) ส่งไปด้วยกัน</text>
+              <text x="${W / 2}" y="160" text-anchor="middle" font-size="12" fill="${C4.ok}">ตัวรับคำนวณรหัสใหม่ → ตรงกัน = ไม่พัง · ไม่ตรง = รู้ว่าบิตไหนพัง แล้วแก้เลย</text>
+              <text x="${W / 2}" y="185" text-anchor="middle" font-size="11.5" fill="${ink}">แลกกับ: ต้องส่งบิตเกินจากข้อมูลจริง (overhead)</text>`;
+      } else if (step === 2) {
+        // พัลส์เบลอ → คมขึ้น
+        const k = easeOut(t);
+        for (let i = 0; i < 4; i++) {
+          const cx = 120 + i * 90;
+          const wdt = 60 - 36 * k, h = 30 + 40 * k;
+          g += `<rect x="${cx - wdt / 2}" y="${150 - h}" width="${wdt}" height="${h}" fill="${C4.sig}" opacity=".8" rx="3"/>`;
+          g += `<line x1="${cx}" y1="160" x2="${cx}" y2="172" stroke="${line}"/>`;
+        }
+        g += `<text x="${W / 2}" y="60" text-anchor="middle" font-size="12.5" fill="${ink}">ก่อน: พัลส์บานล้ำข้ามช่องเวลา (ISI) → หลัง equalizer: รวบกลับมาคม</text>
+              <text x="${W / 2}" y="200" text-anchor="middle" font-size="11.5" fill="${ink}">"adaptive" = ปรับตามช่องสัญญาณที่เปลี่ยนตลอด (มือถือวิ่งไปเรื่อย)</text>`;
+      } else if (step === 3) {
+        const kinds = [['ต่างเสา (space)', C4.main], ['ต่างความถี่', C4.sig], ['ต่างเวลา', C4.warn]];
+        kinds.forEach(([nm, c], i) => {
+          const x = 60 + i * 165;
+          g += `<rect x="${x}" y="70" width="140" height="110" rx="8" fill="${c}22" stroke="${c}"/>
+                <text x="${x + 70}" y="96" text-anchor="middle" font-size="12" fill="${c}" font-weight="700">${nm}</text>`;
+          for (let j = 0; j < 3; j++) {
+            const bad = (i + j) % 3 === 0;
+            g += `<circle cx="${x + 34 + j * 36}" cy="140" r="13" fill="${bad ? C4.bad : C4.ok}"/>
+                  <text x="${x + 34 + j * 36}" y="145" text-anchor="middle" font-size="11" fill="#fff">${bad ? '✗' : '✓'}</text>`;
+          }
+        });
+        g += `<text x="${W / 2}" y="52" text-anchor="middle" font-size="12.5" fill="${ink}">ส่งสำเนาไปหลายช่องที่ "เฟดไม่พร้อมกัน" — ขอแค่ช่องเดียวรอด ก็ได้ข้อมูลครบ</text>
+              <text x="${W / 2}" y="210" text-anchor="middle" font-size="11.5" fill="${ink}">หลักคิด: ความน่าจะเป็นที่ทุกช่องพังพร้อมกัน &lt;&lt; ช่องเดียวพัง</text>`;
+      } else {
+        const txs = [90, 150], rxs = [430, 490];
+        txs.forEach((y) => { g += `<circle cx="120" cy="${y}" r="9" fill="${C4.main}"/>`; });
+        rxs.forEach((x, i) => { g += `<circle cx="460" cy="${90 + i * 60}" r="9" fill="${C4.sig}"/>`; });
+        for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) {
+          const on = t > (i * 2 + j) / 5;
+          g += `<line x1="120" y1="${txs[i]}" x2="460" y2="${90 + j * 60}" stroke="${on ? C4.ok : line}" stroke-width="${on ? 2 : 1}" opacity="${on ? .9 : .4}"/>`;
+        }
+        g += `<text x="120" y="70" text-anchor="middle" font-size="11.5" fill="${C4.main}" font-weight="700">2 เสาส่ง</text>
+              <text x="460" y="70" text-anchor="middle" font-size="11.5" fill="${C4.sig}" font-weight="700">2 เสารับ</text>
+              <text x="${W / 2}" y="205" text-anchor="middle" font-size="12.5" fill="${ink}">MIMO 2×2 — 4 เส้นทางอิสระในย่านความถี่เดียวกัน</text>
+              <text x="${W / 2}" y="228" text-anchor="middle" font-size="11.5" fill="${ink}">Wi-Fi/4G/5G ที่เขียน 2×2, 4×4 บนกล่องเราเตอร์ = อันนี้เอง</text>`;
+      }
+      stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:280px">${g}</svg>`;
+    },
+  });
+})();
+
+// ---------------------------------------------------------------
+// 17) Walkthroughs ส่วนที่ 2 + การบ้านครั้งที่ 3
+// ---------------------------------------------------------------
+mountWalk('walkPLE', [
+  { title: 'อ่านโจทย์ (สไลด์ 46)', body: 'เปรียบเทียบ path loss ของ 2 สภาพแวดล้อมในระบบมือถือ\n  1) พื้นที่โล่ง       2) พื้นที่เมือง n = 3.1\nที่ f = 1.9 GHz, d = 1.5 กม., สายอากาศไอโซทรอปิก', note: '"พื้นที่โล่ง" = free space → n = 2 (บรรทัดแรกของตารางสไลด์ 45) — โจทย์ไม่บอกตรง ๆ ต้องรู้เอง' },
+  { title: 'เตรียมสูตรให้อยู่ในรูปที่ใส่ n ได้', body: 'จาก L = (4πd/λ)ⁿ …ที่ n = 2 คือสูตรเดิม\nเขียนเป็น dB แยกเป็น 2 ก้อน:\n\n  L(dB) = 20·log(4π/λ) + 10·n·log(d)\n           └ ก้อนความถี่ ┘   └ ก้อนระยะ ┘\n\nข้อดี: เปลี่ยน n แล้วก้อนแรกไม่ต้องคิดใหม่', note: 'สังเกต: n โผล่แค่ที่ก้อนระยะ — เพราะ n คือ "กำลังของ d" (1/dⁿ) ไม่เกี่ยวกับความถี่' },
+  { title: 'ก้อนความถี่ (คิดครั้งเดียว ใช้ทั้ง 2 ข้อ)', body: 'λ = c/f = 3×10⁸ ÷ 1.9×10⁹ = 0.1579 m\n\n4π/λ = 12.566 ÷ 0.1579 = 79.59\n20·log(79.59) = 38.02 dB', note: '' },
+  { title: '1) พื้นที่โล่ง n = 2', body: '10·n·log d = 10 × 2 × log(1500) = 20 × 3.176 = 63.52 dB\n\nL = 38.02 + 63.52 = 101.54 dB   ← คำตอบ 1)\n\nเช็กด้วยสูตร Week 4 ตอนต้น: 20log f + 20log d − 147.56\n = 185.58 + 63.52 − 147.56 = 101.54 dB ✓ ตรงกัน', note: 'สองสูตรนี้คือสูตรเดียวกัน แค่จัดรูปคนละแบบ — ใช้อันไหนก็ได้เมื่อ n = 2' },
+  { title: '2) พื้นที่เมือง n = 3.1', body: '10·n·log d = 10 × 3.1 × log(1500) = 31 × 3.176 = 98.46 dB\n\nL = 38.02 + 98.46 = 136.48 dB   ← คำตอบ 2)\n\nผลต่าง = 136.48 − 101.54 = 34.94 dB', note: '34.94 dB ≈ 3,100 เท่า! ระยะเท่ากันเป๊ะ แค่ย้ายจากทุ่งโล่งเข้าเมือง กำลังที่ถึงตัวรับหายไปสามพันเท่า — นี่คือเหตุผลที่เสามือถือในเมืองต้องถี่กว่าชนบทมาก' },
+]);
+
+mountWalk('walkHw3a', [
+  { title: 'ข้อ 1 — อ่านโจทย์', body: 'จงหากำลังงานของสัญญาณ (dBW) ถ้า\n  Eb/N₀ = 8.4 dB  ที่ BER = 10⁻⁴\n  อุณหภูมิ T = 290 K\n  อัตราการส่งข้อมูล R = 2,400 bps', note: '"BER = 10⁻⁴" เป็นแค่บริบท (บอกว่าทำไมต้องใช้ 8.4 dB) — ไม่ต้องเอาไปคำนวณ' },
+  { title: 'ตั้งสมการจากนิยาม Eb/N₀', body: 'Eb = S·Tb = S/R      (พลังงานต่อบิต)\nN₀ = k·T             (ความหนาแน่น noise ต่อ 1 Hz)\n\n  Eb/N₀ = S / (k·T·R)', note: 'จำวิธีอ่าน: "กำลังหารด้วยอัตราบิต" = พลังงานที่ทุ่มให้บิตหนึ่งบิต — ยิ่งส่งเร็ว พลังงานต่อบิตยิ่งน้อย' },
+  { title: 'แปลงเป็น dB แล้วย้ายข้าง', body: '(Eb/N₀)dB = S(dBW) − 10log R − 10log k − 10log T\n\n10·log k = 10·log(1.3803×10⁻²³) = −228.6 dBW/K/Hz\n\n→ S(dBW) = (Eb/N₀) + 10log R − 228.6 + 10log T', note: '−228.6 คือ "ค่าคงที่ Boltzmann ในภาษา dB" — ท่องไว้เลย ออกทุกโจทย์ noise' },
+  { title: 'แทนค่า', body: '10·log R = 10·log(2400)  = 33.80 dB\n10·log T = 10·log(290)   = 24.62 dB\n\nS = 8.4 + 33.80 − 228.6 + 24.62\n  = −161.77 dBW    ← คำตอบ', note: '' },
+  { title: 'ตรวจคำตอบ + ความรู้สึกของตัวเลข', body: 'ย้อนกลับ: S = 10^(−16.177) = 6.6×10⁻¹⁷ W\n  Eb = S/R = 2.8×10⁻²⁰ J\n  N₀ = kT = 4.0×10⁻²¹ W/Hz\n  Eb/N₀ = 6.9 เท่า = 8.4 dB ✓\n\n(= −131.77 dBm — เล็กกว่าสัญญาณ Wi-Fi ที่มือถือรับได้ราว 100,000 เท่า)', note: 'ตัวเลขจิ๋วมากไม่ได้แปลว่าผิด — โจทย์นี้ให้ "กำลังขั้นต่ำที่ยังอ่านออก" ซึ่งเล็กเป็นธรรมชาติของมัน' },
+]);
+
+mountWalk('walkHw3b', [
+  { title: 'ข้อ 2 — อ่านโจทย์', body: 'จงหา Eb/N₀ สำหรับประสิทธิภาพสเปกตรัม (spectral efficiency) 6 bps/Hz\n\nโจทย์ใบ้มาให้แล้ว:\n  Spectral efficiency = R/B\n  Hint: ใช้สูตร Shannon capacity', note: 'Spectral efficiency = bandwidth efficiency = "ได้กี่ bps ต่อทุก 1 Hz ที่จ่ายไป"' },
+  { title: 'ขั้นที่ 1 — Shannon ให้ SNR', body: 'Shannon:  C = B·log₂(1 + S/N)\nหาร B ตลอด:  C/B = log₂(1 + S/N)\n\nแทน C/B = 6:\n  6 = log₂(1 + S/N)\n  2⁶ = 1 + S/N\n  S/N = 64 − 1 = 63 เท่า  (= 17.99 dB)', note: 'Week 3 กลับมาเต็ม ๆ — Shannon คือเพดานทฤษฎี ที่นี่ใช้ "ย้อนกลับ" หา SNR ที่ต้องมี' },
+  { title: 'ขั้นที่ 2 — เชื่อม SNR กับ Eb/N₀', body: 'จาก  Eb/N₀ = (S/N) × (B/R)\n\nB/R = 1 ÷ (R/B) = 1/6\n\n  Eb/N₀ = 63 × (1/6) = 10.5 เท่า', note: 'ความหมาย: SNR ดูทั้งแบนด์ · Eb/N₀ หารเฉลี่ยลงเป็น "ต่อบิต" → เทียบข้ามวิธีมอดูเลตได้อย่างยุติธรรม' },
+  { title: 'ตอบเป็น dB', body: 'Eb/N₀ = 10·log₁₀(10.5) = 10.21 dB   ← คำตอบ\n\nสรุปทางเดิน: 6 bps/Hz → SNR 63 → หาร 6 → 10.5 → 10.21 dB', note: 'ข้อนี้เป็นสูตรผสม Week 3 (Shannon) + Week 4 (Eb/N₀) — ออกสอบง่ายเพราะเชื่อม 2 บทในข้อเดียว' },
+]);
+
+mountWalk('walkHw3c', [
+  { title: 'ข้อ 3 — อ่านโจทย์', body: 'จงหาอัตราขยาย (เกน) และพื้นที่ประสิทธิผลของ\n"สายอากาศสะท้อนแบบฮอร์น" รัศมี 25 ซม. ที่ 5 GHz\n\nคำสำคัญ: ฮอร์น (horn) + ให้ "รัศมี" มาแล้ว', note: 'ต่างจากการบ้านครั้งที่ 2 ที่ให้เส้นผ่านศูนย์กลาง — ข้อนี้ให้รัศมีตรง ๆ ไม่ต้องหาร 2 (อ่านโจทย์ให้ดี!)' },
+  { title: 'เลือกแถวจากตารางสไลด์ 17', body: 'แถว "ฮอร์น พื้นที่ปาก A":\n  Ae = 0.81·A\n  G  = 10·A/λ²\n\n(เทียบ: พาราโบลาคือ 0.56A และ 7A/λ² — อย่าหยิบผิดแถว)', note: 'ตัวเลข 0.81 กับ 10 มาคู่กันเสมอ เพราะ G = 4π·Ae/λ² และ 4π(0.81) ≈ 10.2 ≈ 10' },
+  { title: 'หา A และ λ', body: 'A = πr² = π(0.25)² = 0.1963 m²\nλ = c/f = 3×10⁸ ÷ 5×10⁹ = 0.06 m\nλ² = 0.0036 m²', note: '25 ซม. = 0.25 m — แปลงหน่วยก่อนเสมอ' },
+  { title: 'ตอบ (ก) พื้นที่ประสิทธิผล', body: 'Ae = 0.81 × 0.1963 = 0.159 m²   ← คำตอบ (ก)\n\n(ปากแตรจริง 0.196 m² แต่ "ใช้งานได้จริง" 0.159 m² = 81%)', note: '' },
+  { title: 'ตอบ (ข) เกน', body: 'G = 10A/λ² = (10 × 0.1963) ÷ 0.0036\n  = 1.9635 ÷ 0.0036 = 545.4 เท่า\n\nG(dB) = 10·log₁₀(545.4) = 27.37 dB   ← คำตอบ (ข)', note: '💡 ถ้าใช้สูตรกลาง G = 4π·Ae/λ² จะได้ 555.2 = 27.44 dB ต่างกัน 0.07 dB เพราะ "10" ในตารางเป็นเลขปัดจาก 4π×0.81 = 10.18 — ตอบตามตารางสไลด์ (27.37 dB) ปลอดภัยสุด' },
+]);
+
+// ---------------------------------------------------------------
+// 18) ข้อสอบจับเวลา
 // ---------------------------------------------------------------
 mountExam([25, 18, 12]);

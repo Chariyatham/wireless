@@ -3,7 +3,7 @@
   const holder = document.getElementById('conceptMap');
   if (!holder) return;
   const base = holder.dataset.base || '';
-  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167', 4: '#c792ea' };
+  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167', 4: '#c792ea', 5: '#f78c6c' };
 
   // [id, ป้าย, week, anchor, x, y]
   const nodes = [
@@ -32,12 +32,22 @@
     ['spec', 'สเปกตรัม · ดาวเทียม', 3, 'week3#spectrum', 885, 345],
     ['mux', 'FDM / TDM', 3, 'week3#mux', 745, 390],
 
-    ['ant', 'สายอากาศ · pattern', 4, 'week4#pattern', 1105, 55],
-    ['gain4', 'เกน + Ae', 4, 'week4#gain', 1105, 130],
-    ['prop4', 'Ground / Sky / LOS', 4, 'week4#prop', 1105, 205],
-    ['los4', 'สมการเส้นสายตา', 4, 'week4#los', 1105, 280],
-    ['fsl4', 'Free space loss', 4, 'week4#fsl', 1105, 355],
-    ['friis4', 'Friis = link budget', 4, 'week4#friis', 1105, 420],
+    ['ant', 'สายอากาศ · pattern', 4, 'week4#pattern', 1105, 45],
+    ['gain4', 'เกน + Ae', 4, 'week4#gain', 1105, 97],
+    ['prop4', 'Ground / Sky / LOS', 4, 'week4#prop', 1105, 149],
+    ['los4', 'สมการเส้นสายตา', 4, 'week4#los', 1105, 201],
+    ['fsl4', 'Free space loss', 4, 'week4#fsl', 1105, 253],
+    ['friis4', 'Friis = link budget', 4, 'week4#friis', 1105, 305],
+    ['ple4', 'Path loss exponent', 4, 'week4#ple', 1105, 357],
+    ['noise4', 'Noise · Eb/N₀', 4, 'week4#noise', 1105, 409],
+    ['fade4', 'Multipath · Fading', 4, 'week4#fade', 1105, 461],
+
+    ['encmod5', 'Encoder vs Modulator', 5, 'week5#encmod', 1345, 55],
+    ['baud5', 'bit rate vs baud rate', 5, 'week5#terms', 1345, 130],
+    ['ask5', 'ASK · FSK · PSK', 5, 'week5#mod', 1345, 205],
+    ['qam5', 'QAM · constellation', 5, 'week5#qam', 1345, 280],
+    ['bwe5', 'ประสิทธิภาพสเปกตรัม', 5, 'week5#perf', 1345, 355],
+    ['pcm5', 'PCM · รหัสดิจิทัล', 5, 'week5#pcm', 1345, 440],
   ];
   // [จาก, ไป, ข้ามสัปดาห์?]
   const edges = [
@@ -55,11 +65,19 @@
     ['sine', 'ant', 1],    // λ = c/f กำหนดขนาดเสา (ไดโพล λ/2)
     ['spec', 'prop4', 1],  // ย่านความถี่เลือกโหมดการแพร่
     ['lb', 'friis4', 1],   // Friis คือที่มาของ loss ใน link budget
+    ['friis4', 'ple4'], ['ple4', 'noise4'], ['noise4', 'fade4'],
+    ['snr', 'noise4', 1],  // Eb/N₀ = SNR แบบนอร์แมลไลซ์ต่อบิต
+    ['encmod5', 'baud5'], ['baud5', 'ask5'], ['ask5', 'qam5'], ['qam5', 'bwe5'],
+    ['ds', 'encmod5', 1],   // เส้นแบ่ง "ข้อมูล vs สัญญาณ" มาจาก Week 3
+    ['sine', 'ask5', 1],    // A · f · φ = สามอย่างที่ ASK/FSK/PSK เล่น
+    ['nysh', 'bwe5', 1],    // Shannon → เพดานของ bps ต่อ Hz
+    ['noise4', 'bwe5', 1],  // โจทย์ประสิทธิภาพแบนด์วิดท์ใช้ Eb/N₀
+    ['mux', 'pcm5', 1],     // TDM/ดิจิทัลคือเหตุผลที่ต้องแปลงเป็น PCM
   ];
 
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', '0 0 1250 460');
+  svg.setAttribute('viewBox', '0 0 1470 500');
   svg.classList.add('cmap');
   holder.appendChild(svg);
 
@@ -106,7 +124,7 @@
   });
 
   // ป้ายชื่อสัปดาห์เหนือแต่ละกลุ่ม
-  [['WEEK 1 · คณิตของสัญญาณ', 110, 18, 1], ['WEEK 2 · ข้อมูลเดินทาง', 420, 18, 2], ['WEEK 3 · คลื่นของจริง', 800, 18, 3], ['WEEK 4 · สายอากาศ', 1105, 18, 4]].forEach(([txt, x, y, w]) => {
+  [['WEEK 1 · คณิตของสัญญาณ', 110, 18, 1], ['WEEK 2 · ข้อมูลเดินทาง', 420, 18, 2], ['WEEK 3 · คลื่นของจริง', 800, 18, 3], ['WEEK 4 · สายอากาศ', 1105, 18, 4], ['WEEK 5 · เข้ารหัสสัญญาณ', 1345, 18, 5]].forEach(([txt, x, y, w]) => {
     const t = document.createElementNS(NS, 'text');
     t.setAttribute('x', x); t.setAttribute('y', y);
     t.setAttribute('class', 'cm-week');

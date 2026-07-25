@@ -104,10 +104,25 @@
 - ✅ ตัวเลข verify ด้วย node 43 ค่า (สคริปต์ใน scratchpad) · Playwright ผ่าน: console error = 0 ทุกหน้า, กดปุ่มทุกตัว, เลขใน lab/runner ตรง, เฉลยล็อก/ปลดถูก, 2 ธีม
 - ⚠️ เลขสไลด์ 35,368 กม. ต่างจาก Stallings (35,863) — เว็บคิดตามสไลด์ + ใส่หมายเหตุ .plus เทียบตำรา (ต่าง ~0.12 dB)
 
+**เสร็จเพิ่ม (2026-07-26): คาบ 20 ก.ค. — week4 ครบทั้งบท + week5 ใหม่ + การบ้าน 3**
+- ⚠️ **ไฟล์เสียง w4 คาบต่อหาย**: `w4ต่อตั้งแต่หน้า12.m4a` อัด 20 ก.ค. 11:34 UTC ได้แค่ **14 วินาที** (พูดถึง receiver sensitivity) แล้ว `w5.m4a` เริ่ม 12:38 UTC → **หายไป ~1 ชม. ที่อาจารย์สอน w4 หน้า 12+** · ถอด w5 สำเร็จ (53 นาที, 664 ประโยค)
+- ✅ **week4 ครบ 88 สไลด์**: เพิ่ม 8 section (path loss exponent + ตาราง n + โจทย์ 1.9GHz/1.5km → 101.54 vs 136.48 dB · ระยะครอบคลุม 3 วง · noise 4 ชนิด + kTB/−228.6 · Eb/N₀ · multipath→ISI · fading (fast/slow, flat/selective, Rayleigh/Rician) · FEC/equalization/diversity/MIMO · **การบ้านครั้งที่ 3**) · interactive ใหม่ 7 ชิ้น (5 stepper + 2 lab) + walkthrough 4 ชุด · ข้อสอบท้ายบท 5→7 ข้อ · เช็กเข้าใจ 5→8 ข้อ
+  - 🔇 **ส่วนสไลด์ 41–88 ติดป้ายชัดว่าไม่มีเลคเชอร์ → เรียบเรียงจากสไลด์ล้วน ไม่มีกล่อง 🎙 (ไม่เดา)**
+- ✅ **การบ้านครั้งที่ 3** (`เนื้อหาเรียน/040613503 hw3.pdf`, ส่ง **27 ก.ค. 2569 เขียนส่งเท่านั้น**) — 3 ข้อ เฉลยเปิดบน week4 #hw3: ① Eb/N₀ 8.4dB, 290K, 2400bps → **S = −161.77 dBW** ② spectral eff 6 bps/Hz → SNR 63 → **Eb/N₀ = 10.21 dB** ③ ฮอร์น r=25cm @5GHz → **Ae 0.159 m², G 27.37 dB** (10A/λ² ตามตารางสไลด์ 17)
+- ✅ **week5.astro ใหม่** (สไลด์ 1–66) — 20 section: สายโซ่ระบบ · ⭐ Encoder vs Modulator (อาจารย์บอกเองว่าออกสอบ) · 4 คู่ข้อมูล×สัญญาณ · เกณฑ์+BER · bit rate vs baud rate · ASK/BFSK/BPSK/DPSK · MFSK · QPSK/multilevel · QAM · B_T + ประสิทธิภาพสเปกตรัม · AM/FM/PM/SSB/Carson · PCM · DM/Vocoder · รหัสดิจิทัล 5 แบบ · ตารางสรุป
+  - interactive 8 ชิ้น (`public/js/week5.js`): chainStepper · modStepper (ASK/FSK/PSK/DPSK จากบิตชุดเดียว + ไฮไลต์ 180°) · mfskStepper · constellation lab (BPSK→64QAM) · bandwidth-efficiency lab · angleStepper (AM/FM/PM/Carson) · pcmStepper · lineStepper (NRZ-L/NRZI/Manchester/Diff/AMI ชุดบิตสไลด์ 64)
+  - walkthrough 4 ชุด: baud rate QPSK 1Mbps→500kbaud · MFSK 250k/25k/M=8 → 75–425 kHz, BW 400 kHz · bandwidth efficiency · PCM 30dB/7000sps → 5 บิต/32 ระดับ/35 kbps
+  - **สไลด์ 36–66 ยังไม่ได้สอนในคาบ** (จบที่ QAM ~สไลด์ 35) → ติดป้ายบอกทุกส่วน
+- ⚠️ **2 จุดที่ต่างจากตำรา (แจ้งไว้บนเว็บแล้ว)**: (1) โจทย์ bandwidth efficiency อาจารย์อ่านกราฟได้ **Eb/N₀ = 15 dB** (ASK/FSK) → 0.5 bps/Hz · ตำรา Stallings ใช้ 14.2 → 0.6 — **เว็บยึดของอาจารย์** + หมายเหตุเทียบตำรา (2) **ตาราง 6.2 แถว FSK/MFSK คอลัมน์ r=0.5 และ r=1 ไม่ตรงกับสูตร B_T** (ควรลดลงแต่ในตารางเพิ่มขึ้น) — ตรวจด้วย node แล้ว ใส่กล่อง ⚠︎ บอกให้ยึดสูตร
+- ✅ conceptmap เพิ่มคอลัมน์ W5 (6 โหนด ส้ม #f78c6c) + W4 เพิ่ม 3 โหนด (ple4/noise4/fade4) · exam.js BANK 21→28 ข้อ · การ์ดหน้าแรก + WeekNav + /exam อัปเดตเป็น 5 สัปดาห์
+- ✅ verify เลขด้วย node ทุกตัว · Playwright: console error = 0 ทุกหน้า (6 หน้า × 2 ธีม), กดปุ่มครบ, ไม่ล้นแนวนอน
+- 🚫 `เนื้อหาเรียน/ilovepdf_merged.pdf` = **วุฒิบัตร e-Learning SET ของ kim (ไม่เกี่ยวกับวิชา)** — ไม่ commit ขึ้น repo สาธารณะ
+
 **เหลือทำ:**
-1. ให้ kim รีวิวเว็บจริงทั้ง 4 สัปดาห์ ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
-2. รอเลคเชอร์ w4 คาบต่อ (สไลด์ 41–88: path loss exponent, noise, Eb/N0, fading, MIMO) → เติม week4 + ย้ายโจทย์ path loss exponent เข้าบท
-3. เฉลย "การบ้าน 2 ตาราง" (W2 CS/DG/VC + W3 ข้อมูล×สัญญาณ) ยังไม่มาในเสียง 15 ก.ค. — รอคาบหน้า
+1. ให้ kim รีวิวเว็บจริงทั้ง 5 สัปดาห์ ว่าถึงมาตรฐาน "ละเอียดกว่าอาจารย์+สไลด์" แล้วปรับตาม feedback
+2. รอเลคเชอร์คาบต่อไป (w5 สไลด์ 36–66: AM/FM/PM → PCM/DM → รหัสดิจิทัล) → เติมกล่อง 🎙 ในส่วนที่เขียนจากสไลด์ไว้แล้ว
+3. เฉลย "การบ้าน 2 ตาราง" (W2 CS/DG/VC + W3 ข้อมูล×สัญญาณ) ยังไม่มาในเสียงคาบไหนเลย — รอคาบหน้า
+4. ⚠️ ถ้า kim อัดเสียงคาบต่อไป **เช็กว่าไฟล์ยาวจริงก่อนปิดเครื่อง** (บทเรียนจากไฟล์ 14 วินาที)
 
 **ถอดเสียง: ✅ เสร็จครบแล้ว (2026-07-04) — อยู่ใน `transcripts/` (w2_1, w2_2, w3 มีทั้ง .txt และ .segments.txt)**
 - ทำผ่าน **Groq API** (ฟรี, whisper-large-v3 / -turbo): local CPU ช้าเกิน (`small` = ผลมั่วใช้ไม่ได้, `medium` = 0.15x realtime)
