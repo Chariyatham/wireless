@@ -495,7 +495,8 @@ mountWalk('walkBWE', [
   { title: 'อ่าน Eb/N₀ จากกราฟสไลด์ 30 ที่ BER = 10⁻⁷', body: 'ลากเส้นแนวนอนที่ BER = 10⁻⁷ ไปตัดแต่ละเส้นโค้ง\nแล้วอ่านค่าแกนนอน:\n\n  ASK และ BFSK (เส้นน้ำเงิน)  →  Eb/N₀ ≈ 15 dB\n  BPSK (เส้นเขียว)             →  Eb/N₀ ≈ 11.2 dB', note: '🎙 อาจารย์อ่านค่าให้ในห้อง: ASK "ตรงนี้คือค่า 15" · BFSK "ก็ได้เท่ากัน คือ 15 เหมือนกัน" · PSK "ประมาณ 11.2 ก็ได้"' },
   { title: 'แทนค่า — ASK และ FSK', body: '10·log(R/B_T) = 12 − 15 = −3 dB\n\nR/B_T = 10^(−0.3) = 0.501 ≈ 0.5 bps/Hz   ← คำตอบ ASK, FSK\n\n(ได้ไม่ถึง 1 bps ต่อทุก 1 Hz = เปลืองแบนด์วิดท์)', note: '' },
   { title: 'แทนค่า — PSK', body: '10·log(R/B_T) = 12 − 11.2 = 0.8 dB\n\nR/B_T = 10^(0.08) = 1.202 ≈ 1.2 bps/Hz   ← คำตอบ PSK\n\nสรุป: PSK คุ้มแบนด์วิดท์กว่า ASK/FSK ประมาณ 2.4 เท่า\nที่คุณภาพ (BER) และ SNR เท่ากันเป๊ะ', note: '🎙 อาจารย์ถามก่อนคำนวณว่า "เขียว แดง น้ำเงิน อันไหนดีกว่า" — เขียว (BPSK) ดีที่สุด เพราะใช้พลังงานต่อบิตน้อยกว่าที่คุณภาพเท่ากัน' },
-  { title: '⚠︎ หมายเหตุเทียบตำรา', body: 'ตำรา Stallings อ่านกราฟรุ่นของเขาได้ ASK/FSK ≈ 14.2 dB\n→ จะได้ R/B_T = 10^((12−14.2)/10) = 0.60 bps/Hz\n\nส่วน PSK ได้ 11.2 dB เท่ากัน → 1.2 bps/Hz\n\nหน้านี้ยึดตัวเลขที่อาจารย์อ่านในคาบ (15 dB → 0.5)', note: 'กราฟ BER อ่านด้วยตาเปล่า ค่าคลาดเคลื่อน ±0.5 dB เป็นเรื่องปกติ — ถ้าข้อสอบให้กราฟมาด้วย ให้อ่านจากกราฟที่แจก และแสดงวิธีให้ครบ (คะแนนอยู่ที่วิธี ไม่ใช่ทศนิยม)' },
+  { title: '✅ ตรวจแล้ว: 15 dB ที่อาจารย์อ่าน ตรงกับกราฟและทฤษฎี', body: 'เราวัดกราฟสไลด์ 30 ระดับพิกเซล + คำนวณทฤษฎีเทียบ:\n\n            วัดจากกราฟ   ทฤษฎี\n  BPSK        11.18 dB   11.31 dB  (coherent)\n  DPSK        11.75 dB   11.88 dB\n  ASK, BFSK   14.94 dB   14.89 dB  ← noncoherent!\n\nทั้งสามเส้นต่ำกว่าทฤษฎี ~0.13 dB เท่ากันหมด (= ความหนาเส้น)\n→ การวัดเชื่อถือได้ และเส้น "ASK, BFSK" ในสไลด์คือแบบ\n   ตรวจจับไม่อ้างอิงเฟส (noncoherent) ซึ่งทฤษฎีให้ 14.89 dB', note: 'สรุป: อ่าน 15 dB ถูกต้องแล้ว · คำตอบ R/B_T = 0.5 bps/Hz ของ ASK/FSK จึงถูก' },
+  { title: 'แล้วเลข 14.2–14.3 dB ที่เห็นในตำราบางเล่มคืออะไร?', body: 'มันคือ ASK/FSK แบบ coherent (ตรวจจับโดยอ้างอิงเฟส):\n\n  Pb = Q(√(Eb/N₀))       → ที่ BER 10⁻⁷ ได้ 14.32 dB\n\nเทียบกับ noncoherent (เส้นในสไลด์):\n  Pb = ½·e^(−Eb/2N₀)     → ที่ BER 10⁻⁷ ได้ 14.89 dB\n\nคนละเงื่อนไขการตรวจจับ ไม่ใช่ "ตำราขัดกับอาจารย์"\n(ถ้าใช้ 14.3 จะได้ R/B_T = 0.59 ≈ 0.6 bps/Hz)', note: 'เกร็ดยืนยันว่าเลขในโจทย์ไม่ได้สุ่มมา: เลข 8.4 dB ที่ BER = 10⁻⁴ ในการบ้านครั้งที่ 3 ข้อ 1 คือค่าทฤษฎีของ coherent BPSK เป๊ะ ๆ (คำนวณได้ 8.40 dB)' },
 ]);
 
 mountWalk('walkPCM', [
@@ -524,23 +525,40 @@ for (let i = 1; i <= M; i++) freqs.push(fc + (2*i - 1 - M) * fd);
 console.log('② ความถี่ (kHz):', freqs.join(', '));
 console.log('   L =', log2(M), 'บิต/สัญลักษณ์ · BW = 2M·fd =', 2*M*fd, 'kHz');
 
-// ③ bandwidth efficiency: SNR = 12 dB, BER = 1e-7  (โจทย์สไลด์ 32)
+// ③ Eb/N0 ที่ต้องใช้ตาม "ทฤษฎี" — พิสูจน์ว่าเลขที่อ่านจากกราฟถูกไหม
+//    Q(x) = ความน่าจะเป็นหางขวาของเกาส์เซียน (อินทิเกรตด้วยกฎซิมป์สัน)
+const phi = (t) => Math.exp(-t*t/2) / Math.sqrt(2*Math.PI);
+function Q(x) { const n = 4000, hi = x + 15, h = (hi - x)/n; let s = phi(x) + phi(hi);
+  for (let i = 1; i < n; i++) s += (i%2 ? 4 : 2) * phi(x + i*h); return s*h/3; }
+function Qinv(p) { let lo = 0, hi = 20; for (let i = 0; i < 200; i++) { const m = (lo+hi)/2; Q(m) > p ? lo = m : hi = m; } return (lo+hi)/2; }
+for (const BER of [1e-7, 1e-4]) {
+  const x = Qinv(BER);
+  console.log('③ BER =', BER,
+    '| BPSK', (10*log10(x*x/2)).toFixed(2),
+    '| DPSK', (10*log10(Math.log(1/(2*BER)))).toFixed(2),
+    '| ASK/FSK coherent', (10*log10(x*x)).toFixed(2),
+    '| ASK/FSK noncoherent', (10*log10(2*Math.log(1/(2*BER)))).toFixed(2), 'dB');
+}
+console.log('   → เส้น "ASK, BFSK" ในสไลด์ 30 = noncoherent (14.89) — ตรงกับที่อาจารย์อ่าน 15 dB');
+console.log('   → 8.4 dB ที่ BER 1e-4 ในการบ้าน 3 ข้อ 1 = ทฤษฎี coherent BPSK เป๊ะ');
+
+// ④ bandwidth efficiency: SNR = 12 dB, BER = 1e-7  (โจทย์สไลด์ 32)
 const SNR = 12;
-for (const [name, ebn0] of [['ASK/FSK (อาจารย์อ่าน 15 dB)', 15], ['PSK', 11.2], ['ASK/FSK (ตำรา 14.2 dB)', 14.2]]) {
+for (const [name, ebn0] of [['ASK/FSK จากกราฟ (15 dB)', 15], ['PSK จากกราฟ (11.2 dB)', 11.2], ['ถ้าเป็น coherent (14.32)', 14.32]]) {
   const db = SNR - ebn0;
-  console.log('③', name.padEnd(28), db.toFixed(1), 'dB →', Math.pow(10, db/10).toFixed(3), 'bps/Hz');
+  console.log('④', name.padEnd(26), db.toFixed(2), 'dB →', Math.pow(10, db/10).toFixed(3), 'bps/Hz');
 }
 
-// ④ ตรวจตาราง 6.2 ด้วยสูตร BT (r = 0, 0.5, 1)
-console.log('④ ตรวจ R/BT จากสูตร  (ASK/PSK = 1/(1+r) · MPSK = log2M/(1+r) · MFSK = log2M/((1+r)M))');
+// ⑤ ตรวจตาราง 6.2 ด้วยสูตร BT (r = 0, 0.5, 1)
+console.log('⑤ ตรวจ R/BT จากสูตร  (ASK/PSK = 1/(1+r) · MPSK = log2M/(1+r) · MFSK = log2M/((1+r)M))');
 for (const r of [0, 0.5, 1]) {
   const ask = 1/(1+r), mpsk8 = log2(8)/(1+r), mfsk8 = log2(8)/((1+r)*8);
   console.log('   r =', r, '| ASK/PSK', ask.toFixed(3), '| 8PSK', mpsk8.toFixed(3), '| 8FSK', mfsk8.toFixed(3));
 }
 
-// ⑤ PCM: SNR = 30 dB, 7000 samples/s  (โจทย์สไลด์ 54)
+// ⑥ PCM: SNR = 30 dB, 7000 samples/s  (โจทย์สไลด์ 54)
 const nExact = (30 - 1.76) / 6.02, n = Math.ceil(nExact);
-console.log('⑤ n =', nExact.toFixed(2), '→ ใช้', n, 'บิต · ระดับ =', 2**n,
+console.log('⑥ n =', nExact.toFixed(2), '→ ใช้', n, 'บิต · ระดับ =', 2**n,
   '· SNR จริง =', (6.02*n + 1.76).toFixed(2), 'dB · rate =', 7000*n, 'bps');
 console.log('   Nyquist ขั้นต่ำ = 2×2700 =', 2*2700, 'samples/s (7000 ผ่าน)');
 `);
