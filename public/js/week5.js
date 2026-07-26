@@ -225,8 +225,10 @@ function wavePath(fn, x0, x1, ymid, amp, n = 400) {
   if (!sel) return;
   const rS = document.getElementById('qamR'), out = document.getElementById('qamOut'), cv = document.getElementById('qamCanvas');
   const SCHEMES = {
-    bpsk: { name: 'BPSK', M: 2, pts: [[1, 0], [-1, 0]] },
-    qpsk: { name: 'QPSK', M: 4, pts: [[1, 1], [-1, 1], [-1, -1], [1, -1]].map(([a, b]) => [a / Math.SQRT2, b / Math.SQRT2]) },
+    // ลำดับจุด = ค่าบิต (index i → ป้าย i ฐานสอง) — BPSK: 0 = −cos (180°), 1 = cos (0°) ตามสไลด์ 22
+    bpsk: { name: 'BPSK', M: 2, pts: [[-1, 0], [1, 0]] },
+    // QPSK: ป้ายบิตตามสไลด์ 25 — 11@45° · 01@135° · 00@225° · 10@315°
+    qpsk: { name: 'QPSK', M: 4, pts: [[-1, -1], [-1, 1], [1, -1], [1, 1]].map(([a, b]) => [a / Math.SQRT2, b / Math.SQRT2]) },
     psk8: { name: '8PSK', M: 8, pts: Array.from({ length: 8 }, (_, i) => [Math.cos(i * Math.PI / 4), Math.sin(i * Math.PI / 4)]) },
     qam16: { name: '16QAM', M: 16, pts: [] },
     qam32: { name: '32QAM', M: 32, pts: [] },
@@ -338,7 +340,7 @@ function wavePath(fn, x0, x1, ymid, amp, n = 400) {
         }
         if (step >= 4) {
           g += `<text x="${x0}" y="230" font-size="12.5" fill="${ink}" font-family="var(--mono)">กฎของคาร์สัน:  B_T = 2(β + 1)B</text>
-                <text x="${x0}" y="252" font-size="11.5" fill="${ink}" font-family="var(--mono)">β = nₐ·A_m/f_m (PM: β = n_p·A_m) · FM: B_T = 2ΔF + 2B</text>
+                <text x="${x0}" y="252" font-size="11.5" fill="${ink}" font-family="var(--mono)">β: PM = n_p·A_m · FM = ΔF/B = n_f·A_m/(2πB) · FM: B_T = 2ΔF + 2B</text>
                 <text x="${x0}" y="276" font-size="11.5" fill="${C5.bad}">AM: B_T = 2B · SSB: B_T = B (ครึ่งเดียว ประหยัดกำลังด้วย แต่ซิงค์ยาก)</text>`;
         }
       }
@@ -362,7 +364,7 @@ function wavePath(fn, x0, x1, ymid, amp, n = 400) {
     'ขั้น 2 · สุ่มตัวอย่าง (sampling) — วัดค่าเป็นจังหวะ ได้เป็นพัลส์ PAM (ยังเป็นค่าต่อเนื่องอยู่)',
     'ขั้น 3 · ควอนไทซ์ (quantize) — ปัดแต่ละพัลส์เข้าระดับที่ใกล้ที่สุด → เกิด "ความคลาดเคลื่อน" = quantizing noise',
     'ขั้น 4 · เข้ารหัส — แต่ละระดับกลายเป็นบล็อก n บิต (ที่นี่ 8 ระดับ = 3 บิต) ได้บิตสตรีมพร้อมส่ง',
-    'ขั้น 5 · คุณภาพ: SNR(dB) = 6.02n + 1.76 — เพิ่ม 1 บิต ได้ SNR ดีขึ้น ~6 dB (ระดับเพิ่ม 4 เท่า)',
+    'ขั้น 5 · คุณภาพ: SNR(dB) = 6.02n + 1.76 — เพิ่ม 1 บิต ได้ SNR ดีขึ้น ~6 dB (ระดับ ×2 → กำลัง noise ÷4)',
   ];
   createStepper(el, {
     steps: 5, stepDuration: 1700,
