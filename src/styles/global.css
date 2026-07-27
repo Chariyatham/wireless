@@ -401,3 +401,40 @@ details.sol.locked summary::before { content:"🔒 "; }
 .hub-q-week { display:inline-block; font-size:.68rem; font-family:var(--mono); color:var(--accent-ink); border:1px solid var(--line-2); border-radius:5px; padding:0 7px; margin-right:6px; vertical-align:middle; }
 .hub-link { font-size:.8rem; }
 #cmpOut ul { margin:8px 0 0; padding-left:20px; }
+
+/* ══════════ Week 6 — การแผ่สเปกตรัม ══════════ */
+/* Walsh matrix lab */
+.wl-grid { margin:14px 0; overflow-x:auto; padding:2px; }
+.wl-row { display:flex; align-items:center; gap:1px; cursor:pointer; padding:2px 4px; border-radius:6px; border:1px solid transparent; }
+.wl-row:hover { background:var(--paper-2); }
+.wl-row.ra { border-color:var(--accent-warm); background:var(--paper-2); }
+.wl-row.rb { border-color:var(--accent); }
+.wl-idx { font-family:var(--mono); font-size:.72rem; color:var(--text-dim); width:34px; flex:none; }
+.wl-c { display:inline-block; border:1px solid var(--line); background:var(--paper-2); flex:none; }
+.wl-c.on { background:var(--accent-ink); border-color:var(--accent-ink); }
+.wl-calc { font-size:.86rem; line-height:1.9; }
+.wl-calc code { font-size:.78em; }
+.wl-calc b.ra { color:var(--accent-warm); }
+.wl-calc b.rb { color:var(--accent); }
+.wl-sum { font-family:var(--mono); font-weight:700; margin-top:6px; padding:8px 12px; border-radius:8px; border:1px solid var(--line-2); }
+.wl-sum.ok { color:var(--check); border-color:var(--check); background:var(--check-bg); }
+.wl-sum.bad { color:#f0696b; border-color:#f0696b; }
+/* PN evaluator lab */
+.pn-res { margin-top:12px; }
+.pn-item { border-left:3px solid var(--line-2); padding:8px 0 8px 12px; margin-bottom:12px; font-size:.88rem; line-height:1.7; }
+.pn-item.ok { border-left-color:var(--check); }
+.pn-item.bad { border-left-color:#f0696b; }
+.pn-item b { color:var(--accent-ink); }
+.pn-item svg { color:var(--text-dim); }
+.pn-runs { display:flex; gap:5px; flex-wrap:wrap; margin:6px 0 2px; }
+.pn-run { font-family:var(--mono); font-size:.78rem; padding:1px 7px; border-radius:5px; border:1px solid var(--line-2); }
+.pn-run.one { color:var(--accent-ink); border-color:var(--accent); }
+.pn-run.zero { color:var(--text-dim); }
+.pn-verdict { margin-top:10px; padding:10px 14px; border-radius:8px; font-size:.9rem; border:1px solid var(--line-2); }
+.pn-verdict.ok { color:var(--check); border-color:var(--check); background:var(--check-bg); }
+.pn-verdict.bad { color:#f0696b; border-color:#f0696b; }
+.lab .row label { display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--text-dim);
+  flex:1 1 240px; min-width:0; max-width:100%; }
+.lab .row select, .lab .row input[type=text] { font-family:var(--mono); font-size:.86rem; padding:6px 9px; border-radius:7px;
+  border:1px solid var(--line-2); background:var(--paper-2); color:var(--ink);
+  width:100%; max-width:100%; min-width:0; box-sizing:border-box; text-overflow:ellipsis; }

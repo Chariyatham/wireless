@@ -49,12 +49,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           week="w4"
         />
         <ModuleCard
-          num="WEEK 5 · ใหม่"
+          num="WEEK 5"
           title="เทคนิคการเข้ารหัสสัญญาณ"
           hook="“อากาศส่ง 0 กับ 1 ไม่ได้ — แล้ว WiFi เอาบิตยัดใส่คลื่นยังไง?”"
           topics="ASK/FSK/PSK/QAM · bit rate vs baud rate · ประสิทธิภาพสเปกตรัม · AM/FM/PM · PCM/DM · NRZ/Manchester"
           href={`${base}/week5`}
           week="w5"
+        />
+        <ModuleCard
+          num="WEEK 6 · ใหม่"
+          title="การแผ่สเปกตรัม"
+          hook="“ทำไม GPS ถอดสัญญาณที่อ่อนกว่าเสียงรบกวนออกมาได้?”"
+          topics="FHSS · DSSS · CDMA · PN sequence / m-sequence / Gold · Walsh + OVSF · ประเมินรหัสสุ่มเทียม"
+          href={`${base}/week6`}
+          week="w6"
         />
       </div>
 
@@ -62,7 +70,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <a class="mod" href={`${base}/exam`} style="display:block">
           <div class="num">🏁 MIDTERM MODE</div>
           <h3>คลังข้อสอบรวม + สอบจำลองจับเวลา</h3>
-          <div class="hook">รวมโจทย์ทั้ง 5 สัปดาห์ 28 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
+          <div class="hook">รวมโจทย์ทั้ง 6 สัปดาห์ 33 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
           <div class="prog" data-progress-week="exam"></div>
         </a>
         <button id="progReset" class="sbtn ghost" hidden style="margin-top:10px">↺ ล้างความคืบหน้าทั้งหมด</button>
@@ -79,6 +87,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <span><span class="dot" style="background:#83c167"></span>Week 3 · คลื่นของจริง</span>
             <span><span class="dot" style="background:#c792ea"></span>Week 4 · สายอากาศ</span>
             <span><span class="dot" style="background:#f78c6c"></span>Week 5 · เข้ารหัสสัญญาณ</span>
+            <span><span class="dot" style="background:#4ec9b0"></span>Week 6 · แผ่สเปกตรัม</span>
             <span style="color:var(--accent-warm)">- - - เชื่อมข้ามสัปดาห์</span>
           </div>
         </div>

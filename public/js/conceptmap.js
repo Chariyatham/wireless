@@ -3,7 +3,7 @@
   const holder = document.getElementById('conceptMap');
   if (!holder) return;
   const base = holder.dataset.base || '';
-  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167', 4: '#c792ea', 5: '#f78c6c' };
+  const WCOL = { 1: '#ffd66b', 2: '#58c4dd', 3: '#83c167', 4: '#c792ea', 5: '#f78c6c', 6: '#4ec9b0' };
 
   // [id, ป้าย, week, anchor, x, y]
   const nodes = [
@@ -48,6 +48,13 @@
     ['qam5', 'QAM · constellation', 5, 'week5#qam', 1345, 280],
     ['bwe5', 'ประสิทธิภาพสเปกตรัม', 5, 'week5#perf', 1345, 355],
     ['pcm5', 'PCM · รหัสดิจิทัล', 5, 'week5#pcm', 1345, 440],
+
+    ['ss6', 'ทำไมต้องแผ่สเปกตรัม', 6, 'week6#gain', 1600, 55],
+    ['fh6', 'FHSS · กระโดดความถี่', 6, 'week6#fhmfsk', 1600, 130],
+    ['ds6', 'DSSS · ลำดับตรง', 6, 'week6#dsss', 1600, 205],
+    ['cdma6', 'CDMA · แบ่งด้วยรหัส', 6, 'week6#cdma', 1600, 280],
+    ['pn6', 'PN · m-sequence', 6, 'week6#mseq', 1600, 355],
+    ['walsh6', 'Walsh · OVSF', 6, 'week6#walsh', 1600, 440],
   ];
   // [จาก, ไป, ข้ามสัปดาห์?]
   const edges = [
@@ -73,11 +80,16 @@
     ['nysh', 'bwe5', 1],    // Shannon → เพดานของ bps ต่อ Hz
     ['noise4', 'bwe5', 1],  // โจทย์ประสิทธิภาพแบนด์วิดท์ใช้ Eb/N₀
     ['mux', 'pcm5', 1],     // TDM/ดิจิทัลคือเหตุผลที่ต้องแปลงเป็น PCM
+    ['ss6', 'fh6'], ['ss6', 'ds6'], ['ds6', 'cdma6'], ['cdma6', 'pn6'], ['pn6', 'walsh6'],
+    ['ask5', 'fh6', 1],     // FHSS ใช้ MFSK/BPSK เป็นตัวมอดูเลตข้างใน
+    ['ask5', 'ds6', 1],     // DSSS ใช้ BPSK: s(t) = A·d(t)·c(t)·cos(2πf_c t)
+    ['mux', 'cdma6', 1],    // FDM/TDM แบ่งความถี่/เวลา — CDMA เปิดแกนที่สาม คือรหัส
+    ['fade4', 'ss6', 1],    // multipath จาก W4 คือหนึ่งในสิ่งที่การแผ่สเปกตรัมช่วยแก้
   ];
 
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', '0 0 1470 500');
+  svg.setAttribute('viewBox', '0 0 1730 500');
   svg.classList.add('cmap');
   holder.appendChild(svg);
 
@@ -124,7 +136,7 @@
   });
 
   // ป้ายชื่อสัปดาห์เหนือแต่ละกลุ่ม
-  [['WEEK 1 · คณิตของสัญญาณ', 110, 18, 1], ['WEEK 2 · ข้อมูลเดินทาง', 420, 18, 2], ['WEEK 3 · คลื่นของจริง', 800, 18, 3], ['WEEK 4 · สายอากาศ', 1105, 18, 4], ['WEEK 5 · เข้ารหัสสัญญาณ', 1345, 18, 5]].forEach(([txt, x, y, w]) => {
+  [['WEEK 1 · คณิตของสัญญาณ', 110, 18, 1], ['WEEK 2 · ข้อมูลเดินทาง', 420, 18, 2], ['WEEK 3 · คลื่นของจริง', 800, 18, 3], ['WEEK 4 · สายอากาศ', 1105, 18, 4], ['WEEK 5 · เข้ารหัสสัญญาณ', 1345, 18, 5], ['WEEK 6 · แผ่สเปกตรัม', 1600, 18, 6]].forEach(([txt, x, y, w]) => {
     const t = document.createElementNS(NS, 'text');
     t.setAttribute('x', x); t.setAttribute('y', y);
     t.setAttribute('class', 'cm-week');
