@@ -572,8 +572,8 @@ mountWalk('walkCDMA', [
     note: 'สังเกตชิปที่ 1 และ 4: ได้ 0 เพราะสองคนหักล้างกันพอดี — ข้อมูลไม่ได้หายไปไหน มันกระจายอยู่ในชิปที่เหลือ' },
   { title: 'ขั้น 5 — (ข) เครื่องรับถอดของ A', body: 'ใช้ฟังก์ชันถอดรหัส: เอาสัญญาณรวม "คูณ" รหัสของ A ทีละชิป แล้วบวก\n\n  รวม:      0    +2    −2     0\n  รหัส A:  −1    −1    +1    +1\n  ──────────────────────────────\n  คูณ:      0    −2    −2     0\n\n  ผลรวม = 0 + (−2) + (−2) + 0 = −4',
     note: 'จุดสำคัญ: สัญญาณของ B หายไปเองโดยไม่ต้องทำอะไรเลย — เพราะ A·B = 0 ที่เช็กไว้ตั้งแต่ขั้น 2' },
-  { title: 'ขั้น 6 — อ่านคำตอบ', body: 'ค่าที่ได้ = −4\n  เทียบเกณฑ์: A·A = +4 คือ "บิต 1" · −4 คือ "บิต 0"\n\n  −4  ติดลบ  →  ผู้ใช้ A ส่ง บิต 0   ✓ ตรงกับโจทย์\n\nลองถอดของ B ด้วยรหัส B บ้าง:\n  (0)(−1) + (2)(+1) + (−2)(−1) + (0)(+1) = 0+2+2+0 = +4\n  → บวก  →  ผู้ใช้ B ส่ง บิต 1  ✓ ถูกเช่นกัน',
-    note: 'สัญญาณก้อนเดียวกันในอากาศ ให้คำตอบถูกทั้งสองคน — นี่คือ "การเข้าถึงหลายทางแบบแบ่งรหัส" (Code Division Multiple Access) ในหนึ่งภาพ' },
+  { title: 'ขั้น 6 — อ่านคำตอบ', body: 'ค่าที่ได้ = −4\n  เทียบเกณฑ์: A·A = +4 คือ "บิต 1" · −4 คือ "บิต 0"\n\n  วิธีปิดท้ายแบบที่อาจารย์เฉลยสด (3 ส.ค.): หารด้วยจำนวนชิป k\n  −4 ÷ 4 = −1   →   ผู้ใช้ A ส่ง บิต 0   ✓ ตรงกับโจทย์\n\nลองถอดของ B ด้วยรหัส B บ้าง:\n  (0)(−1) + (2)(+1) + (−2)(−1) + (0)(+1) = 0+2+2+0 = +4\n  +4 ÷ 4 = +1  →  ผู้ใช้ B ส่ง บิต 1  ✓ ถูกเช่นกัน',
+    note: 'สัญญาณก้อนเดียวกันในอากาศ ให้คำตอบถูกทั้งสองคน — นี่คือ "การเข้าถึงหลายทางแบบแบ่งรหัส" (Code Division Multiple Access) ในหนึ่งภาพ · ถ้าหาร k แล้วไม่ได้ ±1 เต็ม = มีคนอื่นปนหรือใช้รหัสผิดคน (อาจารย์เสริมท้ายเฉลย)' },
 ]);
 
 mountWalk('walkPN', [
@@ -626,6 +626,85 @@ mountWalk('walkWalsh', [
   { title: 'ข้อแม้ที่สไลด์เตือน (สไลด์ 45)', body: '"ต้องการการเข้าจังหวะที่แน่นอน\n มิเช่นนั้น Cross correlation ระหว่าง Walsh sequence\n ที่แตกต่างกัน ไม่ได้มีค่าเป็น 0"\n\nแปล: Walsh ตั้งฉากกันเฉพาะตอน "เริ่มพร้อมกันเป๊ะ"\nถ้าสัญญาณคนหนึ่งมาช้ากว่าไม่กี่ชิป ความตั้งฉากพัง',
     note: 'นี่คือเหตุผลที่สไลด์ 49–50 ต้องใช้ 2 ชั้น: Walsh (channelization) คุมคนในเซลเดียวกันที่ซิงค์กันได้ + PN (scrambling) คุมคนต่างเซลที่ซิงค์กันไม่ได้' },
 ]);
+
+// ---------------------------------------------------------------
+// 8.5) เฉลยการบ้านในคาบ 3 ส.ค. — กริด f1–f16 แบบเดียวกับชีท
+//     ข้อ 1 = สไลด์ 12 (slow) · ข้อ 2 = สไลด์ 13 (fast) — ชุดตัวเลขเดียวกันเป๊ะ
+//     ช่อง = ค่า PN × 4 + ค่าสัญลักษณ์ (ตรวจกับภาพสไลด์ซูมแล้วใน fhStepper)
+// ---------------------------------------------------------------
+(function () {
+  const el = document.getElementById('inclassFH');
+  if (!el) return;
+  const BITS = '01110011110110000011';
+  const SYMS = BITS.match(/../g);
+  const PN_SLOW = ['00', '11', '01', '10', '00'];
+  const PN_FAST = ['00', '11', '01', '10', '00', '10', '00', '11', '10', '00',
+                   '10', '11', '11', '01', '00', '01', '10', '11', '01', '10'];
+  const slot = (pn, sym) => parseInt(pn, 2) * 4 + parseInt(sym, 2);
+  const SLOW = SYMS.map((s, i) => slot(PN_SLOW[i >> 1], s));
+  const FAST = PN_FAST.map((p, i) => slot(p, SYMS[i >> 1]));
+
+  function grid({ title, cols, pnRow, dataRow, hops, color }) {
+    const ink = cssVar('--ink', '#1d1f2b'), line = cssVar('--line-2', '#ccc');
+    const W = 620, gx = 46, top = 58, rh = 12.5, gh = 16 * rh, gw = W - gx - 14;
+    const cw = gw / cols;
+    const H = top + gh + 12;
+    let g = `<text x="${gx}" y="14" font-size="11.5" font-weight="700" fill="${ink}">${title}</text>`;
+    // แถวหัว: PN + Data (เหมือนชีท)
+    const rowY = [26, 42];
+    g += `<text x="${gx - 6}" y="${rowY[0] + 4}" text-anchor="end" font-size="8.5" fill="${C6.alt}" font-weight="700">PNseq</text>
+          <text x="${gx - 6}" y="${rowY[1] + 4}" text-anchor="end" font-size="8.5" fill="${C6.warn}" font-weight="700">Data</text>`;
+    pnRow.forEach((c, i) => {
+      const x = gx + c.x0 * cw, w = c.span * cw;
+      g += `<rect x="${x}" y="${rowY[0] - 8}" width="${w}" height="15" fill="none" stroke="${line}" opacity=".8"/>
+            <text x="${x + w / 2}" y="${rowY[0] + 3.5}" text-anchor="middle" font-size="9" fill="${C6.alt}" font-weight="700" font-family="var(--mono)">${c.t}</text>`;
+    });
+    dataRow.forEach((c, i) => {
+      const x = gx + c.x0 * cw, w = c.span * cw;
+      g += `<rect x="${x}" y="${rowY[1] - 8}" width="${w}" height="15" fill="none" stroke="${line}" opacity=".8"/>
+            <text x="${x + w / 2}" y="${rowY[1] + 3.5}" text-anchor="middle" font-size="9" fill="${C6.warn}" font-weight="700" font-family="var(--mono)">${c.t}</text>`;
+    });
+    // กริด 16 แถว — f16 บนสุด → f1 ล่างสุด (ความถี่ต่ำอยู่ล่าง ตามที่อาจารย์ชี้)
+    for (let r = 0; r < 16; r++) {
+      const y = top + r * rh;               // r=0 คือแถว f16
+      const f = 16 - r;
+      if ((f - 1) % 8 >= 4) g += `<rect x="${gx}" y="${y}" width="${gw}" height="${rh}" fill="${C6.sig}" opacity=".05"/>`;
+      g += `<text x="${gx - 6}" y="${y + rh - 3}" text-anchor="end" font-size="8" fill="${ink}" opacity=".75" font-family="var(--mono)">f${f}</text>
+            <line x1="${gx}" y1="${y}" x2="${gx + gw}" y2="${y}" stroke="${line}" opacity="${(16 - r) % 4 === 0 ? '.9' : '.35'}" ${(16 - r) % 4 === 0 ? '' : 'stroke-dasharray="2 3"'}/>`;
+    }
+    for (let c = 0; c <= cols; c++) g += `<line x1="${gx + c * cw}" y1="${top}" x2="${gx + c * cw}" y2="${top + gh}" stroke="${line}" opacity=".45"/>`;
+    g += `<rect x="${gx}" y="${top}" width="${gw}" height="${gh}" fill="none" stroke="${ink}" stroke-width="1.1"/>`;
+    // เติมคำตอบ
+    hops.forEach((s, i) => {
+      const y = top + (15 - s) * rh;
+      g += `<rect x="${gx + i * cw + 1}" y="${y + 1}" width="${cw - 2}" height="${rh - 2}" rx="2" fill="${color}"/>
+            <text x="${gx + i * cw + cw / 2}" y="${y + rh - 3}" text-anchor="middle" font-size="${cols > 12 ? 7.5 : 8.5}" font-weight="700" fill="#111" font-family="var(--mono)">f${s + 1}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" style="width:100%;max-width:${W}px;display:block">${g}</svg>`;
+  }
+
+  function render() {
+    const slow = grid({
+      title: 'ข้อ 1 · Slow FHSS — คำตอบ: f2 f4 f13 f16 f8 f6 f11 f9 f1 f4',
+      cols: 10,
+      pnRow: PN_SLOW.map((t, i) => ({ t, x0: i * 2, span: 2 })),
+      dataRow: SYMS.map((t, i) => ({ t, x0: i, span: 1 })),
+      hops: SLOW, color: C6.warn,
+    });
+    const fast = grid({
+      title: 'ข้อ 2 · Fast FHSS — สัญลักษณ์ละ 2 hop (คู่คอลัมน์ = โทนเดิม คนละแถบ)',
+      cols: 20,
+      pnRow: PN_FAST.map((t, i) => ({ t, x0: i, span: 1 })),
+      dataRow: [...BITS].map((t, i) => ({ t, x0: i, span: 1 })),
+      hops: FAST, color: C6.ok,
+    });
+    el.innerHTML = `<div class="lab" style="padding:12px 10px">${slow}<div style="height:14px"></div>${fast}
+      <p class="hint" style="margin:8px 4px 0">วิธีคิดทุกช่อง: <b>ช่อง = ค่า PN × 4 + ค่าสัญลักษณ์</b> (เลข 0–15 แล้วบวก 1 เป็นเบอร์ f) — เช่นคอลัมน์แรกข้อ 1: PN 00 (แถบ 0) สัญลักษณ์ 01 (โทน 1) → ช่อง 1 = <b>f2</b> · คอลัมน์ 2 ข้อ 2: PN 11 (แถบ 3) สัญลักษณ์เดิม 01 → 3×4+1 = 13 → <b>f14</b></p>
+    </div>`;
+  }
+  render();
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
 
 // ---------------------------------------------------------------
 // 9) โค้ดรันได้

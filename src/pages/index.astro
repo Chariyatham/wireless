@@ -67,8 +67,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
 
       <div class="examcta">
-        <a class="mod" href={`${base}/exam`} style="display:block">
-          <div class="num">🏁 MIDTERM MODE</div>
+        <a class="mod" href={`${base}/midterm`} style="display:block; border-color: var(--accent-warm)">
+          <div class="num">🎯 สอบกลางภาค ศ. 21 ส.ค. · 13:00</div>
+          <h3>ติวสอบกลางภาค — ทรงข้อสอบจริงจากปากอาจารย์</h3>
+          <div class="hook">10 ข้อ / 40% / สายอากาศ 3 · เข้ารหัส 3 · Spread Spectrum 2 — ข้อสอบจำลองฉบับยาก + ทริกเก็บคะแนน + เครื่องคิดเลข + ชีท A4 ต้องจดอะไร</div>
+        </a>
+        <a class="mod" href={`${base}/exam`} style="display:block; margin-top:12px">
+          <div class="num">🏁 คลังข้อสอบรวม</div>
           <h3>คลังข้อสอบรวม + สอบจำลองจับเวลา</h3>
           <div class="hook">รวมโจทย์ทั้ง 6 สัปดาห์ 33 ข้อ — สุ่มชุด จับเวลา เฉลยล็อกจนหมดเวลา เหมือนนั่งในห้องสอบจริง</div>
           <div class="prog" data-progress-week="exam"></div>

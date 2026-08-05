@@ -438,3 +438,15 @@ details.sol.locked summary::before { content:"🔒 "; }
 .lab .row select, .lab .row input[type=text] { font-family:var(--mono); font-size:.86rem; padding:6px 9px; border-radius:7px;
   border:1px solid var(--line-2); background:var(--paper-2); color:var(--ink);
   width:100%; max-width:100%; min-width:0; box-sizing:border-box; text-overflow:ellipsis; }
+
+/* ===== หน้า /midterm — ติวสอบกลางภาค ===== */
+.mid-count { background: var(--card); border: 1px solid var(--line-2); border-left: 4px solid var(--accent-warm);
+  border-radius: 10px; padding: 12px 18px; margin: 14px 0 4px; font-size: 1.02rem; }
+.a4wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media (max-width: 900px) { .a4wrap { grid-template-columns: 1fr; } }
+.a4sheet { background: var(--paper-2); border: 1px solid var(--line-2); border-radius: 4px;
+  box-shadow: 2px 3px 0 rgba(29,31,43,.08); font-size: .8rem; line-height: 1.6; overflow-x: auto; }
+.a4head { border-bottom: 1px dashed var(--line-2); padding: 8px 14px; font-weight: 700; font-size: .85rem;
+  letter-spacing: .4px; color: var(--accent-ink); }
+.a4col { padding: 4px 14px 10px; }
+.a4col p { margin: 9px 0; }
