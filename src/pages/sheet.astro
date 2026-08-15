@@ -36,10 +36,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="sheetbar">
       <span class="ptxt" id="pTxt">ลอกไปแล้ว 0%</span>
       <span class="pbar"><i id="pBar"></i></span>
-      <button type="button" id="btnCore">⚡ ฉบับย่อ (138 บรรทัด)</button>
+      <button type="button" id="btnCore">⚡ ฉบับย่อ (146 บรรทัด)</button>
       <button type="button" id="btnReset">ล้างเครื่องหมายทั้งหมด</button>
     </div>
-    <p class="hint" id="coreHint" style="margin:-8px 0 18px">กด <b>⚡ ฉบับย่อ</b> ถ้ารู้ตัวว่าจดไม่ทัน — จะซ่อน 63 บรรทัดที่ตัดได้ก่อน เหลือ <b>138 บรรทัด (68%)</b> ที่ให้คะแนนสูงสุดต่อเนื้อที่ · กดซ้ำเพื่อกลับมาฉบับเต็ม <span class="plus">การจัดลำดับความสำคัญเป็นคำแนะนำจากผู้เขียน โดยถ่วงตามสัดส่วนข้อสอบจริง</span></p>
+    <p class="hint" id="coreHint" style="margin:-8px 0 18px">กด <b>⚡ ฉบับย่อ</b> ถ้ารู้ตัวว่าจดไม่ทัน — จะซ่อน 69 บรรทัดที่ตัดได้ก่อน เหลือ <b>146 บรรทัด (67%)</b> ที่ให้คะแนนสูงสุดต่อเนื้อที่ · กดซ้ำเพื่อกลับมาฉบับเต็ม <span class="plus">การจัดลำดับความสำคัญเป็นคำแนะนำจากผู้เขียน โดยถ่วงตามสัดส่วนข้อสอบจริง</span></p>
 
     <!-- ═══════════════════ ช่อง ① ═══════════════════ -->
     <section class="blk" id="b1" style="--blkc:#e06c75">
@@ -92,7 +92,7 @@ dBW  = เอากำลังจริงไปเทียบกับฐา�
 dBm  = เอากำลังจริงไปเทียบกับฐาน 1 mW   → เป็นขนาดจริง
 
 ประโยคเดียวที่ต้องจำ:  "dB บอกว่ากี่เท่า · dBW/dBm บอกว่าใหญ่แค่ไหน"</span></span></div>
-        <div class="tick" data-t="d0b" data-core="1"><span class="box"></span><span class="txt"><b>ประโยชน์ของ dB (เผื่อถามบรรยาย):</b> ① เปลี่ยนคูณ/หาร → บวก/ลบ ② ครอบช่วงกำลังกว้างมากด้วยเลขสั้น ③ อ่านอัตราส่วนได้ทันที</span></div>
+        <div class="tick" data-t="d0b"><span class="box"></span><span class="txt"><b>ประโยชน์ของ dB (เผื่อถามบรรยาย):</b> ① เปลี่ยนคูณ/หาร → บวก/ลบ ② ครอบช่วงกำลังกว้างมากด้วยเลขสั้น ③ อ่านอัตราส่วนได้ทันที</span></div>
 
         <h5>② ขา "ไป" — กำลังจริง ➜ dB (ใช้ log)</h5>
         <div class="tick" data-t="d1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">P(W)  ➜ dBW  =  10 · log( P )              [ฐาน 1 W]
@@ -187,266 +187,542 @@ log 5 = 0.699  log 10 = 1      log 20 = 1.301  log 100 = 2
 
     <!-- ═══════════════════ ช่อง ③ ═══════════════════ -->
     <section class="blk" id="b3" style="--blkc:#83c167">
-      <div class="blk-h"><span class="blk-n">3</span> W2 เครือข่าย + W3 คลื่น/ความจุ<span class="lines">~30 บรรทัด</span></div>
+      <div class="blk-h"><span class="blk-n">3</span> W3 คลื่น/ความจุ + W2 เครือข่าย <span class="must">พื้นฐาน ~2 ข้อ</span><span class="lines">~40 บรรทัด</span></div>
       <div class="blk-body">
-        <h5>W3 · สูตรที่ชีทแจกไม่มี</h5>
-        <div class="tick" data-t="w3a" data-core="1"><span class="box"></span><span class="txt"><span class="must">ห้ามขาด</span> <span class="fxb">λ = c/f      c = 3×10⁸ m/s      ← ชีทไม่ให้!
-หมุด λ:  900 MHz → 0.333 m   1.9 GHz → 0.158 m   2.4 GHz → 0.125 m
-         4 GHz → 0.075 m     5 GHz → 0.06 m      40 GHz → 0.0075 m</span></span></div>
-        <div class="tick" data-t="w3b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">s(t) = A sin(2πft + φ)      T = 1/f      B = f_สูง − f_ต่ำ
-SNR(เท่า) = 10^(SNR_dB/10)   ·   fs ≥ 2B (ทฤษฎีการสุ่ม)</span></span></div>
-        <div class="tick" data-t="w3c"><span class="box"></span><span class="txt"><span class="cut">✂️ มีในชีทแจกแล้ว</span> Nyquist C = 2B log₂M · Shannon C = B log₂(1+SNR)<br/>แต่จดเพิ่มกรณีพิเศษ: <b>ถ้าเป็นไบนารี (M = 2) → C = 2B</b> · และ <b>M = 2ᴸ , L = log₂M</b></span></div>
-        <div class="tick" data-t="w3d" data-core="1"><span class="box"></span><span class="txt"><b>[ยึด] โจทย์ที่อาจารย์เดินสดในคาบ:</b> B = 1 MHz, SNR 24 dB → SNR = 251.19 เท่า → C ≈ <b>7.98 Mbps</b> → ย้อน Nyquist: 2^(C/2B) = 15.88 → <b>M = 16</b></span></div>
 
-        <h5>W3 · คำอธิบายที่ต้องตอบได้ (ไม่มีในชีทแจก)</h5>
-        <div class="tick" data-t="w3e" data-core="1"><span class="box"></span><span class="txt"><b>Nyquist vs Shannon:</b> Nyquist = เพดานช่อง<b>ไร้ noise</b> จำกัดด้วยจำนวนระดับ M · Shannon = เพดาน<b>เมื่อมี noise</b> จำกัดด้วย SNR (เพิ่ม M ไม่ช่วย)</span></div>
-        <div class="tick" data-t="w3f" data-core="1"><span class="box"></span><span class="txt"><b>Amplifier vs Repeater:</b> amplifier ขยายทุกอย่าง<b>รวม noise ที่สะสมมา</b> (แอนะล็อก) · repeater <b>ตีความเป็นบิตแล้วสร้างสัญญาณใหม่สะอาด</b> (ดิจิทัล) → เหตุผลที่ดิจิทัลส่งไกลได้โดยคุณภาพไม่เสื่อมสะสม</span></div>
-        <div class="tick" data-t="w3g"><span class="box"></span><span class="txt"><b>Fourier:</b> สัญญาณเป็นคาบใด ๆ = ผลรวมของไซน์หลายความถี่ · square wave ประกอบจาก<b>ฮาร์มอนิกคี่</b> · ใช้ฮาร์มอนิกมากขึ้น = เหมือนต้นฉบับมากขึ้น → <b>BW จำกัด = สัญญาณเบี้ยว</b></span></div>
-        <div class="tick" data-t="w3h" data-core="1"><span class="box"></span><span class="txt"><b>FDM vs TDM:</b> FDM แบ่ง<b>ความถี่</b> ทุกคนส่งพร้อมกัน (คู่กับแอนะล็อก · <b>เก่ากว่า</b>) · TDM แบ่ง<b>เวลา</b> ผลัดกันส่ง (คู่กับดิจิทัล · <b>ใหม่กว่า</b>)</span></div>
-        <div class="tick" data-t="w3i"><span class="box"></span><span class="txt"><b>สื่อ:</b> สายคู่ตีเกลียว → โคแอกซ์ → <b>ใยแก้ว (BW สูงสุด ไม่โดนคลื่นแม่เหล็กไฟฟ้ารบกวน)</b> · ไมโครเวฟยอดตึก = LOS · <b>ดาวเทียม = repeater ลอยฟ้า</b> · Wi-Fi ใช้เสา omni</span></div>
-        <div class="tick" data-t="w3j"><span class="box"></span><span class="txt"><b>ชื่อย่านความถี่ (อาจารย์ถามในคาบ — เติมคำได้):</b><span class="fxb">HF  = High Frequency        VHF = Very High Frequency
-UHF = Ultra High Frequency  SHF = Super High Frequency
-วิทยุกระจายเสียง (broadcast) = VHF + บางส่วน UHF = 30 MHz – 1 GHz
-   → รวม FM 88–108 MHz และทีวี VHF/UHF (เสารอบทิศ ไม่ต้องเล็ง)
-แนวโน้ม: เทคโนโลยีใหม่ไล่ขึ้นความถี่สูงเรื่อย ๆ เพราะ "ความถี่สูง = ที่ว่างใส่ข้อมูลเยอะกว่า"</span></span></div>
+        <h5>① λ = c/f — สูตรเดียวที่อาจารย์บอกเองว่า "สอบไม่ให้"</h5>
+        <div class="tick" data-t="w3a" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">λ = c / f          c = 3 × 10⁸ m/s        ← ชีทแจกไม่มี!
 
-        <h5>W2 · เครือข่าย (แทบทั้งหมดเป็น "คำ" — ตรงข้อรวมทุกบท/เติมคำ)</h5>
-        <div class="tick" data-t="w2a"><span class="box"></span><span class="txt"><b>ฟีเจอร์โพรโทคอล 3 อย่าง:</b> <b>Syntax</b> = รูปแบบข้อมูล/รูปแบบสัญญาณ/ระดับสัญญาณ · <b>Semantics</b> = ความหมาย ควบคุมข้อมูล จัดการข้อผิดพลาด · <b>Timing</b> = จับคู่ความเร็ว + ลำดับก่อนหลัง</span></div>
-        <div class="tick" data-t="w2b" data-core="1"><span class="box"></span><span class="txt"><b>TCP/IP 5 ชั้น (ล่าง→บน):</b> Physical → Network access → Internet → Transport → Application<br/><b>OSI 7 ชั้น:</b> Physical → Data link → Network → Transport → Session → Presentation → Application<br/><b>ต่างกัน:</b> OSI แยก Session + Presentation ออกมา (TCP/IP ยุบรวมไว้ใน Application)</span></div>
-        <div class="tick" data-t="w2c" data-core="1"><span class="box"></span><span class="txt"><b>อุปกรณ์อยู่ชั้นไหน:</b> repeater/hub = ชั้น 1 · bridge/switch = ชั้น 2 (MAC) · <b>router = ชั้น 3 (แกะถึงหัว IP)</b> · port = ชั้น 4<br/><b>ES</b> (End System) = เครื่องปลายทาง เช่น PC/server · <b>IS</b> (Intermediate System) = อุปกรณ์กลางทาง เช่น router/bridge</span></div>
-        <div class="tick" data-t="w2d"><span class="box"></span><span class="txt"><b>ขนาดเครือข่าย:</b> LAN = ในตึก/แคมปัส เร็วสูง เจ้าของเดียว · MAN = ระดับเมือง · WAN = ข้ามเมือง/ประเทศ</span></div>
-        <div class="tick" data-t="w2e" data-core="1"><span class="box"></span><span class="txt"><b>ตาราง switching (ลอกเป็นตาราง ประหยัดที่):</b><span class="fxb">                 Circuit    Datagram   Virtual Circuit
-จองเส้นทางก่อน     ✓ 3 เฟส     ✗          ✓ (จำเส้นทาง)
-จองความจุ          ✓           ✗          ✗  ← ไม่จอง!
-ลำดับข้อมูล        เรียงแน่    อาจสลับ     เรียงแน่
-ที่อยู่ปลายทาง      –          ทุกแพ็กเก็ต  แค่เลข VC
-ตัวอย่าง           โทรศัพท์    IP/เน็ต     X.25, Frame Relay</span></span></div>
-        <div class="tick" data-t="w2f"><span class="box"></span><span class="txt"><b>Circuit 3 เฟส:</b> จองวงจร (setup) → ส่งข้อมูล (transfer) → คืนวงจร (teardown) · <b>store-and-forward</b> = รับครบทั้งแพ็กเก็ตก่อนแล้วค่อยส่งต่อ · แพ็กเก็ต<b>เล็ก</b> = หัวเยอะ(overhead สูง) แต่ pipeline ดี · แพ็กเก็ต<b>ใหญ่</b> = overhead ต่ำ แต่หน่วงกว่า</span></div>
+ความหมาย: ความถี่สูง → ความยาวคลื่นสั้น → สายอากาศเล็กลง
+          (นี่คือเหตุผลที่เสามือถือยุคใหม่เล็กกว่าเสาวิทยุ AM มาก)
+
+หมุด λ ที่เจอบ่อย:
+  900 MHz → 0.333 m     1.9 GHz → 0.158 m     2.4 GHz → 0.125 m
+  4 GHz   → 0.075 m     5 GHz   → 0.06 m      40 GHz  → 0.0075 m</span></span></div>
+        <div class="tick" data-t="w3b" data-core="1"><span class="box"></span><span class="txt"><b>สัญญาณและโดเมน:</b><span class="fxb">s(t) = A · sin(2πf t + φ)        T = 1/f
+  A = แอมพลิจูด · f = ความถี่ · φ = เฟส
+
+โดเมนเวลา    = ดูรูปคลื่นเทียบกับเวลา
+โดเมนความถี่ = ดูว่ามีความถี่อะไรผสมอยู่บ้าง (สเปกตรัม)
+
+B = f_สูง − f_ต่ำ         ·        f_s ≥ 2B (ทฤษฎีการสุ่ม)</span></span></div>
+        <div class="tick" data-t="w3g"><span class="box"></span><span class="txt"><b>Fourier (เผื่อถามบรรยาย):</b> สัญญาณเป็นคาบใด ๆ = ผลรวมของไซน์หลายความถี่ · square wave ประกอบจาก<b>ฮาร์มอนิกคี่</b> · ใช้ฮาร์มอนิกมากขึ้น = เหมือนต้นฉบับมากขึ้น → <b>แบนด์วิดท์จำกัด = สัญญาณมน/เบี้ยว</b> เพราะขาดฮาร์มอนิกความถี่สูงที่ทำให้ขอบคม</span></div>
+
+        <h5>② Nyquist vs Shannon — เข้าใจความต่างก่อน ค่อยแทนเลข</h5>
+        <div class="tick" data-t="w3c" data-core="1"><span class="box"></span><span class="txt"><span class="cut">✂️ สองสูตรนี้มีในชีทแจกแล้ว</span><span class="fxb">Nyquist  C = 2B · log₂M      ← ช่อง "ไม่มี noise"
+         เพดานถูกจำกัดด้วย "จำนวนระดับ M" — เพิ่ม M ก็เพิ่ม C ได้เรื่อย ๆ
+         กรณีไบนารี (M = 2):  C = 2B      ·      M = 2ᴸ , L = log₂M
+
+Shannon  C = B · log₂(1 + SNR)   ← ช่อง "มี noise" (โลกจริง)
+         เพดานถูกจำกัดด้วย SNR — เพิ่ม M ไม่ช่วยแล้ว
+         ❗ SNR ในสูตรนี้ต้องเป็น "เท่า" ไม่ใช่ dB
+            SNR(เท่า) = 10^(SNR_dB / 10)
+
+ใช้คู่กัน: Shannon บอกเพดาน → Nyquist บอกว่าต้องใช้ M เท่าไรถึงไปถึง</span></span></div>
+        <div class="tick" data-t="w3d" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ (โจทย์ที่อาจารย์เดินสดในคาบ):</b> B = 1 MHz, SNR = 24 dB<span class="fxb">ขั้น 1  SNR(เท่า) = 10^(24/10) = 10^2.4 = 251.19
+ขั้น 2  Shannon: C = 1×10⁶ × log₂(1 + 251.19)
+                   = 10⁶ × log₂(252.19) = 7.98 Mbps
+ขั้น 3  ย้อน Nyquist: log₂M = C / 2B = 7.98 / 2 = 3.99
+ขั้น 4  M = 2^3.99 = 15.88  →  ปัดขึ้นเป็นกำลังของ 2  →  M = 16</span></span></div>
+
+        <h5>③ คำอธิบายที่ต้องตอบได้ (ชีทแจกไม่มีคำอธิบายเลย)</h5>
+        <div class="tick" data-t="w3f" data-core="1"><span class="box"></span><span class="txt"><b>Amplifier vs Repeater</b> (ถามบ่อย):<span class="fxb">amplifier ขยายสัญญาณ "รวม noise ที่สะสมมาด้วย"   → ใช้กับแอนะล็อก
+repeater  ตีความเป็นบิตก่อน แล้ว "สร้างสัญญาณใหม่ที่สะอาด" → ดิจิทัล
+
+⇒ นี่คือเหตุผลที่ระบบดิจิทัลส่งไกลได้โดยคุณภาพไม่เสื่อมสะสม</span></span></div>
+        <div class="tick" data-t="w3h" data-core="1"><span class="box"></span><span class="txt"><b>FDM vs TDM:</b><span class="fxb">FDM แบ่งด้วย "ความถี่" ทุกคนส่งพร้อมกัน   (คู่กับแอนะล็อก · เก่ากว่า)
+TDM แบ่งด้วย "เวลา"    ผลัดกันส่ง        (คู่กับดิจิทัล · ใหม่กว่า)</span></span></div>
+        <div class="tick" data-t="w3i"><span class="box"></span><span class="txt"><b>สื่อและย่านความถี่:</b> สายคู่ตีเกลียว → โคแอกซ์ → <b>ใยแก้ว (BW สูงสุด ไม่โดนคลื่นแม่เหล็กไฟฟ้ารบกวน)</b> · ไมโครเวฟยอดตึก = LOS ต้องเล็ง · <b>ดาวเทียม = repeater ลอยฟ้า</b> · Wi-Fi/วิทยุกระจายเสียงใช้เสารอบทิศ ไม่ต้องเล็ง</span></div>
+        <div class="tick" data-t="w3j"><span class="box"></span><span class="txt"><b>ชื่อย่านความถี่ (อาจารย์ถามในคาบ):</b><span class="fxb">HF  = High Frequency         VHF = Very High Frequency
+UHF = Ultra High Frequency   SHF = Super High Frequency
+
+วิทยุกระจายเสียง = VHF + บางส่วน UHF = 30 MHz – 1 GHz
+   → รวม FM 88–108 MHz และทีวี VHF/UHF
+แนวโน้ม: เทคโนโลยีใหม่ไล่ขึ้นความถี่สูงเรื่อย ๆ
+         เพราะ "ความถี่สูง = มีที่ว่างใส่ข้อมูลเยอะกว่า"</span></span></div>
+
+        <h5>④ W2 · โพรโทคอลและชั้นสื่อสาร (ออกข้อรวมทุกบท/เติมคำ)</h5>
+        <div class="tick" data-t="w2a"><span class="box"></span><span class="txt"><b>ฟีเจอร์โพรโทคอล 3 อย่าง:</b><span class="fxb">Syntax    รูปแบบข้อมูล / รูปแบบสัญญาณ / ระดับสัญญาณ  (หน้าตา)
+Semantics ความหมาย ควบคุมข้อมูล จัดการข้อผิดพลาด    (แปลว่าอะไร)
+Timing    จับคู่ความเร็ว + ลำดับก่อนหลัง             (เมื่อไหร่ เร็วแค่ไหน)</span></span></div>
+        <div class="tick" data-t="w2b" data-core="1"><span class="box"></span><span class="txt"><b>ชั้นสื่อสาร (ล่าง → บน):</b><span class="fxb">TCP/IP 5 ชั้น: Physical → Network access → Internet → Transport → Application
+OSI    7 ชั้น: Physical → Data link → Network → Transport
+               → Session → Presentation → Application
+
+ต่างกัน: OSI แยก Session + Presentation ออกมาอีก 2 ชั้น
+         (TCP/IP ยุบทั้งสองไว้ใน Application)</span></span></div>
+        <div class="tick" data-t="w2c" data-core="1"><span class="box"></span><span class="txt"><b>อุปกรณ์อยู่ชั้นไหน:</b><span class="fxb">repeater / hub   = ชั้น 1  (Physical)
+bridge / switch  = ชั้น 2  (Data link — ใช้ MAC)
+router           = ชั้น 3  (Network — แกะถึงหัว IP)
+port             = ชั้น 4  (Transport)
+
+ES (End System)          = เครื่องปลายทาง เช่น PC / server
+IS (Intermediate System) = อุปกรณ์กลางทาง เช่น router / bridge
+LAN ในตึก · MAN ระดับเมือง · WAN ข้ามเมือง/ประเทศ</span></span></div>
+
+        <h5>⑤ W2 · Switching — ตารางเดียวจบ (สำคัญสุดของบทนี้)</h5>
+        <div class="tick" data-t="w2e" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">                  Circuit     Datagram     Virtual Circuit
+จองเส้นทางก่อน      ✓ 3 เฟส      ✗            ✓ (จำเส้นทาง)
+จองความจุ           ✓            ✗            ✗   ← ไม่จอง!
+ลำดับข้อมูล         เรียงแน่     อาจสลับ      เรียงแน่
+ที่อยู่ปลายทาง       –           ทุกแพ็กเก็ต   แค่เลข VC
+ตัวอย่าง            โทรศัพท์     IP / เน็ต    X.25, Frame Relay
+
+Circuit 3 เฟส: จองวงจร (setup) → ส่งข้อมูล (transfer) → คืนวงจร (teardown)
+store-and-forward = รับครบทั้งแพ็กเก็ตก่อน แล้วค่อยส่งต่อ
+แพ็กเก็ตเล็ก → หัวเยอะ (overhead สูง) แต่ pipeline ดี
+แพ็กเก็ตใหญ่ → overhead ต่ำ แต่หน่วงกว่า</span></span></div>
+
+        <h5>⑥ [ยึด] เลขจริงของสองบทนี้</h5>
+        <div class="tick" data-t="w3k"><span class="box"></span><span class="txt"><span class="fxb">โจทย์เดินสดในคาบ: B = 1 MHz, SNR 24 dB
+   → SNR = 251.19 เท่า → C = 7.98 Mbps → ต้องใช้ M = 16</span></span></div>
       </div>
     </section>
 
     <!-- ═══════════════════ ช่อง ④ ═══════════════════ -->
     <section class="blk" id="b4" style="--blkc:#c792ea">
-      <div class="blk-h"><span class="blk-n">4</span> W4 · สายอากาศ + การแพร่กระจาย <span class="must">3 ข้อ — บทหนักสุด</span><span class="lines">~42 บรรทัด</span></div>
+      <div class="blk-h"><span class="blk-n">4</span> W4 · สายอากาศ + การแพร่กระจาย <span class="must">3 ข้อ — บทหนักสุด</span><span class="lines">~50 บรรทัด</span></div>
       <div class="blk-body">
-        <h5>สูตรที่ชีทแจกไม่มี</h5>
-        <div class="tick" data-t="a1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">★ Friis รูปตรง:  Pr = Pt·Gt·Gr·λ² / (4πd)²     [ชีทให้แต่รูป Loss]
-★ รูปเท่าทั่วไป:  Pr = Pt·Gt·Gr / L    (L เป็น "เท่า" ไม่ใช่ dB)
-★ Pr(dBW) = Pt(dBW) + Gt(dB) + Gr(dB) − L(dB)   ← สูตรทำโจทย์จริง
-★ A (จานกลม) = πr²   ,   r = Ø/2      ← กับดักอันดับ 1
-★ ไดโพลครึ่งคลื่น L = λ/2   ·   ไดโพลควอเตอร์ L = λ/4
-★ G(dB) = 10 log G(เท่า)</span></span></div>
 
-        <h5>แบบรูปการแผ่พลังงาน + ชนิดสายอากาศ (ไม่มีในชีทแจก — เติมคำ/บรรยายชอบออก)</h5>
-        <div class="tick" data-t="a0a" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">radiation pattern = กราฟแสดงว่าแผ่คลื่นไปทิศไหนแรงแค่ไหน
-   วาดเป็นภาพตัดขวาง 2 มิติ ของทรง 3 มิติจริง
-   reception pattern = เหมือนกับ radiation pattern ของตัวเดียวกัน
-      (ส่งเก่งทางไหน รับก็เก่งทางนั้น)
-ส่วนประกอบ: พูหลัก (main lobe) · พูข้าง (sidelobes) · จุดศูนย์ (nulls)
-beamwidth = ความกว้างลำคลื่น วัดที่จุด −3 dB (กำลังเหลือครึ่ง)
-   ลำแคบ → เกนสูง แต่ต้องเล็งแม่นขึ้น</span></span></div>
+        <h5>① บทนี้ตอบ 3 คำถามเท่านั้น — จับหลักนี้แล้วจะไม่หลง</h5>
+        <div class="tick" data-t="a00" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">คำถามที่ 1  "ใช้เสาแบบไหน"      → เกน / พื้นที่ประสิทธิผล   (หัวข้อ ②③④)
+คำถามที่ 2  "ตั้งสูงเท่าไร"      → LOS โลกโค้ง             (หัวข้อ ⑤)
+คำถามที่ 3  "ส่งกี่วัตต์ถึงรอด"  → free space loss + noise  (หัวข้อ ⑥⑦⑧)
+
+โจทย์คำนวณของบทนี้ = ต่อ 3 ก้อนนี้เข้าด้วยกันเป็นสายเดียว</span></span></div>
+
+        <h5>② แบบรูปการแผ่พลังงาน + ชนิดสายอากาศ (ไม่มีในชีทแจก — ออกเติมคำ/บรรยาย)</h5>
+        <div class="tick" data-t="a0a"><span class="box"></span><span class="txt"><span class="fxb">radiation pattern = กราฟบอกว่าแผ่คลื่นไปทิศไหนแรงแค่ไหน
+                    วาดเป็นภาพตัดขวาง 2 มิติ ของทรง 3 มิติจริง
+reception pattern = เหมือนกับ radiation pattern ของตัวเดียวกัน
+                    (ส่งเก่งทางไหน รับก็เก่งทางนั้น)
+
+ส่วนประกอบ:  พูหลัก (main lobe) · พูข้าง (sidelobes) · จุดศูนย์ (nulls)
+beamwidth   = ความกว้างลำคลื่น วัดที่จุด −3 dB (กำลังเหลือครึ่ง)
+              ลำแคบ → เกนสูง แต่ต้องเล็งแม่นขึ้น</span></span></div>
         <div class="tick" data-t="a0b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ไอโซทรอปิก  แผ่เท่ากันทุกทิศ (ทรงกลม) — อุดมคติ สร้างจริงไม่ได้
+             เพราะแค่มีสายป้อนต่อเข้าไปก็เสียความสมมาตรแล้ว
              ใช้เป็น "ตัวอ้างอิง" ของเกน (G = 1)
-ไดโพล       λ/2 = Hertz · λ/4 = Marconi
+
+ไดโพล       λ/2 = Hertz  ·  λ/4 = Marconi
              pattern 3 มิติ = "โดนัทไม่มีรู" แรงรอบเอว เงียบหัวท้าย
-             มองจากบน = วงกลม → omnidirectional (Wi-Fi ในบ้าน)
-จานพาราโบลา ตัวจาน "ไม่ได้รับสัญญาณ — แค่สะท้อน" รวมคลื่นเข้าจุดโฟกัส
-             ซึ่งเป็นที่อยู่ของหัวรับจริง (หลักการเดียวกับไฟฉายแต่กลับทิศ)
+             มองจากด้านบน = วงกลม → omnidirectional (Wi-Fi ในบ้าน)
+
+จานพาราโบลา ตัวจาน "ไม่ได้รับสัญญาณ — แค่สะท้อน"
+             รวมคลื่นเข้าจุดโฟกัส ซึ่งเป็นที่อยู่ของหัวรับจริง
+             (หลักการเดียวกับไฟฉาย แต่กลับทิศ)
+
 directional  เอาหลายต้นเรียงเป็นแถว (array) ปรับแอมพลิจูด+เฟส
              เพื่อ "ปั้น" ทิศลำคลื่น เช่น Yagi · 5G beamforming</span></span></div>
-        <div class="tick" data-t="a0c" data-core="1"><span class="box"></span><span class="txt"><b>❗ เกนไม่ได้สร้างพลังงานเพิ่ม</b> — มัน<b>บีบพลังงานก้อนเดิมให้พุ่งทิศเดียว</b> (ไฟฉาย: หลอดเท่าเดิม แต่กรวยรวมแสงทำให้จ้าขึ้น) ← ประโยคนี้เอาไปตอบบรรยาย/ถูก-ผิดได้เลย</span></div>
 
-        <h5>ตารางสายอากาศ <span class="cut">✂️ มีในชีทแจก</span> — แต่ลอกย่อ 2 บรรทัดกันเหนียว (ใช้บ่อยสุด)</h5>
-        <div class="tick" data-t="a2" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ฮอร์น (ปากแตร):  Ae = 0.81A   ,  G = 10A/λ²
-จานพาราโบลา:     Ae = 0.56A   ,  G = 7A/λ²
-ไอโซทรอปิก G=1 · ไดโพลเล็ก/บ่วง 1.5 · ไดโพลครึ่งคลื่น 1.64 · เทิร์นสไตล์ 1.15</span>❗ สูตรเกนใช้ <b>A (พื้นที่จริง)</b> ไม่ใช่ Ae</span></div>
-        <div class="tick" data-t="a2b" data-core="1"><span class="box"></span><span class="txt"><b>🎙 อาจารย์บอกว่า "เรื่องนี้เน้นย้ำอย่างหนึ่ง" — A คือ <u>พื้นที่หน้าตัด</u> ต้องดูรูปทรงก่อน:</b><span class="fxb">หน้าตัดวงกลม (จาน)      → A = πr²    , r = Ø/2
-หน้าตัดสี่เหลี่ยม (ฮอร์น) → A = กว้าง × ยาว
-   ← อาจารย์ถามในคาบเลยว่า "หน้าตัดรูปนี้เป็นรูปอะไร"</span></span></div>
+        <h5>③ เกนสายอากาศ — เข้าใจที่มาก่อน แล้วสูตรจะไม่หลุด</h5>
+        <div class="tick" data-t="a0c" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">❗ เกนไม่ได้สร้างพลังงานเพิ่ม — มัน "บีบพลังงานก้อนเดิมให้พุ่งทิศเดียว"
+   (ไฟฉาย: หลอดเท่าเดิม แต่กรวยรวมแสงทำให้จ้าขึ้น)
+   จึงนิยามเทียบกับไอโซทรอปิกที่แผ่เท่ากันทุกทิศ
+   ⇒ ลำยิ่งแคบ (beamwidth เล็ก) เกนยิ่งสูง แลกกับต้องเล็งแม่นขึ้น</span>← ประโยคนี้ตอบข้อบรรยาย/ถูก-ผิดได้เลย</span></div>
+        <div class="tick" data-t="a1" data-core="1"><span class="box"></span><span class="txt"><b>สูตร (ที่ชีทแจกไม่มี ต้องจดเอง):</b><span class="fxb">λ  = c / f              c = 3×10⁸ m/s      ← ชีทไม่ให้!
+A  = พื้นที่หน้าตัด      r = Ø/2
+G(dB) = 10 log G(เท่า)
+
+Friis รูปตรง :  Pr = Pt·Gt·Gr·λ² / (4πd)²      [ชีทให้แต่รูป Loss]
+รูปเท่าทั่วไป :  Pr = Pt·Gt·Gr / L               (L เป็น "เท่า")
+รูป dB (ใช้จริง): Pr(dBW) = Pt(dBW) + Gt + Gr − L(dB)
+
+ไดโพลครึ่งคลื่น L = λ/2   ·   ควอเตอร์เวฟ L = λ/4</span></span></div>
+        <div class="tick" data-t="a2" data-core="1"><span class="box"></span><span class="txt"><span class="cut">✂️ ตารางเต็มมีในชีทแจก</span> แต่ลอกย่อ 2 บรรทัดกันเหนียว (ใช้บ่อยสุด):<span class="fxb">ฮอร์น (ปากแตร):  Ae = 0.81 A   ,  G = 10 A / λ²
+จานพาราโบลา   :  Ae = 0.56 A   ,  G =  7 A / λ²
+
+ไอโซทรอปิก G=1 · ไดโพลเล็ก/บ่วง 1.5 · ไดโพลครึ่งคลื่น 1.64 · เทิร์นสไตล์ 1.15</span></span></div>
+        <div class="tick" data-t="a2b" data-core="1"><span class="box"></span><span class="txt"><b>🎙 อาจารย์บอกว่า "เรื่องนี้เน้นย้ำอย่างหนึ่ง" — A คือ <u>พื้นที่หน้าตัด</u> ต้องดูรูปทรงก่อน:</b><span class="fxb">หน้าตัดวงกลม (จาน)       →  A = π r²        , r = Ø/2
+หน้าตัดสี่เหลี่ยม (ฮอร์น) →  A = กว้าง × ยาว
+
+❗ สูตรเกนใช้ A (พื้นที่จริง) ไม่ใช่ Ae — ใช้สลับกันคือผิดทันที</span></span></div>
         <div class="tick" data-t="a2c" data-core="1"><span class="box"></span><span class="txt"><b>🎙 กับดักหน่วยที่อาจารย์ย้ำ 3 เรื่อง:</b><span class="fxb">① เกน G แบบ "เท่า" ไม่มีหน่วย — "ใครใส่หน่วยเป็น dB ปุ๊บ จบเลย"
    จะเป็น dB ต่อเมื่อ 10log แล้วเท่านั้น
 ② Ae หน่วยเป็น "ตารางเมตร (m²)" เสมอ
-③ "อย่าลืมพวกเซนติเมตรด้วย" — 10⁶ กับ 10⁹ เขียนสลับ = ความหมายเปลี่ยนทันที
-   ตัวอย่างในคาบ: quarter wave = L/4 = 0.75 m = 75 cm</span></span></div>
+③ "อย่าลืมพวกเซนติเมตร" — 10⁶ กับ 10⁹ เขียนสลับ = ความหมายเปลี่ยนทันที
+   ตัวอย่างในคาบ: ควอเตอร์เวฟ L = λ/4 = 0.75 m = 75 cm</span></span></div>
 
-        <h5>การแพร่กระจาย 3 โหมด (ท่องเป๊ะ — เติมคำชัวร์)</h5>
-        <div class="tick" data-t="a3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">คลื่นพื้นดิน (ground wave)  ≤ 2 MHz     เกาะไปตามผิวโลก   → วิทยุ AM
-คลื่นฟ้า (sky wave)         2–30 MHz    สะท้อนไอโอโนสเฟียร์ → วิทยุคลื่นสั้น ข้ามทวีป
-เส้นสายตา (LOS)             > 30 MHz    ต้องมองเห็นกัน    → ไมโครเวฟ ดาวเทียม มือถือ Wi-Fi</span></span></div>
-        <div class="tick" data-t="a4" data-core="1"><span class="box"></span><span class="txt"><b>ทำไม LOS ใช้ K = 4/3:</b> บรรยากาศทำให้คลื่น<b>หักเหโค้งตามผิวโลก</b> → มองได้ไกลกว่าเส้นตรงเรขาคณิตประมาณ 1/3 จึงคูณรัศมีโลกด้วย 4/3</span></div>
+        <h5>④ เดินมือ — หาเกนจาน/ฮอร์น (ทำตามลำดับนี้ทุกครั้ง)</h5>
+        <div class="tick" data-t="a4a" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ขั้น 1  λ = c/f            (แปลง GHz → Hz ก่อน)
+ขั้น 2  r = Ø/2  →  A = πr²   (หรือ กว้าง×ยาว ถ้าหน้าตัดสี่เหลี่ยม)
+ขั้น 3  Ae = 0.56A (จาน) หรือ 0.81A (ฮอร์น)
+ขั้น 4  G = 7A/λ² (จาน) หรือ 10A/λ²  ← ใช้ A ไม่ใช่ Ae
+ขั้น 5  G(dB) = 10 log G</span></span></div>
+        <div class="tick" data-t="a4b" data-core="1"><span class="box"></span><span class="txt"><b>ตัวอย่าง (การบ้าน 2): จาน Ø = 100 ซม. @ 40 GHz</b><span class="fxb">λ  = 3×10⁸ / 40×10⁹ = 0.0075 m
+r  = 0.50 m  →  A = π(0.5)² = 0.7854 m²
+Ae = 0.56 × 0.7854 = 0.4398 ≈ 0.44 m²
+G  = 7 × 0.7854 / (0.0075)² = 97,738 เท่า
+G(dB) = 10 log 97,738 = 49.90 dB</span></span></div>
+        <div class="tick" data-t="a4c" data-core="1"><span class="box"></span><span class="txt"><b>ตัวอย่าง (การบ้าน 3): ฮอร์นหน้าตัดกลม r = 25 ซม. @ 5 GHz</b><span class="fxb">λ  = 3×10⁸ / 5×10⁹ = 0.06 m
+A  = π(0.25)² = 0.1963 m²
+Ae = 0.81 × 0.1963 = 0.159 m²
+G  = 10 × 0.1963 / (0.06)² = 545.4 เท่า → 27.37 dB</span></span></div>
 
-        <h5>หมุด FSL ที่ใช้เร็ว</h5>
-        <div class="tick" data-t="a5" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ระยะ ×2 → +6.02 dB   ·   ความถี่ ×2 → +6.02 dB   ·   ระยะ ×10 → +20 dB
-20log(4π) = 21.98    ·   20log(4π/c) = −147.56</span></span></div>
+        <h5>⑤ LOS — ระยะที่ "มองเห็นกัน" (โลกโค้ง)</h5>
+        <div class="tick" data-t="a3b" data-core="1"><span class="box"></span><span class="txt"><span class="cut">✂️ สูตรมีในชีทแจก</span> แต่ต้องจำ<b>เงื่อนไขหน่วย</b>และ<b>เหตุผล</b>เอง:<span class="fxb">d = 3.57 √(K·h)              เสาเดี่ยว
+d = 3.57 (√(K·h₁) + √(K·h₂))  สองเสา     K = 4/3
 
-        <h5>สัญญาณรบกวน (noise) 4 ชนิด</h5>
-        <div class="tick" data-t="a6" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">① thermal (ความร้อน / white noise) = kTB — มีเสมอ กำจัดไม่ได้
+❗ h เป็น "เมตร"  →  d ออกมาเป็น "กิโลเมตร"  (สูตรหน่วยผสม)
+ทางลัด: ยุบ K แล้วได้  d ≈ 4.12 √h   (เสาเดี่ยว)
+
+ทำไม K = 4/3 : บรรยากาศหักเหคลื่นให้โค้งตามผิวโลก
+               จึงมองได้ไกลกว่าเส้นตรงเรขาคณิต ≈ 1/3
+               (ขอบฟ้าของ "แสง" ใช้ d = 3.57√h เฉย ๆ ไม่มี K)</span></span></div>
+        <div class="tick" data-t="a3c" data-core="1"><span class="box"></span><span class="txt"><b>ตัวอย่างเดินมือ (เลขลงตัวสวย — จำไว้เป็นหมุด):</b><span class="fxb">เสาส่งสูง 75 m , เสารับสูง 12 m , K = 4/3
+
+√(4/3 × 75) = √100 = 10
+√(4/3 × 12) = √16  = 4
+
+d = 3.57 × (10 + 4) = 3.57 × 14 = 50.0 กม.</span></span></div>
+
+        <h5>⑥ Free space loss — บรรทัดที่ใช้บ่อยที่สุดของทั้งวิชา</h5>
+        <div class="tick" data-t="a5" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">L(dB) = 20 log f + 20 log d − 147.56      ← f เป็น Hz , d เป็นเมตร
+      = −20 log λ + 20 log d + 21.98       ← เครื่องหมาย + (20log4π)
+
+หมุดไว้เดา/จับผิด:
+   ระยะ ×2 → +6.02 dB      ความถี่ ×2 → +6.02 dB
+   ระยะ ×10 → +20 dB
+   20log(4π) = 21.98   ·   20log(4π/c) = −147.56
+
+❗ FSL ไม่ขึ้นกับกำลังส่ง — ขึ้นกับความถี่กับระยะเท่านั้น</span></span></div>
+        <div class="tick" data-t="a5b" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ (ทรงดาวเทียม — โอกาสออกสูงมาก):</b><span class="fxb">ดาวเทียม d = 35,368 กม. @ f = 4 GHz
+
+ขั้น 1  แปลงหน่วย:  d = 3.5368×10⁷ m , f = 4×10⁹ Hz
+ขั้น 2  20 log(4×10⁹)    = 192.04
+        20 log(3.5368×10⁷) = 150.97
+ขั้น 3  L = 192.04 + 150.97 − 147.56 = 195.45 dB
+
+ต่อยอด: Pt 250 W = 23.98 dBW , Gt = 44 , Gr = 48
+        Pr = 23.98 + 44 + 48 − 195.45 = −79.47 dBW</span></span></div>
+
+        <h5>⑦ Path loss exponent — เมื่อไม่ใช่ที่โล่ง</h5>
+        <div class="tick" data-t="a7b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">L(dB) = 20 log f + 10·n·log d − 147.56       (n อ่านจากตารางที่แจก)
+
+n = 2   ที่โล่ง (กลับไปเป็น FSL พอดี)
+n > 2   เมือง / มีสิ่งบดบัง — อ่อนเร็วกว่า
+n < 2   ในตึกที่มองเห็นกันได้ (คลื่นสะท้อนช่วยเสริม)
+
+[ยึด] 1.9 GHz , 1.5 กม.
+   n = 2    → 101.54 dB
+   n = 3.1  → 136.47 dB      ต่างกัน 34.94 dB (≈ 3,100 เท่า!)
+   ❗ อย่าเอา 38.02 + 98.46 ที่ปัดแล้วมาบวก จะเพี้ยนเป็น 136.48</span></span></div>
+
+        <h5>⑧ Noise และ Eb/N₀ — ตัวตัดสินว่า "ส่งกี่วัตต์ถึงพอ"</h5>
+        <div class="tick" data-t="a6" data-core="1"><span class="box"></span><span class="txt"><b>สัญญาณรบกวน 4 ชนิด (ออกเติมคำ):</b><span class="fxb">① thermal (ความร้อน / white noise) = kTB — มีเสมอ กำจัดไม่ได้
 ② intermodulation — หลายความถี่ผสมกันในอุปกรณ์ไม่เชิงเส้น
-③ crosstalk — สัญญาณช่องข้างเคียงรั่วเข้ามา
-④ impulse — พีคสั้นแต่แรง (ฟ้าผ่า/สวิตช์) ตัวร้ายของข้อมูลดิจิทัล</span></span></div>
-        <div class="tick" data-t="a7"><span class="box"></span><span class="txt"><span class="cut">✂️ N = −228.6+10logT+10logB มีในชีท</span> จดเพิ่มแค่ <b>K = °C + 273</b></span></div>
+③ crosstalk      — สัญญาณช่องข้างเคียงรั่วเข้ามา
+④ impulse        — พีคสั้นแต่แรง (ฟ้าผ่า/สวิตช์) ตัวร้ายของดิจิทัล</span><span class="cut">✂️ N = −228.6 + 10logT + 10logB มีในชีท</span> จดเพิ่มแค่ <b>K = °C + 273</b></span></div>
+        <div class="tick" data-t="a8" data-core="1"><span class="box"></span><span class="txt"><b>รูปที่เอาไปทำโจทย์ได้ทันที (ท่องทั้งบรรทัด):</b><span class="fxb">S(dBW) = (Eb/N₀)dB + 10 log R − 228.6 + 10 log T
+(Eb/N₀)dB = SNR(dB) + 10 log (B/R)</span></span></div>
+        <div class="tick" data-t="a8b" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ (การบ้าน 3 ข้อ 1):</b><span class="fxb">ต้องการ Eb/N₀ = 8.4 dB , T = 290 K , R = 2400 bps
 
-        <h5>Eb/N₀ — รูปที่เอาไปทำโจทย์ได้เลย</h5>
-        <div class="tick" data-t="a8" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">★ S(dBW) = (Eb/N₀)dB + 10log R − 228.6 + 10log T
-★ (Eb/N₀)dB = SNR(dB) + 10log(B/R)</span>(ท่องทั้งบรรทัด กดเครื่องรวดเดียวจบ)</span></div>
+S = 8.4 + 10 log 2400 − 228.6 + 10 log 290
+  = 8.4 + 33.80 − 228.6 + 24.62
+  = −161.77 dBW</span></span></div>
 
-        <h5>multipath / fading (ตอบเป็นคู่ ๆ)</h5>
-        <div class="tick" data-t="a9" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">multipath = คลื่นเดินหลายเส้นทาง (สะท้อน/หักเห/เลี้ยวเบน) ถึงไม่พร้อมกัน → ISI
+        <h5>⑨ Multipath / fading — ตอบเป็นคู่ ๆ จะไม่สับสน</h5>
+        <div class="tick" data-t="a9" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">multipath = คลื่นเดินหลายเส้นทาง (สะท้อน/หักเห/เลี้ยวเบน)
+            มาถึงไม่พร้อมกัน → เกิด ISI (สัญลักษณ์ทับกัน) และ fading
+
 fast fading  ช่องเปลี่ยนเร็วกว่าคาบสัญลักษณ์ | slow  เปลี่ยนช้ากว่า
-flat fading  จางทั้งแบนด์เท่ากัน            | selective จางไม่เท่ากันแต่ละความถี่
-Rayleigh     ไม่มีเส้นทางตรง (LOS) เลย       | Rician  มีเส้นทางตรงเด่น 1 เส้น</span></span></div>
-        <div class="tick" data-t="a10" data-core="1"><span class="box"></span><span class="txt"><b>วิธีสู้ fading 4 อย่าง:</b> ① <b>FEC</b> เติมบิตซ่อมล่วงหน้า ② <b>equalization</b> ชดเชยการบิดเบือนของช่อง ③ <b>diversity</b> ใช้หลายเส้นทาง/ความถี่/เวลา แล้วเลือกอันที่ดี ④ <b>MIMO</b> หลายเสาส่ง-รับพร้อมกัน</span></div>
+flat fading  จางทั้งแบนด์เท่ากัน             | selective จางไม่เท่ากันแต่ละความถี่
+Rayleigh     ไม่มีเส้นทางตรง (LOS) เลย        | Rician  มีเส้นทางตรงเด่น 1 เส้น</span></span></div>
+        <div class="tick" data-t="a10" data-core="1"><span class="box"></span><span class="txt"><b>วิธีสู้ fading 4 อย่าง (ท่องเป๊ะ):</b><span class="fxb">① FEC           เติมบิตซ่อมล่วงหน้า (ไม่ต้องขอส่งใหม่ — ดีกับดาวเทียม)
+② equalization  ชดเชยการบิดเบือนของช่องสัญญาณ
+③ diversity     ใช้หลายเส้นทาง/ความถี่/เวลา แล้วเลือกอันที่ดี
+④ MIMO          หลายเสาส่ง-รับพร้อมกัน (ได้ทั้งเร็วและทน)</span></span></div>
 
-        <h5>[ยึด] เลขการบ้านจริง — กดเช็ควิธี</h5>
-        <div class="tick" data-t="a11"><span class="box"></span><span class="txt"><span class="fxb">ดาวเทียม 35,368 กม. @4 GHz → FSL = 195.45 dB
-   Pt 250 W + เกน 44+48 → Pr = −79.47 dBW
-hw2 จาน Ø 100 ซม. @40 GHz → Ae = 0.44 m² , G = 49.90 dB
-hw3 ฮอร์น r = 25 ซม. @5 GHz → Ae = 0.159 m² , G = 27.37 dB
-hw3 ข้อ1: Eb/N₀ 8.4 dB, 290 K, 2400 bps → S = −161.77 dBW
-1.9 GHz / 1.5 กม. → ที่โล่ง 101.54 dB  เทียบ n=4 ได้ 136.48 dB</span></span></div>
+        <h5>⑩ [ยึด] เลขจริงทั้งหมดของบทนี้ — กดเช็ควิธี</h5>
+        <div class="tick" data-t="a11"><span class="box"></span><span class="txt"><span class="fxb">LOS 75 m + 12 m         → 50.0 กม.
+ดาวเทียม 35,368 กม.@4GHz → FSL 195.45 dB
+   + Pt 250 W, เกน 44+48 → Pr = −79.47 dBW
+hw2 จาน Ø100 ซม.@40 GHz  → Ae 0.44 m² , G 49.90 dB
+hw3 ฮอร์น r=25 ซม.@5 GHz → Ae 0.159 m² , G 27.37 dB
+hw3 ข้อ1 (8.4 dB/290K/2400) → S = −161.77 dBW
+1.9 GHz/1.5 กม.  n=2 → 101.54 · n=3.1 → 136.47 dB
+ในคาบ: จาน Ø2 m @12 GHz  → G 35,186 เท่า = 45.46 dB</span></span></div>
       </div>
     </section>
 
     <!-- ═══════════════════ ช่อง ⑤ ═══════════════════ -->
     <section class="blk" id="b5" style="--blkc:#f78c6c">
-      <div class="blk-h"><span class="blk-n">5</span> W5 · การเข้ารหัสสัญญาณ <span class="must">2–3 ข้อ</span><span class="lines">~40 บรรทัด</span></div>
+      <div class="blk-h"><span class="blk-n">5</span> W5 · การเข้ารหัสสัญญาณ <span class="must">2–3 ข้อ</span><span class="lines">~48 บรรทัด</span></div>
       <div class="blk-body">
-        <h5>⭐ Encoder vs Modulator — อาจารย์บอกเองว่าออกสอบ</h5>
-        <div class="tick" data-t="e1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ขาเข้า = "ข้อมูล" (เป็น analog หรือ digital ก็ได้ทั้งคู่)
-ขาออก = "สัญญาณ"  ← ดูตรงนี้เสมอ
+
+        <h5>① จับหลักบทนี้ก่อน — ทุกอย่างคือ "แปลงจากอะไร ไปเป็นอะไร"</h5>
+        <div class="tick" data-t="e0" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ขาเข้า = "ข้อมูล"   (เป็น analog หรือ digital ก็ได้ทั้งคู่)
+ขาออก = "สัญญาณ"   ← ตัวตัดสินว่าเรียกอะไร
+
 encoder   → ขาออกเป็น "ดิจิทัล" เสมอ    · ปลายทางใช้ decoder
-modulator → ขาออกเป็น "แอนะล็อก" เสมอ  · ปลายทางใช้ demodulator
-   modulator ทำงานโดย "ใส่ความถี่พาห์ (carrier) เข้าไป" ให้ส่งไปได้ไกลขึ้น</span>🎙 อาจารย์พูดเอง "<b>อันนี้สำคัญนะ Encoder กับ Modulator ต่างกันยังไง … ถ้าเจอข้อสอบจะได้ตอบได้</b>"</span></div>
-        <div class="tick" data-t="e1b" data-core="1"><span class="box"></span><span class="txt"><b>เกณฑ์เลือกวิธีเข้ารหัส/มอดูเลต (อาจารย์ไล่ในคาบ):</b><span class="fxb">① SNR มีค่ามากหรือน้อย   ② Data rate ที่ต้องส่ง   ③ Bandwidth ที่มี
-→ data rate ยิ่งสูง (ส่งเร็วขึ้น) ข้อผิดพลาด (error) ยิ่งมากขึ้น</span></span></div>
+modulator → ขาออกเป็น "แอนะล็อก" เสมอ   · ปลายทางใช้ demodulator
+            modulator ทำงานโดย "ใส่ความถี่พาห์ (carrier) เข้าไป"
+            เพื่อให้ส่งไปได้ไกลขึ้น</span>🎙 อาจารย์พูดเอง "<b>อันนี้สำคัญนะ Encoder กับ Modulator ต่างกันยังไง … ถ้าเจอข้อสอบจะได้ตอบได้</b>"</span></div>
+        <div class="tick" data-t="e2" data-core="1"><span class="box"></span><span class="txt"><b>4 คู่ ข้อมูล × สัญญาณ (ท่องเป๊ะ + ชื่ออุปกรณ์):</b><span class="fxb">ดิจิทัล  → แอนะล็อก  :  ASK / FSK / PSK        อุปกรณ์ = โมเด็ม
+แอนะล็อก → ดิจิทัล   :  PCM / DM               อุปกรณ์ = โคเดก
+ดิจิทัล  → ดิจิทัล    :  NRZ / Manchester / AMI  (สาย LAN)
+แอนะล็อก → แอนะล็อก  :  AM / FM / PM            (วิทยุกระจายเสียง)</span></span></div>
+        <div class="tick" data-t="e1b" data-core="1"><span class="box"></span><span class="txt"><b>เกณฑ์เลือกวิธี (อาจารย์ไล่ในคาบ):</b> ① SNR มากหรือน้อย ② data rate ที่ต้องส่ง ③ bandwidth ที่มี → <b>data rate ยิ่งสูง error ยิ่งมาก</b></span></div>
 
-        <h5>4 คู่ ข้อมูล × สัญญาณ (ท่องเป๊ะ + ชื่ออุปกรณ์)</h5>
-        <div class="tick" data-t="e2" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ดิจิทัล → แอนะล็อก : ASK / FSK / PSK       อุปกรณ์ = โมเด็ม
-แอนะล็อก → ดิจิทัล : PCM / DM              อุปกรณ์ = โคเดก (codec)
-ดิจิทัล → ดิจิทัล  : NRZ / Manchester / AMI  (สาย LAN)
-แอนะล็อก → แอนะล็อก: AM / FM / PM           (วิทยุกระจายเสียง)</span></span></div>
+        <h5>② มอดูเลตดิจิทัล 4 แบบ — จำจากสิ่งที่ "ถูกเปลี่ยน"</h5>
+        <div class="tick" data-t="e3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ASK  เปลี่ยน "แอมพลิจูด"  → ง่าย/ถูก แต่แพ้ noise ที่สุด
+                            (เพราะ noise กวนแอมพลิจูดตรง ๆ)
+FSK  เปลี่ยน "ความถี่"    → ทน noise กว่า ASK แต่กิน BW มากกว่า
+PSK  เปลี่ยน "เฟส"        → ทน noise ดีสุด ประหยัดพลังงานสุด
+                            (BPSK เฟสต่างกัน 180°)
+DPSK เข้ารหัสที่ "การเปลี่ยนเฟส" เทียบสัญลักษณ์ก่อนหน้า
+     ไม่ใช่เฟสสัมบูรณ์ → ตัวรับไม่ต้องมีเฟสอ้างอิง (noncoherent)
+     วงจรง่ายกว่า แต่แย่กว่า BPSK ประมาณ 1 dB
 
-        <h5>มอดูเลตดิจิทัล 4 แบบ</h5>
-        <div class="tick" data-t="e3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ASK  เปลี่ยน "แอมพลิจูด" — ง่าย/ถูก แต่แพ้ noise ที่สุด
-FSK  เปลี่ยน "ความถี่"   — ทน noise กว่า ASK แต่กิน BW มากกว่า
-PSK  เปลี่ยน "เฟส"       — ทน noise ดีสุด ประหยัดพลังงานสุด (BPSK ต่าง 180°)
-DPSK เข้ารหัสที่ "การเปลี่ยนเฟส" ไม่ใช่เฟสสัมบูรณ์
-     → ตัวรับไม่ต้องรู้เฟสอ้างอิง (noncoherent) ง่ายกว่า แต่แย่กว่า BPSK ~1 dB</span></span></div>
+เรียงจากดีไปแย่ (ที่ BER เท่ากัน):  BPSK → DPSK → ASK/BFSK</span></span></div>
 
-        <h5>สูตรที่ชีทแจกไม่มี</h5>
-        <div class="tick" data-t="e4" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">★ MFSK: f_i = f_c + (2i − 1 − M)·f_d   , i = 1..M   ·   W_d = 2M·f_d
-★ L = log₂M (บิตต่อสัญลักษณ์)   ·   อัตราสัญลักษณ์ = R/L
-★ ประสิทธิภาพสเปกตรัม = R/B_T (bps/Hz) · 10log(R/B_T) = SNR(dB) − (Eb/N₀)dB
-★ ที่ขีดจำกัดแชนนอน:  Eb/N₀ = (2^(C/B) − 1) / (C/B)
-     [ยึด] C/B = 6 → SNR = 63 เท่า = 17.99 dB → Eb/N₀ = 10.21 dB (= การบ้าน 3 ข้อ 2)
-★ PCM: ระดับ = 2ⁿ  ·  R = n·fs  ·  fs ≥ 2B
-★ AM: s(t) = [1 + n_a·x(t)]·cos(2πf_c t)  ·  B_T = 2B  ·  Pt = Pc(1 + n_a²/2)
-   SSB: B_T = B  (ส่งแถบข้างเดียว ประหยัดสุด)
-★ Carson: B_T = 2(β+1)B   ⇔  FM เขียนกางได้เป็น  B_T = 2ΔF + 2B
-     PM: β = n_p·A_m        FM: β = ΔF/B = n_f·A_m/(2πB)</span></span></div>
-        <div class="tick" data-t="e4b" data-core="1"><span class="box"></span><span class="txt"><b>⚠️ สูตรลัด MFSK ที่ห้ามใช้มั่ว:</b> บางสรุปเขียน <span class="fx">W_d = 2M·f_d = M/T_s</span> — <b>รูป M/T_s ใช้ได้เฉพาะตอน f_d = 1/(2T_s) เท่านั้น</b> · ตัวอย่างในสไลด์เอง (R = 250 kbps, M = 8, f_d = 25 kHz) ให้ <b>2M·f_d = 400 kHz</b> แต่ <b>M/T_s = 666.7 kHz</b> → <b>ยึด W_d = 2M·f_d เสมอ</b></span></div>
-        <div class="tick" data-t="e5"><span class="box"></span><span class="txt"><span class="cut">✂️ มีในชีทแจก</span> ตาราง B_T ทั้ง 4 แบบ · D = R/log₂M · SNR = 6.02n+1.76 · กราฟ BER</span></div>
-        <div class="tick" data-t="e6" data-core="1"><span class="box"></span><span class="txt"><b>⚠️ จดเตือนตัวเอง:</b> <b>ตาราง 6.2 แถว FSK/MFSK ในสไลด์ผิด</b> (ค่าที่พิมพ์ = ค่าถูก × (1+r)²) → <b>ยึดสูตร B_T เสมอ อย่าลอกตาราง</b></span></div>
+        <h5>③ bit rate ≠ baud rate — จุดที่คนสับสนที่สุดของบทนี้</h5>
+        <div class="tick" data-t="e3b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">L = log₂M   = จำนวนบิตที่ "1 สัญลักษณ์" พาไปได้
+D = R / L   = R / log₂M      ← baud rate (สัญลักษณ์/วินาที)  [ชีทให้]
+R = D × log₂M                 ← ย้อนกลับ
 
-        <h5>จุดยึดกราฟ BER (ไว้เช็คว่าอ่านกราฟถูก)</h5>
-        <div class="tick" data-t="e7" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">BER 10⁻⁴ → BPSK ≈ 8.4 dB   (= เลขในการบ้านครั้งที่ 3 ข้อ 1 เป๊ะ)
-BER 10⁻⁷ → BPSK ≈ 11.3  ·  DPSK ≈ 11.9  ·  ASK/BFSK ≈ 14.9 dB
-เรียงจากดีไปแย่:  BPSK → DPSK → ASK/BFSK</span></span></div>
+M = 2 → 1 บิต/สัญลักษณ์   M = 4 → 2 บิต   M = 16 → 4 บิต   M = 64 → 6 บิต</span></span></div>
+        <div class="tick" data-t="e3c"><span class="box"></span><span class="txt"><b>เดินมือ:</b><span class="fxb">QPSK  ส่ง 1 Mbps → L = log₂4 = 2 → D = 1,000/2 = 500 kbaud
+16QAM ส่ง 1 Mbps → L = 4        → D = 1,000/4 = 250 kbaud</span>ยิ่ง M มาก baud ยิ่งต่ำ = ใช้แบนด์วิดท์น้อยลง <b>แต่ต้องการ SNR สูงขึ้น</b></span></div>
 
-        <h5>Constellation (ป้ายบิตตามสไลด์ 25 เป๊ะ)</h5>
-        <div class="tick" data-t="e8" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">BPSK: 2 จุด ตรงข้ามกัน 180°
-QPSK: 11 @ 45°  ·  01 @ 135°  ·  00 @ 225°  ·  10 @ 315°
+        <h5>④ MFSK — ออกคำนวณบ่อย (ชีทแจกไม่มีสูตรนี้เลย)</h5>
+        <div class="tick" data-t="e4" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">f_i = f_c + (2i − 1 − M) · f_d     ,  i = 1 … M
+W_d = 2 · M · f_d                  ← แบนด์วิดท์รวม
+T_s = L · T   ,  T = 1/R
+
+ทริกจำ: ตัวคูณของ f_d คือเลขคี่เรียงสมมาตรรอบ f_c
+        M=4 → −3, −1, +1, +3      M=8 → −7,−5,−3,−1,+1,+3,+5,+7</span></span></div>
+        <div class="tick" data-t="e4c" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ (ตัวอย่างในคาบ):</b> R = 250 kbps, M = 8, f_c = 250 kHz, f_d = 25 kHz<span class="fxb">ขั้น 1  L = log₂8 = 3  →  อัตราสัญลักษณ์ = 250/3 = 83.33 kbaud
+        T_s = 3 × (1/250k) = 12 µs
+ขั้น 2  ตัวคูณ f_d = −7,−5,−3,−1,+1,+3,+5,+7
+        f = 75, 125, 175, 225, 275, 325, 375, 425 kHz
+ขั้น 3  W_d = 2 × 8 × 25 = 400 kHz
+        (เช็ค: 425 − 75 = 350 บวกขอบอีก 2f_d = 50 → 400 ✓)</span></span></div>
+        <div class="tick" data-t="e4b" data-core="1"><span class="box"></span><span class="txt"><b>⚠️ สูตรลัดที่ห้ามใช้มั่ว:</b> บางสรุปเขียน <span class="fx">W_d = M/T_s</span> — <b>ใช้ได้เฉพาะเมื่อ f_d = 1/(2T_s)</b> · ตัวอย่างข้างบนให้ 2M·f_d = <b>400 kHz</b> แต่ M/T_s = <b>666.7 kHz</b> → <b>ยึด W_d = 2M·f_d เสมอ</b></span></div>
+
+        <h5>⑤ แบนด์วิดท์และประสิทธิภาพสเปกตรัม</h5>
+        <div class="tick" data-t="e5" data-core="1"><span class="box"></span><span class="txt"><span class="cut">✂️ ตาราง B_T 4 แบบมีในชีทแจก</span> — จดแค่วิธีใช้กับกับดัก:<span class="fxb">ASK, PSK :  B_T = (1+r) R
+FSK      :  B_T = 2ΔF + (1+r) R
+MPSK     :  B_T = ((1+r)/log₂M) R      ← M มาก แบนด์ "แคบลง"
+MFSK     :  B_T = ((1+r)M/log₂M) R     ← M มาก แบนด์ "กว้างขึ้น"
+
+⚠️ ตาราง 6.2 ในสไลด์ แถว FSK/MFSK ผิด (ค่าที่พิมพ์ = ค่าถูก × (1+r)²)
+   → ยึดสูตร ห้ามลอกตัวเลขจากตาราง</span></span></div>
+        <div class="tick" data-t="e5b"><span class="box"></span><span class="txt"><b>เดินมือเทียบให้เห็นภาพ</b> (r = 0.5, R = 2 Mbps):<span class="fxb">ASK/PSK      → 1.5 × 2      = 3 MHz
+MPSK M = 8   → (1.5/3) × 2  = 1 MHz     ← แคบสุด
+MFSK M = 8   → (1.5×8/3) × 2 = 8 MHz    ← กว้างสุด</span></span></div>
+        <div class="tick" data-t="e5c" data-core="1"><span class="box"></span><span class="txt"><b>ประสิทธิภาพสเปกตรัม:</b><span class="fxb">ประสิทธิภาพ = R / B_T   (bps/Hz)
+10 log(R/B_T) = SNR(dB) − (Eb/N₀)dB
+ที่ขีดจำกัดแชนนอน:  Eb/N₀ = (2^(C/B) − 1) / (C/B)
+
+[ยึด] C/B = 6 → SNR = 2⁶−1 = 63 เท่า = 17.99 dB
+                → Eb/N₀ = 63/6 = 10.5 เท่า = 10.21 dB  (= การบ้าน 3 ข้อ 2)</span></span></div>
+
+        <h5>⑥ อ่านกราฟ BER (กราฟมีแจกในห้องสอบ)</h5>
+        <div class="tick" data-t="e7" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">แกนตั้ง = BER (โอกาสบิตผิด)   แกนนอน = Eb/N₀ (dB)
+เส้นซ้ายสุด = BPSK (ดีสุด)  →  DPSK  →  ASK/BFSK (ขวาสุด แย่สุด)
+
+จุดยึดไว้เช็คว่าอ่านกราฟถูก:
+   BER 10⁻⁴ → BPSK ≈ 8.4 dB   (= เลขในการบ้าน 3 ข้อ 1 เป๊ะ)
+   BER 10⁻⁷ → BPSK ≈ 11.3 · DPSK ≈ 11.9 · ASK/BFSK ≈ 14.9 dB</span></span></div>
+
+        <h5>⑦ Constellation (ป้ายบิตตามสไลด์ 25 เป๊ะ)</h5>
+        <div class="tick" data-t="e8" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">BPSK : 2 จุด ตรงข้ามกัน 180°
+QPSK : 11 @ 45°  ·  01 @ 135°  ·  00 @ 225°  ·  10 @ 315°
+
 QPSK = 2 บิต/สัญลักษณ์ · 16QAM = 4 บิต · 64QAM = 6 บิต
-QAM = ผสม "แอมพลิจูด + เฟส" พร้อมกัน</span>จุดยิ่งเยอะ → เร็วขึ้นในแบนด์เท่าเดิม แต่จุดใกล้กัน → <b>ต้องการ SNR สูงขึ้น</b></span></div>
+QAM  = ผสม "แอมพลิจูด + เฟส" พร้อมกัน
 
-        <h5>รหัสเส้น 5 แบบ (ชีทไม่มี — วาดรูปคลื่นสั้น ๆ ข้างชื่อได้ยิ่งดี)</h5>
-        <div class="tick" data-t="e9" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">NRZ-L      ระดับคงที่ตลอดบิต · ตามสไลด์ 1 = ลบ , 0 = บวก (⚠ สลับกับตำราบางเล่ม)
-NRZI       "เปลี่ยนระดับเมื่อเจอ 1" / ไม่เปลี่ยนเมื่อ 0   (differential)
-Manchester เปลี่ยนกลางบิตเสมอ: ขึ้น = 1 , ลง = 0
+จุดยิ่งเยอะ → เร็วขึ้นในแบนด์เท่าเดิม
+            แต่จุดใกล้กัน → ต้องการ SNR สูงขึ้น ไวต่อ noise มากขึ้น</span></span></div>
+
+        <h5>⑧ แอนะล็อก → แอนะล็อก (AM / FM / PM) — ชีทแจกไม่มีเลย</h5>
+        <div class="tick" data-t="e9b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">AM  : s(t) = [1 + n_a·x(t)] · cos(2πf_c t)
+      B_T = 2B        P_t = P_c (1 + n_a²/2)
+SSB : B_T = B          ← ส่งแถบข้างเดียว ประหยัดแบนด์สุด
+
+Carson (FM/PM):  B_T = 2(β + 1)B
+      PM : β = n_p · A_m
+      FM : β = ΔF/B = n_f·A_m/(2πB)
+      FM เขียนกางได้เป็น  B_T = 2ΔF + 2B
+
+FM ทน noise กว่า AM แต่กิน BW มากกว่า</span></span></div>
+
+        <h5>⑨ PCM / DM / Vocoder — แอนะล็อก → ดิจิทัล</h5>
+        <div class="tick" data-t="e11" data-core="1"><span class="box"></span><span class="txt"><b>PCM 3 ขั้น (ท่องชื่อให้ได้):</b><span class="fxb">① Sampling   สุ่มตามทฤษฎี  f_s ≥ 2B
+② Quantizing ปัดเข้าระดับที่ใกล้สุด → เกิด quantizing noise
+③ Encoding   แปลงเป็น n บิต
+
+ระดับ = 2ⁿ        R = n × f_s
+SNR = 6.02n + 1.76  [ชีทให้]  ← หา n แล้ว "ปัดขึ้นเสมอ"
+
+เพิ่ม 1 บิต = ระดับ ×2 = noise ÷4 = SNR +6.02 dB</span></span></div>
+        <div class="tick" data-t="e11b" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ (ตัวอย่างในคาบ):</b> ต้องการ SNR 30 dB, สุ่ม 7000 ครั้ง/วินาที<span class="fxb">n = (30 − 1.76) / 6.02 = 4.69   →  ปัดขึ้นเป็น 5 บิต
+ระดับ = 2⁵ = 32
+R = 5 × 7000 = 35,000 bps = 35 kbps</span>❗ ปัดลงเป็น 4 จะได้ SNR แค่ ~25.8 dB ไม่ถึงที่โจทย์ต้องการ</span></div>
+        <div class="tick" data-t="e12" data-core="1"><span class="box"></span><span class="txt"><b>DM:</b> ส่งแค่ 1 บิตบอก "ขึ้น/ลง" เทียบค่าก่อนหน้า — วงจรง่ายกว่า PCM มาก แต่เกิด <b>slope overload</b> เมื่อสัญญาณเปลี่ยนเร็ว<br/><b>Vocoder:</b> ไม่ส่งรูปคลื่น แต่ส่ง<b>พารามิเตอร์ของเสียงพูด</b> → บิตเรตต่ำมาก แต่ใช้ได้กับเสียงพูดเท่านั้น</span></div>
+
+        <h5>⑩ รหัสเส้น 5 แบบ (ดิจิทัล → ดิจิทัล) — ออกเติมคำ</h5>
+        <div class="tick" data-t="e9" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">NRZ-L      ระดับคงที่ตลอดบิต
+           ตามสไลด์  1 = ลบ , 0 = บวก   (⚠ สลับกับตำราบางเล่ม)
+NRZI       "เปลี่ยนระดับเมื่อเจอ 1" / ไม่เปลี่ยนเมื่อ 0  (differential)
+Manchester เปลี่ยนกลางบิตเสมอ:  ขึ้น = 1 , ลง = 0
            → มีนาฬิกาในตัว แต่กิน BW 2 เท่า
-Diff-Man   กลางบิตเปลี่ยนเสมอ (นาฬิกา) + ต้นบิตเปลี่ยน = 0 , ไม่เปลี่ยน = 1
-AMI/B8ZS   1 = พัลส์สลับขั้ว +,−,+,− · 0 = เงียบ
+Diff-Man   กลางบิตเปลี่ยนเสมอ (นาฬิกา)
+           + ต้นบิตเปลี่ยน = 0 , ไม่เปลี่ยน = 1
+AMI/B8ZS   1 = พัลส์สลับขั้ว +,−,+,−  ·  0 = เงียบ
            → ไม่มีองค์ประกอบ DC + ตรวจจับข้อผิดพลาดได้</span></span></div>
-        <div class="tick" data-t="e10"><span class="box"></span><span class="txt"><b>เกณฑ์เลือกรหัสเส้น:</b> สเปกตรัม (ไม่มี DC, BW แคบ) · ซิงค์นาฬิกาได้ · ตรวจจับข้อผิดพลาดได้ · ภูมิคุ้มกัน noise · ราคา/ความซับซ้อน</span></div>
+        <div class="tick" data-t="e10" data-core="1"><span class="box"></span><span class="txt"><b>เกณฑ์เลือกรหัสเส้น:</b> สเปกตรัม (ไม่มี DC, BW แคบ) · ซิงค์นาฬิกาได้ · ตรวจจับข้อผิดพลาดได้ · ภูมิคุ้มกัน noise · ราคา/ความซับซ้อน</span></div>
 
-        <h5>PCM / DM / Vocoder</h5>
-        <div class="tick" data-t="e11" data-core="1"><span class="box"></span><span class="txt"><b>PCM 3 ขั้น:</b> ① <b>Sampling</b> สุ่มตามทฤษฎี fs ≥ 2B ② <b>Quantizing</b> ปัดเข้าระดับที่ใกล้สุด (เกิด quantizing noise) ③ <b>Encoding</b> แปลงเป็น n บิต<br/>→ เพิ่ม 1 บิต = ระดับ <b>×2</b> = noise <b>÷4</b> = SNR <b>+6.02 dB</b></span></div>
-        <div class="tick" data-t="e12"><span class="box"></span><span class="txt"><b>DM:</b> ส่งแค่ 1 บิต "ขึ้น/ลง" เทียบค่าก่อนหน้า — วงจรง่ายกว่า PCM มาก แต่เกิด <b>slope overload</b> เมื่อสัญญาณเปลี่ยนเร็ว<br/><b>Vocoder:</b> ไม่ส่งรูปคลื่น แต่ส่ง<b>พารามิเตอร์ของเสียงพูด</b> → บิตเรตต่ำมาก แต่ใช้ได้กับเสียงพูดเท่านั้น</span></div>
-        <div class="tick" data-t="e13"><span class="box"></span><span class="txt"><b>[ยึด]:</b> baud — QPSK 1 Mbps → <b>500 kbaud</b> · MFSK ตัวอย่างคาบ 250k/25k/M=8 → 75–425 kHz, BW <b>400 kHz</b> · PCM 30 dB/7000 sps → <b>5 บิต / 32 ระดับ / 35 kbps</b></span></div>
+        <h5>⑪ [ยึด] เลขจริงของบทนี้</h5>
+        <div class="tick" data-t="e13"><span class="box"></span><span class="txt"><span class="fxb">QPSK 1 Mbps            → 500 kbaud
+MFSK 250k/25k/M=8      → 75–425 kHz , W_d 400 kHz
+PCM 30 dB / 7000 sps   → 5 บิต / 32 ระดับ / 35 kbps
+C/B = 6                → Eb/N₀ = 10.21 dB
+BER 10⁻⁴ BPSK          → 8.4 dB</span></span></div>
       </div>
     </section>
 
     <!-- ═══════════════════ ช่อง ⑥ ═══════════════════ -->
     <section class="blk" id="b6" style="--blkc:#4ec9b0">
-      <div class="blk-h"><span class="blk-n">6</span> W6 · การแผ่สเปกตรัม <span class="must">ชีทแจกไม่มีสักบรรทัด</span><span class="lines">~42 บรรทัด</span></div>
+      <div class="blk-h"><span class="blk-n">6</span> W6 · การแผ่สเปกตรัม <span class="must">ชีทแจกไม่มีสักบรรทัด</span><span class="lines">~50 บรรทัด</span></div>
       <div class="blk-body">
-        <h5>สูตร (ต้องจดหมด — ไม่มีอะไรให้ตัด)</h5>
-        <div class="tick" data-t="s1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">★ chip rate = k × D        (k = ชิปต่อบิต , D = bit rate)
-★ processing gain G_p = W_s/W_d = 10 log k  (dB)
-★ T = 1/R      ·      T_s = T · log₂M
-★ T_c ≥ T_s → slow FH   |   T_c &lt; T_s → fast FH
-   ❗ เทียบกับ T_s (คาบสัญลักษณ์) ไม่ใช่ T (คาบบิต)</span></span></div>
-        <div class="tick" data-t="s2" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">★ m-sequence:  N = 2ⁿ − 1
-   จำนวน 1 = 2ⁿ⁻¹    จำนวน 0 = 2ⁿ⁻¹ − 1
-   R(0) = 1          R(τ≠0) = −1/N
-   รันของ 1 ยาวสุด = n   ·   รันของ 0 ยาวสุด = n−1
-★ Walsh:  W₁ = (0)   ,   W₂ₙ = [ Wₙ  Wₙ ; Wₙ  W̄ₙ ]    ทุกคู่แถว dot = 0
-   W₂ = [00 ; 01]    W₄ แถว = 0000 · 0101 · 0011 · 0110</span></span></div>
 
-        <h5>FHSS — กระโดดความถี่</h5>
-        <div class="tick" data-t="s3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">กระโดดความถี่ตามลำดับ PN ที่สองฝั่งรู้ตรงกัน
-ค่า PN n บิต → 2ⁿ แถบความถี่   ·   MFSK M ค่า → M โทนต่อแถบ
-   → ช่องทั้งหมด = 2ⁿ × M
-★ กริด FH: หมายเลขช่อง = (ค่า PN × M) + ค่าสัญลักษณ์   ความถี่ต่ำอยู่ล่าง
-   slow FH = PN 1 ค่า ครอบหลายสัญลักษณ์   (T_c ≥ T_s)
-   fast FH = 1 สัญลักษณ์ กระโดดหลาย hop  (โทนเดิม แต่คนละแถบ)</span>🎙 อาจารย์บอกเอง: <b>"เติมกริดแบบนี้เจอในข้อสอบ"</b></span></div>
-        <div class="tick" data-t="s4" data-core="1"><span class="box"></span><span class="txt"><b>ทำไม FH ทนการรบกวน (jamming):</b> แจมช่องเดียว → เสียแค่บาง hop ที่เหลือรอด (+FEC ซ่อมได้) · แจมทุกช่อง → กำลังของตัวแจมถูกเกลี่ยจนอ่อนเกินจะทำอะไรได้</span></div>
+        <h5>① ไอเดียของทั้งบท — เข้าใจอันนี้อันเดียวพอ</h5>
+        <div class="tick" data-t="s0" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ปกติ: ข้อมูลแคบ ๆ ส่งบนแบนด์แคบ ๆ  → ใครดักฟัง/กวนก็ง่าย
 
-        <h5>DSSS — แผ่ด้วยลำดับตรง</h5>
-        <div class="tick" data-t="s5" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">เอาบิตข้อมูล XOR กับรหัสชิปที่เร็วกว่ามาก (1 บิต → k ชิป) → แบนด์กว้างขึ้น k เท่า
-BPSK:  s(t) = A · d(t) · c(t) · cos(2πf_c t)
-ถอด: XOR ด้วยรหัสเดิมอีกครั้ง (c ⊕ c = 0) → ได้ข้อมูลคืน
-ผลต่อสเปกตรัม: กำลังเท่าเดิมแต่กระจายกว้าง
-   → ความหนาแน่นกำลังต่ำจนเหมือน noise (ซ่อนตัวได้)</span></span></div>
+แผ่สเปกตรัม: จงใจ "ถ่างแบนด์ให้กว้างกว่าที่จำเป็นมาก"
+             โดยใช้รหัสสุ่มเทียม (PN) ที่สองฝั่งรู้ตรงกัน
 
-        <h5>CDMA ⭐</h5>
-        <div class="tick" data-t="s6" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ให้แต่ละคนมีรหัสตั้งฉากกัน → ส่งพร้อมกันบนความถี่เดียวกันได้
-กฎส่ง : บิต 1 = ส่งรหัสตรง ๆ   ·   บิต 0 = ส่งรหัส "กลับขั้ว"
-กฎถอด: S(d) = Σ dᵢ·cᵢ  →  +k = บิต 1 · −k = บิต 0 · ≈0 = ไม่ใช่ของเรา
-        แล้ว "÷k" เพื่อให้เหลือ ±1
-❗ ชิปมีแค่ +1 กับ −1 ไม่มีศูนย์</span>🎙 อาจารย์ย้ำ: <b>"ชิปไม่มีศูนย์ มีแค่ ±1 จำตรงนี้"</b> · <b>CDMA = มือถือ 2.5G/3G</b></span></div>
-        <div class="tick" data-t="s7" data-core="1"><span class="box"></span><span class="txt"><b>ทำไมส่งพร้อมกันได้:</b> โค้ดตั้งฉากกัน (cross-correlation = 0) → ตอนถอดรหัส สัญญาณของคนอื่นหักล้างกันเป็นศูนย์ไปเอง</span></div>
+ผลที่ได้: กำลังรวมเท่าเดิม แต่เกลี่ยบางลงจนดูเหมือน noise
+          ใครไม่รู้รหัส = ถอดไม่ได้ · ตัวกวนก็ต้องเกลี่ยกำลังตาม
 
-        <h5>PN sequence / LFSR</h5>
-        <div class="tick" data-t="s8" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">คุณสมบัติ PN 3 ข้อ:
- ① สมดุล  — จำนวน 1 กับ 0 ต่างกันไม่เกิน 1
- ② รัน    — 1/2 ยาว 1 · 1/4 ยาว 2 · 1/8 ยาว 3 ...
- ③ สหสัมพันธ์ — เลื่อนแล้วเทียบตัวเอง ได้ค่าต่ำคงที่ = −1/N
-LFSR = shift register + XOR ป้อนกลับ
-เปลี่ยน seed = ได้ลำดับเดิม แต่ "หมุน" ตำแหน่ง</span>🎙 อาจารย์พูดตรงกัน: <b>"เปลี่ยน seed = ลำดับหมุน"</b> · <b>PN 3 บิต → 8 แถบ</b></span></div>
-        <div class="tick" data-t="s9"><span class="box"></span><span class="txt"><b>"สุ่มเทียม" แปลว่า:</b> กำหนดได้แน่นอน สร้างซ้ำได้ วนซ้ำทุก N — แต่ถ้าไม่รู้ seed จะดูเหมือนสุ่มจริงทุกประการ</span></div>
-
-        <h5>Gold / Walsh / OVSF / multiple spreading</h5>
-        <div class="tick" data-t="s10" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">Gold  = XOR ของ m-sequence 2 ชุด (preferred pair)
-        → ได้โค้ดจำนวนมากขึ้น โดยคุม cross-correlation ไม่ให้สูง
-Walsh = โค้ดตั้งฉากสมบูรณ์ (dot = 0) แต่ "ต้องซิงค์จังหวะเป๊ะ"
-OVSF  = Walsh แบบผันความยาวได้ — โค้ดสั้น = ส่งเร็ว / โค้ดยาว = ช้าแต่ทนกว่า
-multiple spreading 2 ชั้น:
-   ชั้นใน  = Walsh  แยกผู้ใช้ในเซลเดียวกัน (ซิงค์ได้)
-   ชั้นนอก = PN scrambling แยกเซล (ข้ามเซลซิงค์ไม่ได้)</span>🎙 อาจารย์: <b>"Walsh โค้ด = User ID"</b> · <b>"ต่างเซลใช้ PN scrambling"</b></span></div>
-
-        <h5>ข้อดี Spread Spectrum 3 ข้อ (สไลด์ 5 — ท่องเป๊ะ)</h5>
-        <div class="tick" data-t="s11" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">① มีภูมิคุ้มกันต่อ noise และการรบกวนจาก multipath
+ทำได้ 2 วิธี:  FHSS = กระโดดความถี่   ·   DSSS = คูณด้วยรหัสเร็ว ๆ</span></span></div>
+        <div class="tick" data-t="s11" data-core="1"><span class="box"></span><span class="txt"><b>ข้อดี 3 ข้อ (สไลด์ 5 — ท่องเป๊ะ ออกเติมคำ/บรรยายแน่):</b><span class="fxb">① มีภูมิคุ้มกันต่อ noise และการรบกวนจาก multipath
 ② ใช้ซ่อน / เข้ารหัสลับสัญญาณได้ (ไม่รู้โค้ดก็ถอดไม่ได้)
 ③ ให้หลายคนใช้แถบความถี่เดียวกันได้โดยแทรกสอดกันน้อย ( = CDMA )</span></span></div>
 
-        <h5>[ยึด] เลขจริง — กดเช็ควิธี</h5>
-        <div class="tick" data-t="s12"><span class="box"></span><span class="txt"><span class="fxb">ตาราง 7.1: ถอดตัวเอง = 6 (หรือ −6) · โค้ดตั้งฉาก = 0
-           B↔C ไม่ตั้งฉาก = 2 · B+C แล้วถอด B = 8
-โจทย์สไลด์ 30: สัญญาณในอากาศ (0,+2,−2,0) → ถอดของ A ได้ −4 → บิต 0
-LFSR x⁴+x+1 seed 1000 → 000100110101111  (N = 15) · R(τ≠0) = −1/15
+        <h5>② สูตรทั้งหมดของบทนี้ (ต้องจดเอง ไม่มีอะไรให้ตัด)</h5>
+        <div class="tick" data-t="s1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">chip rate = k × D          (k = ชิปต่อบิต , D = bit rate)
+processing gain  G_p = W_s / W_d = k   →  เป็น dB = 10 log k
+
+T   = 1/R          T_s = T · log₂M
+T_c ≥ T_s  →  slow FH        T_c &lt; T_s  →  fast FH
+❗ เทียบกับ T_s (คาบสัญลักษณ์) ไม่ใช่ T (คาบบิต)</span></span></div>
+        <div class="tick" data-t="s2" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">m-sequence (จาก LFSR n บิต):
+   N = 2ⁿ − 1
+   จำนวน 1 = 2ⁿ⁻¹        จำนวน 0 = 2ⁿ⁻¹ − 1
+   R(0) = 1              R(τ≠0) = −1/N
+   รันของ 1 ยาวสุด = n   ·   รันของ 0 ยาวสุด = n−1
+
+Walsh:  W₁ = (0)   ,   W₂ₙ = [ Wₙ  Wₙ ; Wₙ  W̄ₙ ]
+   W₂ = [ 00 ; 01 ]
+   W₄ แถว = 0000 · 0101 · 0011 · 0110   (ทุกคู่ dot = 0)</span></span></div>
+
+        <h5>③ FHSS — กระโดดความถี่ · "เติมกริด" อาจารย์บอกเองว่าเจอในข้อสอบ</h5>
+        <div class="tick" data-t="s3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">กระโดดความถี่พาห์ตามลำดับ PN ที่สองฝั่งรู้ตรงกัน
+
+ค่า PN n บิต → 2ⁿ แถบความถี่
+MFSK M ค่า   → M โทนต่อแถบ
+   ⇒ ช่องทั้งหมด = 2ⁿ × M
+
+★ สูตรเติมกริด:  หมายเลขช่อง = (ค่า PN × M) + ค่าสัญลักษณ์
+   ความถี่ต่ำอยู่ล่าง · ระบายทีละคอลัมน์ ห้ามข้าม
+
+slow FH : PN 1 ค่า ครอบหลายสัญลักษณ์      (T_c ≥ T_s)
+fast FH : 1 สัญลักษณ์ กระโดดหลาย hop       (T_c &lt; T_s)
+          → โทนเดิม แต่ไปโผล่คนละแถบ</span>🎙 <b>"เจอในข้อสอบ — ดูก่อนว่า slow หรือ fast"</b></span></div>
+        <div class="tick" data-t="s3b"><span class="box"></span><span class="txt"><b>เดินมือตัวอย่างเดียว จำท่าไว้:</b><span class="fxb">PN 3 บิตให้ค่า 101 · MFSK M = 4 · บิตที่จะส่งคือ 10
+
+PN 101₂ = 5           → แถบที่ 5
+สัญลักษณ์ 10₂ = 2      → โทนที่ 2 ในแถบนั้น
+ช่อง = 5×4 + 2 = 22    (PN 3 บิต → 8 แถบ × 4 โทน = ช่อง 0–31)</span></span></div>
+        <div class="tick" data-t="s4" data-core="1"><span class="box"></span><span class="txt"><b>ทำไม FH ทนการรบกวน (jamming) — คำตอบบรรยาย:</b> ตัวกวนต้องเดาความถี่ให้ตรง · แจมช่องเดียว → เสียแค่บาง hop ที่เหลือรอด (มี FEC ซ่อมต่อได้) · แจมทุกช่อง → ต้องเกลี่ยกำลังจนอ่อนเกินจะทำอะไรได้</span></div>
+
+        <h5>④ DSSS — คูณด้วยรหัสชิปเร็ว ๆ</h5>
+        <div class="tick" data-t="s5" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">เอาบิตข้อมูล XOR กับรหัสชิปที่เร็วกว่ามาก (1 บิต → k ชิป)
+   → สเปกตรัมกว้างขึ้น k เท่า
+
+BPSK:  s(t) = A · d(t) · c(t) · cos(2πf_c t)
+
+ถอด: XOR ด้วยรหัสเดิมอีกครั้ง  (c ⊕ c = 0)  → ได้ข้อมูลคืน
+
+ผลต่อสเปกตรัม: กำลังรวมเท่าเดิม แต่กระจายกว้าง
+   → ความหนาแน่นกำลังต่อความถี่ต่ำจนเหมือน noise พื้นหลัง (ซ่อนตัวได้)</span></span></div>
+
+        <h5>⑤ CDMA — ออกคำนวณแน่ ⭐</h5>
+        <div class="tick" data-t="s6" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">แต่ละคนมีรหัส "ตั้งฉาก" กัน → ส่งพร้อมกันบนความถี่เดียวกันได้
+
+แปลงก่อนเสมอ:   0 → −1        1 → +1
+กฎส่ง :  บิต 1 = ส่งรหัสตรง ๆ  ·  บิต 0 = ส่งรหัสกลับขั้ว
+อากาศ :  บวกกันตรง ๆ ทีละชิป (อากาศไม่เลือกให้ใคร)
+กฎถอด :  S(d) = Σ dᵢ·cᵢ   แล้ว ÷ k
+          +1 = บิต 1  ·  −1 = บิต 0  ·  ≈0 = ไม่ใช่ของเรา
+
+❗ ชิปมีแค่ +1 กับ −1 ไม่มีศูนย์</span>🎙 <b>"ชิปไม่มีศูนย์ มีแค่ ±1 จำตรงนี้"</b> · <b>CDMA = มือถือ 2.5G/3G</b></span></div>
+        <div class="tick" data-t="s6b" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ — โจทย์สไลด์ 30 (โจทย์เดียวของบทนี้ ทำให้คล่อง):</b><span class="fxb">A มีรหัส 0011 ส่งบิต 0   ·   B มีรหัส 0101 ส่งบิต 1
+
+ขั้น 1 แปลงเป็น ±1:  A = (−1,−1,+1,+1)   B = (−1,+1,−1,+1)
+ขั้น 2 เช็กตั้งฉาก:  A·B = (+1)+(−1)+(−1)+(+1) = 0  ✓
+ขั้น 3 ใครส่งอะไร:  A บิต 0 → กลับขั้ว = (+1,+1,−1,−1)
+                     B บิต 1 → ตรง ๆ    = (−1,+1,−1,+1)
+ขั้น 4 (ก) อากาศ = บวกทีละชิป
+              +1  +1  −1  −1
+              −1  +1  −1  +1
+            ────────────────
+               0  +2  −2   0
+ขั้น 5 (ข) ถอดของ A: คูณด้วยรหัส A แล้วรวม
+            (0)(−1) + (2)(−1) + (−2)(+1) + (0)(+1) = −4
+ขั้น 6 ÷ k = −4/4 = −1   →   บิต 0  ✓ ตรงกับที่ A ส่งจริง
+       (ลองถอดของ B จะได้ +4 ÷4 = +1 → บิต 1 ✓)</span></span></div>
+        <div class="tick" data-t="s7" data-core="1"><span class="box"></span><span class="txt"><b>ทำไมส่งพร้อมกันได้ — คำตอบบรรยาย:</b> โค้ดตั้งฉากกัน (สหสัมพันธ์ไขว้ = 0) → ตอนถอดรหัส สัญญาณของคนอื่น<b>หักล้างกันเป็นศูนย์ไปเอง</b> เหลือแต่ของเรา</span></div>
+
+        <h5>⑥ PN sequence / LFSR</h5>
+        <div class="tick" data-t="s8" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">คุณสมบัติ PN 3 ข้อ (สไลด์ 33):
+ ① สมดุล      จำนวน 1 กับ 0 ต่างกันไม่เกิน 1
+ ② รัน        1/2 ยาว 1 · 1/4 ยาว 2 · 1/8 ยาว 3 ...
+ ③ สหสัมพันธ์  เลื่อนแล้วเทียบตัวเอง ได้ค่าต่ำคงที่ = −1/N
+
+LFSR = shift register + XOR ป้อนกลับ ใช้สร้างลำดับ PN
+เปลี่ยน seed = ได้ลำดับ "เดิม" แต่ถูกเลื่อน (หมุน) ตำแหน่ง</span>🎙 อาจารย์พูดตรงกัน <b>"เปลี่ยน seed = ลำดับหมุน"</b> · <b>PN 3 บิต → 8 แถบ</b></span></div>
+        <div class="tick" data-t="s8b" data-core="1"><span class="box"></span><span class="txt"><b>เดินมือ — ประเมินรหัส 15 บิต (โจทย์สไลด์ 51):</b><span class="fxb">รหัส:  1 0 0 1 1 0 1 0 1 1 1 1 0 0 0     (N = 15 → n = 4)
+
+① สมดุล:  "1" มี 8 ตัว · "0" มี 7 ตัว → ต่างกัน 1  ✓ ผ่าน
+           (สูตร: 2ⁿ⁻¹ = 8 และ 2ⁿ⁻¹−1 = 7 ตรงเป๊ะ)
+
+② รัน:  1 | 00 | 11 | 0 | 1 | 0 | 1111 | 000   → รวม 8 ชุด
+        ยาว 1 → 4 ชุด (= 1/2 ของ 8)  ✓
+        ยาว 2 → 2 ชุด (= 1/4 ของ 8)  ✓
+        รันของ 1 ยาวสุด = 4 = n ✓ · ของ 0 ยาวสุด = 3 = n−1 ✓
+
+③ สหสัมพันธ์: R(τ≠0) = −1/15 ≈ −0.067  (ต่ำคงที่ทุกการเลื่อน) ✓
+   ทางลัดแบบสไลด์: XOR รหัสกับตัวมันเองที่เลื่อนไป → ยังสมดุลอยู่ = ผ่าน</span></span></div>
+        <div class="tick" data-t="s9"><span class="box"></span><span class="txt"><b>"สุ่มเทียม" แปลว่า:</b> สร้างจากกฎที่กำหนดแน่นอน ทำซ้ำได้ วนซ้ำทุก N บิต — แต่ถ้าไม่รู้ seed จะดูเหมือนสุ่มจริงทุกประการ</span></div>
+
+        <h5>⑦ Gold / Walsh / OVSF / แผ่ 2 ชั้น</h5>
+        <div class="tick" data-t="s10" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">Gold  = XOR ของ m-sequence 2 ชุดที่จับคู่กันดี (preferred pair)
+        → ได้จำนวนรหัสมากขึ้นมาก โดยคุมค่าสหสัมพันธ์ไขว้ไม่ให้สูง
+        (ใช้ใน GPS)
+
+Walsh = โค้ดตั้งฉากสมบูรณ์ (dot = 0)
+        ❗ ข้อจำกัด: ตั้งฉากเฉพาะเมื่อ "ซิงค์จังหวะตรงกันเป๊ะ"
+
+OVSF  = Walsh แบบผันความยาวได้
+        โค้ดสั้น = แผ่น้อย = ส่งเร็ว | โค้ดยาว = ช้าแต่ทนกว่า
+
+แผ่ 2 ชั้น (multiple spreading):
+   ชั้นใน  = Walsh          แยกผู้ใช้ในเซลเดียวกัน (ซิงค์ได้)
+   ชั้นนอก = PN scrambling  แยกเซล (ข้ามเซลซิงค์ไม่ได้)</span>🎙 <b>"Walsh โค้ด = User ID"</b> · <b>"ต่างเซลใช้ PN scrambling"</b></span></div>
+
+        <h5>⑧ [ยึด] เลขจริงของบทนี้ — กดเช็ควิธี</h5>
+        <div class="tick" data-t="s12"><span class="box"></span><span class="txt"><span class="fxb">ตาราง 7.1  ถอดตัวเอง = 6 (หรือ −6) · โค้ดตั้งฉาก = 0
+            B↔C ไม่ตั้งฉาก = 2 · B+C แล้วถอด B = 8
+โจทย์สไลด์ 30  อากาศ (0,+2,−2,0) → ถอด A ได้ −4 ÷4 = −1 → บิต 0
+LFSR x⁴+x+1 seed 1000 → 000100110101111  (N = 15)
+รหัสสไลด์ 51 = ลำดับเดียวกันนั้น "หมุนไป 3 ตำแหน่ง" พอดี
+R(τ≠0) = −1/15    ·    W₄ ตั้งฉากครบ 6 คู่
 การบ้านในคาบ 3 ส.ค. slow FH 10 ช่อง = 1,3,12,15,7,5,10,8,0,3
-🌍 ของจริง: Wi-Fi/Bluetooth = FHSS+DSSS · GPS = DSSS(Gold) · 3G = CDMA</span></span></div>
+🌍 Wi-Fi/Bluetooth = FHSS+DSSS · GPS = DSSS(Gold) · 3G = CDMA</span></span></div>
       </div>
     </section>
 
@@ -520,7 +796,7 @@ d  = ระยะทาง               | สัญญาณข้อมูล 
         <p class="hint" style="margin-top:8px"><b>ทำไมช่องนี้ใหญ่ที่สุด:</b> 5.5 ข้อจาก 10 เป็นข้อ "คำ" และ<b>ชีทแจกไม่มีคำอธิบายสักตัว</b> · เขียนแบบ <b>คำถาม → คำตอบสั้นที่สุดที่ยังครบ</b> เพราะอาจารย์บอกเอง "<b>ตอบเกินคะแนนหาย</b>" · ลอกได้เท่าไรลอก ตัดท้ายสุดเป็นอันดับสุดท้าย</p>
 
         <h5>W1 · dB</h5>
-        <div class="tick" data-t="q1" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทำไมต้องใช้หน่วย dB?</span><span class="a">เปลี่ยนการคูณ/หารเป็นบวก/ลบ · ครอบช่วงกำลังที่กว้างมากด้วยเลขสั้น ๆ · เทียบอัตราส่วนได้ตรง ๆ</span></div></span></div>
+        <div class="tick" data-t="q1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทำไมต้องใช้หน่วย dB?</span><span class="a">เปลี่ยนการคูณ/หารเป็นบวก/ลบ · ครอบช่วงกำลังที่กว้างมากด้วยเลขสั้น ๆ · เทียบอัตราส่วนได้ตรง ๆ</span></div></span></div>
         <div class="tick" data-t="q2"><span class="box"></span><span class="txt"><div class="qa"><span class="q">dB ต่างจาก dBW/dBm อย่างไร?</span><span class="a">dB เป็น "อัตราส่วน" ไม่มีค่าสัมบูรณ์ · dBW/dBm เทียบกับฐาน 1 W / 1 mW จึงเป็นค่ากำลังจริง</span></div></span></div>
 
         <div class="tick" data-t="q2b"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทำไม dBm กับ dBW ของกำลังเดียวกันต่างกัน 30?</span><span class="a">เพราะฐานต่างกัน 1000 เท่า (1 W = 1000 mW) และ 10 log 1000 = 30 dB</span></div></span></div>
@@ -534,8 +810,8 @@ d  = ระยะทาง               | สัญญาณข้อมูล 
         <div class="tick" data-t="q7"><span class="box"></span><span class="txt"><div class="qa"><span class="q">Circuit switching มีกี่เฟส?</span><span class="a">3 เฟส — จองวงจร · ส่งข้อมูล · คืนวงจร</span></div></span></div>
 
         <h5>W3 · สัญญาณและความจุ</h5>
-        <div class="tick" data-t="q8" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">Nyquist ต่างจาก Shannon อย่างไร?</span><span class="a">Nyquist = ความจุสูงสุดของช่อง<b>ไร้ noise</b> จำกัดด้วยจำนวนระดับ M · Shannon = ความจุสูงสุด<b>เมื่อมี noise</b> จำกัดด้วย SNR</span></div></span></div>
-        <div class="tick" data-t="q9" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">amplifier ต่างจาก repeater อย่างไร?</span><span class="a">amplifier ขยายสัญญาณรวม noise ที่ติดมาด้วย · repeater ตีความเป็นบิตแล้วสร้างสัญญาณใหม่ที่สะอาด</span></div></span></div>
+        <div class="tick" data-t="q8"><span class="box"></span><span class="txt"><div class="qa"><span class="q">Nyquist ต่างจาก Shannon อย่างไร?</span><span class="a">Nyquist = ความจุสูงสุดของช่อง<b>ไร้ noise</b> จำกัดด้วยจำนวนระดับ M · Shannon = ความจุสูงสุด<b>เมื่อมี noise</b> จำกัดด้วย SNR</span></div></span></div>
+        <div class="tick" data-t="q9"><span class="box"></span><span class="txt"><div class="qa"><span class="q">amplifier ต่างจาก repeater อย่างไร?</span><span class="a">amplifier ขยายสัญญาณรวม noise ที่ติดมาด้วย · repeater ตีความเป็นบิตแล้วสร้างสัญญาณใหม่ที่สะอาด</span></div></span></div>
         <div class="tick" data-t="q10"><span class="box"></span><span class="txt"><div class="qa"><span class="q">FDM ต่างจาก TDM อย่างไร?</span><span class="a">FDM แบ่งช่องด้วย<b>ความถี่</b> ส่งพร้อมกัน · TDM แบ่งด้วย<b>เวลา</b> ผลัดกันส่ง</span></div></span></div>
         <div class="tick" data-t="q11"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทำไมแบนด์วิดท์จำกัดทำให้สัญญาณผิดเพี้ยน?</span><span class="a">สัญญาณประกอบจากฮาร์มอนิกหลายความถี่ · ตัดความถี่สูงทิ้ง = ขาดฮาร์มอนิกที่ทำให้รูปคลื่นคม สัญญาณจึงมน/เบี้ยว</span></div></span></div>
         <div class="tick" data-t="q12"><span class="box"></span><span class="txt"><div class="qa"><span class="q">สื่อชนิดใดมีแบนด์วิดท์สูงสุดและทนการรบกวนที่สุด?</span><span class="a">ใยแก้วนำแสง</span></div></span></div>
@@ -566,15 +842,15 @@ d  = ระยะทาง               | สัญญาณข้อมูล 
         <h5>W5 · การเข้ารหัสสัญญาณ</h5>
         <div class="tick" data-t="q26" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">⭐ encoder ต่างจาก modulator อย่างไร?</span><span class="a">ดูที่ขาออก — encoder ให้ผลลัพธ์เป็น<b>ดิจิทัล</b> · modulator ให้ผลลัพธ์เป็น<b>แอนะล็อก</b></span></div></span></div>
         <div class="tick" data-t="q27"><span class="box"></span><span class="txt"><div class="qa"><span class="q">อุปกรณ์แปลงดิจิทัล→แอนะล็อก / แอนะล็อก→ดิจิทัล เรียกว่าอะไร?</span><span class="a">โมเด็ม (modem) / โคเดก (codec)</span></div></span></div>
-        <div class="tick" data-t="q28" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ASK, FSK, PSK เปลี่ยนพารามิเตอร์อะไร?</span><span class="a">แอมพลิจูด · ความถี่ · เฟส ตามลำดับ</span></div></span></div>
+        <div class="tick" data-t="q28"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ASK, FSK, PSK เปลี่ยนพารามิเตอร์อะไร?</span><span class="a">แอมพลิจูด · ความถี่ · เฟส ตามลำดับ</span></div></span></div>
         <div class="tick" data-t="q29" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">แบบไหนทน noise ดีที่สุด/แย่ที่สุด?</span><span class="a">ดีที่สุด PSK (BPSK) · แย่ที่สุด ASK</span></div></span></div>
         <div class="tick" data-t="q30"><span class="box"></span><span class="txt"><div class="qa"><span class="q">DPSK ต่างจาก PSK อย่างไร ข้อดีคือ?</span><span class="a">เข้ารหัสที่<b>การเปลี่ยนเฟส</b>เทียบสัญลักษณ์ก่อนหน้า ไม่ใช่เฟสสัมบูรณ์ · ข้อดี = ตัวรับไม่ต้องมีเฟสอ้างอิง (noncoherent) วงจรง่ายกว่า</span></div></span></div>
         <div class="tick" data-t="q31" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">bit rate ต่างจาก baud rate อย่างไร?</span><span class="a">bit rate = บิตต่อวินาที · baud rate = <b>สัญลักษณ์</b>ต่อวินาที · D = R/log₂M — 1 สัญลักษณ์พาได้หลายบิต</span></div></span></div>
         <div class="tick" data-t="q32" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ข้อดี/ข้อเสียของการเพิ่มจำนวนระดับ M?</span><span class="a">ข้อดี = ส่งได้เร็วขึ้นในแบนด์วิดท์เท่าเดิม · ข้อเสีย = จุดในคอนสเตลเลชันใกล้กัน จึง<b>ต้องการ SNR สูงขึ้น</b> และไวต่อ noise มากขึ้น</span></div></span></div>
         <div class="tick" data-t="q33"><span class="box"></span><span class="txt"><div class="qa"><span class="q">QAM คืออะไร?</span><span class="a">การมอดูเลตที่เปลี่ยน<b>ทั้งแอมพลิจูดและเฟส</b>พร้อมกัน ทำให้บรรจุบิตต่อสัญลักษณ์ได้มาก</span></div></span></div>
-        <div class="tick" data-t="q34" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">PCM มีกี่ขั้นตอน อะไรบ้าง?</span><span class="a">3 ขั้น — สุ่มสัญญาณ (sampling) · ควอนไทซ์ (quantizing) · เข้ารหัสเป็นบิต (encoding)</span></div></span></div>
+        <div class="tick" data-t="q34"><span class="box"></span><span class="txt"><div class="qa"><span class="q">PCM มีกี่ขั้นตอน อะไรบ้าง?</span><span class="a">3 ขั้น — สุ่มสัญญาณ (sampling) · ควอนไทซ์ (quantizing) · เข้ารหัสเป็นบิต (encoding)</span></div></span></div>
         <div class="tick" data-t="q35" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">quantizing noise คืออะไร ลดได้อย่างไร?</span><span class="a">ความคลาดเคลื่อนจากการปัดค่าเข้าระดับที่ใกล้ที่สุด · ลดโดยเพิ่มจำนวนบิต — เพิ่ม 1 บิต ระดับเพิ่ม 2 เท่า SNR ดีขึ้น 6.02 dB</span></div></span></div>
-        <div class="tick" data-t="q36" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทฤษฎีการสุ่มสัญญาณ (sampling theorem) ว่าอย่างไร?</span><span class="a">ต้องสุ่มด้วยอัตราอย่างน้อย 2 เท่าของความถี่สูงสุดในสัญญาณ (fs ≥ 2B) จึงจะสร้างสัญญาณเดิมกลับมาได้</span></div></span></div>
+        <div class="tick" data-t="q36"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทฤษฎีการสุ่มสัญญาณ (sampling theorem) ว่าอย่างไร?</span><span class="a">ต้องสุ่มด้วยอัตราอย่างน้อย 2 เท่าของความถี่สูงสุดในสัญญาณ (fs ≥ 2B) จึงจะสร้างสัญญาณเดิมกลับมาได้</span></div></span></div>
         <div class="tick" data-t="q37"><span class="box"></span><span class="txt"><div class="qa"><span class="q">DM ต่างจาก PCM อย่างไร?</span><span class="a">DM ส่งเพียง 1 บิตบอก "ขึ้น/ลง" เทียบค่าก่อนหน้า วงจรง่ายกว่ามาก แต่เกิด slope overload เมื่อสัญญาณเปลี่ยนเร็ว</span></div></span></div>
         <div class="tick" data-t="q38"><span class="box"></span><span class="txt"><div class="qa"><span class="q">vocoder ต่างจาก PCM อย่างไร?</span><span class="a">vocoder ส่ง<b>พารามิเตอร์ของเสียงพูด</b>แทนรูปคลื่น จึงใช้บิตเรตต่ำมาก แต่ใช้ได้เฉพาะเสียงพูด</span></div></span></div>
         <div class="tick" data-t="q39"><span class="box"></span><span class="txt"><div class="qa"><span class="q">Manchester ดีอย่างไร เสียอย่างไร?</span><span class="a">ดี = มีการเปลี่ยนระดับกลางบิตเสมอ จึงซิงค์นาฬิกาได้เองและไม่มี DC · เสีย = ใช้แบนด์วิดท์เป็น 2 เท่า</span></div></span></div>
@@ -584,7 +860,7 @@ d  = ระยะทาง               | สัญญาณข้อมูล 
 
         <h5>W6 · การแผ่สเปกตรัม</h5>
         <div class="tick" data-t="q43" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">⭐ ข้อดีของการแผ่สเปกตรัมมีอะไรบ้าง?</span><span class="a">3 ข้อ — ① ภูมิคุ้มกันต่อ noise และ multipath ② ซ่อน/เข้ารหัสลับสัญญาณได้ ③ ให้หลายผู้ใช้ใช้แถบเดียวกันโดยแทรกสอดกันน้อย</span></div></span></div>
-        <div class="tick" data-t="q44" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">FHSS ทำงานอย่างไร?</span><span class="a">เปลี่ยน (กระโดด) ความถี่พาห์ไปเรื่อย ๆ ตามลำดับที่กำหนดโดยรหัส PN ซึ่งตัวส่งและตัวรับรู้ตรงกัน</span></div></span></div>
+        <div class="tick" data-t="q44"><span class="box"></span><span class="txt"><div class="qa"><span class="q">FHSS ทำงานอย่างไร?</span><span class="a">เปลี่ยน (กระโดด) ความถี่พาห์ไปเรื่อย ๆ ตามลำดับที่กำหนดโดยรหัส PN ซึ่งตัวส่งและตัวรับรู้ตรงกัน</span></div></span></div>
         <div class="tick" data-t="q45" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">slow FH ต่างจาก fast FH อย่างไร?</span><span class="a">slow = คาบการกระโดด<b>ยาวกว่าหรือเท่ากับ</b>คาบสัญลักษณ์ (T_c ≥ T_s) กระโดด 1 ครั้งครอบหลายสัญลักษณ์ · fast = กระโดดหลายครั้งต่อ 1 สัญลักษณ์ (T_c &lt; T_s)</span></div></span></div>
         <div class="tick" data-t="q46" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">ทำไม FHSS ทนต่อการรบกวน (jamming)?</span><span class="a">ผู้รบกวนต้องเดาความถี่ให้ตรง — แจมช่องเดียวเสียแค่บาง hop · แจมทุกช่องต้องเกลี่ยกำลังจนอ่อนเกินไป</span></div></span></div>
         <div class="tick" data-t="q47" data-core="1"><span class="box"></span><span class="txt"><div class="qa"><span class="q">DSSS ทำงานอย่างไร?</span><span class="a">นำบิตข้อมูล XOR กับรหัสชิปที่มีอัตราสูงกว่ามาก (1 บิต → k ชิป) ทำให้สเปกตรัมกว้างขึ้น k เท่า</span></div></span></div>
