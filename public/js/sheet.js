@@ -42,6 +42,39 @@
     });
   });
 
+  /* --- โหมดฉบับย่อ: ซ่อนบรรทัดที่ตัดได้ก่อน --- */
+  var CKEY = 'wl-sheet-coremode-v1';
+  var coreBtn = document.getElementById('btnCore');
+  var hint = document.getElementById('coreHint');
+  var optional = rows.filter(function (r) { return !r.hasAttribute('data-core'); });
+
+  function applyCore(on) {
+    optional.forEach(function (r) { r.style.display = on ? 'none' : ''; });
+    // ซ่อนหัวข้อย่อยที่ไม่เหลือบรรทัดเลย
+    Array.prototype.forEach.call(document.querySelectorAll('.blk h5'), function (h) {
+      var n = h.nextElementSibling, any = false;
+      while (n && n.tagName !== 'H5') {
+        if (n.classList && n.classList.contains('tick') && n.style.display !== 'none') { any = true; break; }
+        n = n.nextElementSibling;
+      }
+      h.style.display = any ? '' : 'none';
+    });
+    if (coreBtn) coreBtn.textContent = on ? '📖 กลับไปฉบับเต็ม (186 บรรทัด)' : '⚡ ฉบับย่อ (123 บรรทัด)';
+    if (hint) hint.style.opacity = on ? '.6' : '';
+    document.documentElement.setAttribute('data-sheetmode', on ? 'core' : 'full');
+  }
+
+  if (coreBtn) {
+    var coreOn = false;
+    try { coreOn = localStorage.getItem(CKEY) === '1'; } catch (e) {}
+    applyCore(coreOn);
+    coreBtn.addEventListener('click', function () {
+      coreOn = !coreOn;
+      try { localStorage.setItem(CKEY, coreOn ? '1' : '0'); } catch (e) {}
+      applyCore(coreOn);
+    });
+  }
+
   if (reset) {
     reset.addEventListener('click', function () {
       rows.forEach(function (r) { r.classList.remove('done'); });
