@@ -450,3 +450,58 @@ details.sol.locked summary::before { content:"🔒 "; }
   letter-spacing: .4px; color: var(--accent-ink); }
 .a4col { padding: 4px 14px 10px; }
 .a4col p { margin: 9px 0; }
+
+/* ═══════════ หน้า /sheet — ชีท A4 ฉบับลอกมือ ═══════════ */
+.sheetbar { position: sticky; top: 52px; z-index: 40; background: var(--card); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 10px 14px; margin: 14px 0 18px; display: flex; align-items: center; gap: 12px;
+  flex-wrap: wrap; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+.sheetbar .pbar { flex: 1 1 200px; height: 10px; background: var(--line-2); border-radius: 6px; overflow: hidden; min-width: 160px; }
+.sheetbar .pbar i { display: block; height: 100%; width: 0; background: var(--accent-warm); transition: width .3s; }
+.sheetbar .ptxt { font-family: 'JetBrains Mono', monospace; font-size: .85rem; font-weight: 700; color: var(--accent-ink); }
+.sheetbar button { font: inherit; font-size: .78rem; padding: 5px 10px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--paper-2); color: var(--ink); }
+.sheetbar button:hover { border-color: var(--accent-warm); }
+
+.blk { border: 1px solid var(--line-2); border-radius: 10px; margin: 22px 0; background: var(--paper-2); overflow: hidden; }
+.blk > .blk-h { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 11px 16px;
+  background: var(--card); border-bottom: 1px solid var(--line-2); font-weight: 700; }
+.blk-n { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex: none;
+  border-radius: 50%; background: var(--blkc, #58c4dd); color: #10121c; font-weight: 800; font-size: .95rem; }
+.blk-h .lines { margin-left: auto; font-size: .74rem; font-weight: 500; color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace; }
+.blk-body { padding: 6px 16px 16px; }
+.blk h5 { margin: 16px 0 6px; font-size: .95rem; color: var(--accent-ink); border-bottom: 1px dashed var(--line-2); padding-bottom: 4px; }
+.blk h5:first-child { margin-top: 8px; }
+
+.tick { display: flex; gap: 9px; align-items: flex-start; padding: 5px 7px; border-radius: 6px; cursor: pointer;
+  line-height: 1.75; font-size: .93rem; }
+.tick:hover { background: var(--card); }
+.tick > .box { flex: none; width: 17px; height: 17px; margin-top: 4px; border: 1.5px solid var(--line-2);
+  border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: .72rem;
+  color: var(--accent-warm); background: var(--paper); }
+.tick.done { opacity: .42; }
+.tick.done > .box { border-color: var(--accent-warm); }
+.tick.done > .box::after { content: '✓'; font-weight: 800; }
+.tick > .txt { flex: 1; min-width: 0; }
+
+.fx { font-family: 'JetBrains Mono', 'IBM Plex Sans Thai', monospace; font-size: .9em;
+  background: var(--card); border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
+.fxb { display: block; font-family: 'JetBrains Mono', 'IBM Plex Sans Thai', monospace; font-size: .88rem;
+  background: var(--card); border-left: 3px solid var(--blkc, #58c4dd); border-radius: 0 5px 5px 0;
+  padding: 7px 11px; margin: 5px 0; line-height: 1.8; overflow-x: auto; }
+.cut { display: inline-block; font-size: .7rem; font-weight: 700; padding: 1px 7px; border-radius: 10px;
+  background: rgba(120,120,120,.18); color: var(--text-dim); border: 1px dashed var(--line-2); white-space: nowrap; }
+.must { display: inline-block; font-size: .7rem; font-weight: 800; padding: 1px 7px; border-radius: 10px;
+  background: rgba(255,120,80,.16); color: var(--accent-warm); white-space: nowrap; }
+
+.qa { border-left: 3px solid var(--line-2); padding: 3px 0 3px 11px; margin: 3px 0; line-height: 1.7; font-size: .92rem; }
+.qa .q { color: var(--accent-ink); font-weight: 600; }
+.qa .a { display: block; }
+.qa .a::before { content: '→ '; color: var(--accent-warm); font-weight: 800; }
+
+.mapt { width: 100%; border-collapse: collapse; font-size: .84rem; margin: 8px 0; }
+.mapt th, .mapt td { border: 1px solid var(--line-2); padding: 6px 8px; text-align: left; vertical-align: top; }
+.mapt th { background: var(--card); font-size: .8rem; }
+.mapt td:first-child { font-family: 'JetBrains Mono', monospace; font-size: .82rem; white-space: nowrap; }
+.mapwrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 600px) { .mapt td:first-child { white-space: normal; } .sheetbar { top: 46px; } }
