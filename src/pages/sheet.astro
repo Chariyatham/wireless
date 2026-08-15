@@ -35,10 +35,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="sheetbar">
       <span class="ptxt" id="pTxt">ลอกไปแล้ว 0%</span>
       <span class="pbar"><i id="pBar"></i></span>
-      <button type="button" id="btnCore">⚡ ฉบับย่อ (123 บรรทัด)</button>
+      <button type="button" id="btnCore">⚡ ฉบับย่อ (128 บรรทัด)</button>
       <button type="button" id="btnReset">ล้างเครื่องหมายทั้งหมด</button>
     </div>
-    <p class="hint" id="coreHint" style="margin:-8px 0 18px">กด <b>⚡ ฉบับย่อ</b> ถ้ารู้ตัวว่าจดไม่ทัน — จะซ่อน 63 บรรทัดที่ตัดได้ก่อน เหลือ <b>123 บรรทัด (66%)</b> ที่ให้คะแนนสูงสุดต่อเนื้อที่ · กดซ้ำเพื่อกลับมาฉบับเต็ม <span class="plus">การจัดลำดับความสำคัญเป็นคำแนะนำจากผู้เขียน โดยถ่วงตามสัดส่วนข้อสอบจริง</span></p>
+    <p class="hint" id="coreHint" style="margin:-8px 0 18px">กด <b>⚡ ฉบับย่อ</b> ถ้ารู้ตัวว่าจดไม่ทัน — จะซ่อน 63 บรรทัดที่ตัดได้ก่อน เหลือ <b>128 บรรทัด (67%)</b> ที่ให้คะแนนสูงสุดต่อเนื้อที่ · กดซ้ำเพื่อกลับมาฉบับเต็ม <span class="plus">การจัดลำดับความสำคัญเป็นคำแนะนำจากผู้เขียน โดยถ่วงตามสัดส่วนข้อสอบจริง</span></p>
 
     <!-- ═══════════════════ ช่อง ① ═══════════════════ -->
     <section class="blk" id="b1" style="--blkc:#e06c75">
@@ -97,6 +97,13 @@ P(dBm) = 10 log₁₀ P(mW)         dBm = dBW + 30
 dBW ± dB = dBW                   dBm + dBm = ไม่มีความหมาย ✗
 Gain ใส่เครื่องหมาย +            Loss ใส่เครื่องหมาย −</span></span></div>
         <div class="tick" data-t="d4" data-core="1"><span class="box"></span><span class="txt"><b>สมการทำโจทย์:</b> <span class="fx">Pr(dB…) = Pt(dB…) + Σเกนทั้งหมด − Σการสูญเสียทั้งหมด</span> — ใส่มาเป็นแถวเดียวรวดเดียว</span></div>
+        <div class="tick" data-t="d3b" data-core="1"><span class="box"></span><span class="txt"><b>🎙 อาจารย์เตือนเองว่า "คนจำสลับ" — เขียนตัวอย่างกำกับไว้เลย:</b><span class="fxb">35 dBm  →  35 − 30  =  5 dBW      (dBm ไป dBW = ลบ)
+ 5 dBW  →   5 + 30  = 35 dBm      (dBW ไป dBm = บวก)
+"อย่าจำสลับ 30 บวก/ลบ — สลับปุ๊บ ความหมายเปลี่ยนเลย"</span></span></div>
+        <div class="tick" data-t="d3c" data-core="1"><span class="box"></span><span class="txt"><b>🎙 "เวลาสอบเดี๋ยวจะเจอพวกนี้แหละ" — ผลลัพธ์เป็น dB ไม่ใช่ dBm:</b><span class="fxb">วัตต์ ÷ วัตต์ = อัตราส่วน → ไม่มีหน่วย → ผลเป็น "dB" เฉย ๆ
+เช่น Loss = Pt/Pr → เป็น dB · เกน G → เป็น dB
+ที่เป็น dBW/dBm ได้ ต้องหารด้วย "ฐาน" คือ 1 W หรือ 1 mW เท่านั้น
+❗ 10log(P/1W) — อย่าลืมหารด้วยฐาน และกดเครื่องให้ครบวงเล็บตอนคำตอบติดลบ</span></span></div>
 
         <h5>หมุดตัวเลข (verify ด้วยสคริปต์แล้ว — ไว้กดเครื่องเช็คเร็ว)</h5>
         <div class="tick" data-t="d5" data-core="1"><span class="box"></span><span class="txt"><b>กำลัง:</b> <span class="fxb">1 mW = 0 dBm   ·   1 W = 30 dBm = 0 dBW
@@ -187,6 +194,14 @@ directional  เอาหลายต้นเรียงเป็นแถว 
         <div class="tick" data-t="a2" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ฮอร์น (ปากแตร):  Ae = 0.81A   ,  G = 10A/λ²
 จานพาราโบลา:     Ae = 0.56A   ,  G = 7A/λ²
 ไอโซทรอปิก G=1 · ไดโพลเล็ก/บ่วง 1.5 · ไดโพลครึ่งคลื่น 1.64 · เทิร์นสไตล์ 1.15</span>❗ สูตรเกนใช้ <b>A (พื้นที่จริง)</b> ไม่ใช่ Ae</span></div>
+        <div class="tick" data-t="a2b" data-core="1"><span class="box"></span><span class="txt"><b>🎙 อาจารย์บอกว่า "เรื่องนี้เน้นย้ำอย่างหนึ่ง" — A คือ <u>พื้นที่หน้าตัด</u> ต้องดูรูปทรงก่อน:</b><span class="fxb">หน้าตัดวงกลม (จาน)      → A = πr²    , r = Ø/2
+หน้าตัดสี่เหลี่ยม (ฮอร์น) → A = กว้าง × ยาว
+   ← อาจารย์ถามในคาบเลยว่า "หน้าตัดรูปนี้เป็นรูปอะไร"</span></span></div>
+        <div class="tick" data-t="a2c" data-core="1"><span class="box"></span><span class="txt"><b>🎙 กับดักหน่วยที่อาจารย์ย้ำ 3 เรื่อง:</b><span class="fxb">① เกน G แบบ "เท่า" ไม่มีหน่วย — "ใครใส่หน่วยเป็น dB ปุ๊บ จบเลย"
+   จะเป็น dB ต่อเมื่อ 10log แล้วเท่านั้น
+② Ae หน่วยเป็น "ตารางเมตร (m²)" เสมอ
+③ "อย่าลืมพวกเซนติเมตรด้วย" — 10⁶ กับ 10⁹ เขียนสลับ = ความหมายเปลี่ยนทันที
+   ตัวอย่างในคาบ: quarter wave = L/4 = 0.75 m = 75 cm</span></span></div>
 
         <h5>การแพร่กระจาย 3 โหมด (ท่องเป๊ะ — เติมคำชัวร์)</h5>
         <div class="tick" data-t="a3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">คลื่นพื้นดิน (ground wave)  ≤ 2 MHz     เกาะไปตามผิวโลก   → วิทยุ AM
@@ -231,9 +246,13 @@ hw3 ข้อ1: Eb/N₀ 8.4 dB, 290 K, 2400 bps → S = −161.77 dBW
       <div class="blk-h"><span class="blk-n">5</span> W5 · การเข้ารหัสสัญญาณ <span class="must">2–3 ข้อ</span><span class="lines">~40 บรรทัด</span></div>
       <div class="blk-body">
         <h5>⭐ Encoder vs Modulator — อาจารย์บอกเองว่าออกสอบ</h5>
-        <div class="tick" data-t="e1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ดูที่ "ขาออก" เสมอ:
-encoder   → ขาออกเป็น "ดิจิทัล" เสมอ
-modulator → ขาออกเป็น "แอนะล็อก" เสมอ</span></span></div>
+        <div class="tick" data-t="e1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ขาเข้า = "ข้อมูล" (เป็น analog หรือ digital ก็ได้ทั้งคู่)
+ขาออก = "สัญญาณ"  ← ดูตรงนี้เสมอ
+encoder   → ขาออกเป็น "ดิจิทัล" เสมอ    · ปลายทางใช้ decoder
+modulator → ขาออกเป็น "แอนะล็อก" เสมอ  · ปลายทางใช้ demodulator
+   modulator ทำงานโดย "ใส่ความถี่พาห์ (carrier) เข้าไป" ให้ส่งไปได้ไกลขึ้น</span>🎙 อาจารย์พูดเอง "<b>อันนี้สำคัญนะ Encoder กับ Modulator ต่างกันยังไง … ถ้าเจอข้อสอบจะได้ตอบได้</b>"</span></div>
+        <div class="tick" data-t="e1b" data-core="1"><span class="box"></span><span class="txt"><b>เกณฑ์เลือกวิธีเข้ารหัส/มอดูเลต (อาจารย์ไล่ในคาบ):</b><span class="fxb">① SNR มีค่ามากหรือน้อย   ② Data rate ที่ต้องส่ง   ③ Bandwidth ที่มี
+→ data rate ยิ่งสูง (ส่งเร็วขึ้น) ข้อผิดพลาด (error) ยิ่งมากขึ้น</span></span></div>
 
         <h5>4 คู่ ข้อมูล × สัญญาณ (ท่องเป๊ะ + ชื่ออุปกรณ์)</h5>
         <div class="tick" data-t="e2" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ดิจิทัล → แอนะล็อก : ASK / FSK / PSK       อุปกรณ์ = โมเด็ม
@@ -596,9 +615,9 @@ c = 3×10⁸ m/s   ·   k = 1.38×10⁻²³ J/K   ·   10log k = −228.6</span>
         <div class="qa"><span class="q">ลำดับ <b>1110100</b> (N = 7) เป็น m-sequence ที่ดีหรือไม่ · ตรวจสมดุล · รัน · และ R(τ≠0) เท่ากับเท่าไร</span></div>
         <details class="sol"><summary>เฉลย</summary><div class="body">N = 7 = 2³−1 → n = 3<br/><b>สมดุล:</b> มี 1 จำนวน 4 ตัว (สูตร 2ⁿ⁻¹ = 4 ✓) · 0 จำนวน 3 ตัว (2ⁿ⁻¹−1 = 3 ✓) ต่างกัน 1 → ผ่าน<br/><b>รัน</b> (อ่านเป็นวง): 1×3, 0×1, 1×1, 0×2 → รวม 4 รัน · ครึ่งหนึ่ง (2 รัน) ยาว 1 ✓ · หนึ่งในสี่ (1 รัน) ยาว 2 ✓ · รันของ 1 ยาวสุด = 3 = n ✓ · รันของ 0 ยาวสุด = 2 = n−1 ✓<br/><b>สหสัมพันธ์:</b> R(0) = 1 · R(τ≠0) = <b>−1/7 ≈ −0.143</b> ทุกค่าการเลื่อน → ผ่านครบ 3 ข้อ</div></details>
 
-        <h5>⑩ เกนสายอากาศ</h5>
+        <h5>⑩ เกนสายอากาศ <span class="must">= โจทย์ที่อาจารย์เดินสดในคาบเป๊ะ</span></h5>
         <div class="qa"><span class="q">จานพาราโบลาเส้นผ่านศูนย์กลาง <b>2 เมตร</b> · f = 12 GHz · หา Ae และเกนเป็น dB</span></div>
-        <details class="sol"><summary>เฉลย</summary><div class="body">λ = c/f = 3×10⁸/12×10⁹ = <b>0.025 m</b><br/>r = Ø/2 = <b>1 m</b> (❗ไม่ใช่ 2) → A = πr² = <b>3.1416 m²</b><br/>Ae = 0.56A = <b>1.7593 m²</b><br/>G = 7A/λ² = 7(3.1416)/0.025² = 35,186 เท่า → 10log = <b>45.46 dB</b> (❗สูตรเกนใช้ A ไม่ใช่ Ae)</div></details>
+        <details class="sol"><summary>เฉลย</summary><div class="body">λ = c/f = 3×10⁸/12×10⁹ = <b>0.025 m</b><br/>r = Ø/2 = <b>1 m</b> (❗ไม่ใช่ 2) → A = πr² = <b>3.1416 m²</b><br/>Ae = 0.56A = <b>1.7593 m²</b><br/>G = 7A/λ² = 7(3.1416)/0.025² = <b>35,186 เท่า (ไม่มีหน่วย!)</b> → 10log = <b>45.46 dB</b> (❗สูตรเกนใช้ A ไม่ใช่ Ae)<br/><span class="plus" style="font-size:.9em">[ยึด]</span> <b>นี่คือโจทย์ที่อาจารย์เดินสดในคาบ w4 พอดี</b> — ในเสียงอาจารย์กด λ = 0.025 แล้วได้เกน "35,168" → <b>45.46 dB</b> (ท่านปัดกลางทางเล็กน้อย ค่าเต็มคือ 35,186 · ตอบ dB เท่ากัน) · ถ้าคุณกดได้ 45.46 แปลว่าวิธีถูกทั้งกระบวน</div></details>
       </div>
     </section>
 

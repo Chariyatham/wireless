@@ -59,7 +59,7 @@
       }
       h.style.display = any ? '' : 'none';
     });
-    if (coreBtn) coreBtn.textContent = on ? '📖 กลับไปฉบับเต็ม (186 บรรทัด)' : '⚡ ฉบับย่อ (123 บรรทัด)';
+    if (coreBtn) coreBtn.textContent = on ? '📖 กลับไปฉบับเต็ม (191 บรรทัด)' : '⚡ ฉบับย่อ (128 บรรทัด)';
     if (hint) hint.style.opacity = on ? '.6' : '';
     document.documentElement.setAttribute('data-sheetmode', on ? 'core' : 'full');
   }
