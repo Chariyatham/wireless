@@ -36,10 +36,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="sheetbar">
       <span class="ptxt" id="pTxt">ลอกไปแล้ว 0%</span>
       <span class="pbar"><i id="pBar"></i></span>
-      <button type="button" id="btnCore">⚡ ฉบับย่อ (132 บรรทัด)</button>
+      <button type="button" id="btnCore">⚡ ฉบับย่อ (138 บรรทัด)</button>
       <button type="button" id="btnReset">ล้างเครื่องหมายทั้งหมด</button>
     </div>
-    <p class="hint" id="coreHint" style="margin:-8px 0 18px">กด <b>⚡ ฉบับย่อ</b> ถ้ารู้ตัวว่าจดไม่ทัน — จะซ่อน 63 บรรทัดที่ตัดได้ก่อน เหลือ <b>132 บรรทัด (67%)</b> ที่ให้คะแนนสูงสุดต่อเนื้อที่ · กดซ้ำเพื่อกลับมาฉบับเต็ม <span class="plus">การจัดลำดับความสำคัญเป็นคำแนะนำจากผู้เขียน โดยถ่วงตามสัดส่วนข้อสอบจริง</span></p>
+    <p class="hint" id="coreHint" style="margin:-8px 0 18px">กด <b>⚡ ฉบับย่อ</b> ถ้ารู้ตัวว่าจดไม่ทัน — จะซ่อน 63 บรรทัดที่ตัดได้ก่อน เหลือ <b>138 บรรทัด (68%)</b> ที่ให้คะแนนสูงสุดต่อเนื้อที่ · กดซ้ำเพื่อกลับมาฉบับเต็ม <span class="plus">การจัดลำดับความสำคัญเป็นคำแนะนำจากผู้เขียน โดยถ่วงตามสัดส่วนข้อสอบจริง</span></p>
 
     <!-- ═══════════════════ ช่อง ① ═══════════════════ -->
     <section class="blk" id="b1" style="--blkc:#e06c75">
@@ -82,49 +82,106 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     <!-- ═══════════════════ ช่อง ② ═══════════════════ -->
     <section class="blk" id="b2" style="--blkc:#ffd66b">
-      <div class="blk-h"><span class="blk-n">2</span> W1 · dB / dBW / dBm <span class="must">ห้ามขาด</span><span class="lines">~24 บรรทัด</span></div>
+      <div class="blk-h"><span class="blk-n">2</span> W1 · dB / dBW / dBm <span class="must">ห้ามขาด</span><span class="lines">~34 บรรทัด</span></div>
       <div class="blk-body">
-        <p class="hint" style="margin-top:8px">🎙 อาจารย์พูดเองท้ายคาบ: "<b>เรื่องนี้บ่อย ระรัว — dBm dBW Loss</b>" · และชีทแจก<b>ไม่มีเรื่อง dB เลยสักบรรทัด</b> → ช่องนี้คือกำไรล้วน</p>
+        <p class="hint" style="margin-top:8px">🎙 อาจารย์พูดเองท้ายคาบ: "<b>เรื่องนี้บ่อย ระรัว — dBm dBW Loss</b>" · และชีทแจก<b>ไม่มีเรื่อง dB เลยสักบรรทัด</b> → ช่องนี้คือกำไรล้วน · <b>ลอกโดยเว้นบรรทัดตามหัวข้อ ①–⑧ ข้างล่าง</b> จะหาเจอเร็วตอนทำข้อสอบ</p>
 
-        <h5>สูตรแกน</h5>
-        <div class="tick" data-t="d1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">P(dBW) = 10 log₁₀ P(W)          P(W) = 10^(dBW/10)
-P(dBm) = 10 log₁₀ P(mW)         dBm = dBW + 30
-อัตราส่วน(dB) = 10 log(P₂/P₁)   [กำลัง]
-              = 20 log(V₂/V₁)   [แรงดัน]</span></span></div>
-        <div class="tick" data-t="d2" data-core="1"><span class="box"></span><span class="txt"><b>สมบัติ log:</b> <span class="fx">log(ab) = log a + log b</span> · <span class="fx">log(a/b) = log a − log b</span> · <span class="fx">log aⁿ = n log a</span> · <span class="fx">log₂M = log M / log 2</span></span></div>
+        <h5>① เข้าใจก่อน แล้วจะไม่ต้องท่อง</h5>
+        <div class="tick" data-t="d0a" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">dB   = "กี่เท่า" ที่เขียนในรูป log   → ไม่มีขนาด บอกได้แค่อัตราส่วน
+dBW  = เอากำลังจริงไปเทียบกับฐาน 1 W    → เป็นขนาดจริง
+dBm  = เอากำลังจริงไปเทียบกับฐาน 1 mW   → เป็นขนาดจริง
 
-        <h5>กฎบวก-ลบหน่วย (ออกสอบแน่ — คนพลาดเยอะที่สุด)</h5>
-        <div class="tick" data-t="d3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">dBm − dBm = dB (ได้อัตราส่วน)    dBm ± dB = dBm
-dBW ± dB = dBW                   dBm + dBm = ไม่มีความหมาย ✗
-Gain ใส่เครื่องหมาย +            Loss ใส่เครื่องหมาย −</span></span></div>
-        <div class="tick" data-t="d4" data-core="1"><span class="box"></span><span class="txt"><b>สมการทำโจทย์:</b> <span class="fx">Pr(dB…) = Pt(dB…) + Σเกนทั้งหมด − Σการสูญเสียทั้งหมด</span> — ใส่มาเป็นแถวเดียวรวดเดียว</span></div>
-        <div class="tick" data-t="d3b" data-core="1"><span class="box"></span><span class="txt"><b>🎙 อาจารย์เตือนเองว่า "คนจำสลับ" — เขียนตัวอย่างกำกับไว้เลย:</b><span class="fxb">35 dBm  →  35 − 30  =  5 dBW      (dBm ไป dBW = ลบ)
- 5 dBW  →   5 + 30  = 35 dBm      (dBW ไป dBm = บวก)
-"อย่าจำสลับ 30 บวก/ลบ — สลับปุ๊บ ความหมายเปลี่ยนเลย"</span></span></div>
-        <div class="tick" data-t="d3c" data-core="1"><span class="box"></span><span class="txt"><b>🎙 "เวลาสอบเดี๋ยวจะเจอพวกนี้แหละ" — ผลลัพธ์เป็น dB ไม่ใช่ dBm:</b><span class="fxb">วัตต์ ÷ วัตต์ = อัตราส่วน → ไม่มีหน่วย → ผลเป็น "dB" เฉย ๆ
-เช่น Loss = Pt/Pr → เป็น dB · เกน G → เป็น dB
-ที่เป็น dBW/dBm ได้ ต้องหารด้วย "ฐาน" คือ 1 W หรือ 1 mW เท่านั้น
-❗ 10log(P/1W) — อย่าลืมหารด้วยฐาน และกดเครื่องให้ครบวงเล็บตอนคำตอบติดลบ</span></span></div>
+ประโยคเดียวที่ต้องจำ:  "dB บอกว่ากี่เท่า · dBW/dBm บอกว่าใหญ่แค่ไหน"</span></span></div>
+        <div class="tick" data-t="d0b" data-core="1"><span class="box"></span><span class="txt"><b>ประโยชน์ของ dB (เผื่อถามบรรยาย):</b> ① เปลี่ยนคูณ/หาร → บวก/ลบ ② ครอบช่วงกำลังกว้างมากด้วยเลขสั้น ③ อ่านอัตราส่วนได้ทันที</span></div>
 
-        <h5>หมุดตัวเลข (verify ด้วยสคริปต์แล้ว — ไว้กดเครื่องเช็คเร็ว)</h5>
-        <div class="tick" data-t="d5" data-core="1"><span class="box"></span><span class="txt"><b>กำลัง:</b> <span class="fxb">1 mW = 0 dBm   ·   1 W = 30 dBm = 0 dBW
-10 W = 40 dBm  ·  100 W = 50 dBm  ·  1 kW = 60 dBm
-0.5 W = 26.99 dBm  ·  5 W = 36.99  ·  50 W = 46.99
-120 W = 50.79 dBm  ·  250 W = 53.98 dBm</span></span></div>
-        <div class="tick" data-t="d6" data-core="1"><span class="box"></span><span class="txt"><b>ตัวคูณ → dB:</b> <span class="fxb">×1.26 → 1 dB    ×2 → 3.01    ×3 → 4.77    ×4 → 6.02
-×5 → 6.99       ×8 → 9.03    ×10 → 10     ×100 → 20    ×1000 → 30
-(ถ้าเป็นการ "หาร" ให้ใส่เครื่องหมายลบ เช่น ÷2 → −3.01 dB)</span></span></div>
+        <h5>② ขา "ไป" — กำลังจริง ➜ dB (ใช้ log)</h5>
+        <div class="tick" data-t="d1" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">P(W)  ➜ dBW  =  10 · log( P )              [ฐาน 1 W]
 
-        <h5>ค่า log ที่ควรจำ + ทริกเครื่องคิดเลข (ไว้เช็คว่ากดผิดไหม)</h5>
+P(mW) ➜ dBm  =  10 · log( P / 10⁻³ )       [ฐาน 1 mW]
+              =  10 · log( P(mW) )
+
+อัตราส่วน (กี่เท่า) ➜ dB  =  10 · log( เท่า )
+        เช่น  50% = 0.5 เท่า → 10 log 0.5 = −3 dB</span></span></div>
+
+        <h5>③ ขา "กลับ" — dB ➜ กำลังจริง (ใช้ 10 ยกกำลัง)</h5>
+        <div class="tick" data-t="d1b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ทุกกรณีใช้สูตรเดียวกันเป๊ะ:   ค่า = 10^( dB / 10 )
+       (กดเครื่อง: หาร 10 ก่อน แล้ว SHIFT+log)
+
+ต่างกันแค่ "หน่วยที่ติดกลับมา" เท่านั้น:
+   −63 dB   ➜ 10^(−6.3) = 5.01×10⁻⁷   เท่า   (ไม่มีหน่วย)
+   −63 dBW  ➜ 10^(−6.3) = 5.01×10⁻⁷   W
+   −63 dBm  ➜ 10^(−6.3) = 5.01×10⁻⁷   mW</span></span></div>
+
+        <h5>④ ทำไม dBm กับ dBW ต่างกัน 30 — และใช้เช็คคำตอบยังไง</h5>
+        <div class="tick" data-t="d2b" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">1 W = 1000 mW    และ    10 log 1000 = 30
+
+⇒  dBm = dBW + 30        (จาก dBW ไป dBm : บวก)
+   dBW = dBm − 30        (จาก dBm ไป dBW : ลบ)
+
+✅ วิธีเช็คคำตอบเร็ว:  dBm − dBW ต้องได้ 30 เสมอ
+🎙 อาจารย์เตือนเอง "อย่าจำสลับ — สลับปุ๊บความหมายเปลี่ยนเลย"
+   ตัวอย่างท่าน:  35 dBm  =  35 − 30  =  5 dBW</span></span></div>
+
+        <h5>⑤ หมุดตัวเลข — ไว้เดาคำตอบคร่าว ๆ / จับผิดตัวเอง</h5>
+        <div class="tick" data-t="d6" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">+3  dB ≈ ×2        −3  dB ≈ ÷2   (เหลือครึ่ง ≈ 50%)
++10 dB =  ×10       −10 dB =  ÷10  (เหลือ 10% = หายไป 90%)
++20 dB =  ×100      +30 dB =  ×1000
+×1.26 → 1 dB · ×3 → 4.77 · ×4 → 6.02 · ×5 → 6.99 · ×8 → 9.03
+
+gain 3 dB → 10^(0.3)  = 1.995 ≈ 2 เท่า
+loss 3 dB → 10^(−0.3) = 0.501 ≈ ครึ่งหนึ่ง</span></span></div>
+        <div class="tick" data-t="d5" data-core="1"><span class="box"></span><span class="txt"><b>หมุดกำลังที่เจอบ่อย:</b><span class="fxb">1 mW = 0 dBm     1 W = 30 dBm = 0 dBW    10 W = 40 dBm
+100 W = 50 dBm   0.5 W = 26.99 dBm      5 W = 36.99 dBm
+20 W = 43.01 dBm = 13.01 dBW            50 W = 46.99 dBm</span></span></div>
+
+        <h5>⑥ กฎบวก-ลบหน่วย + เหตุผล (ข้อ 3 ของแบบฝึกหัดถามตรงนี้)</h5>
+        <div class="tick" data-t="d3" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">dBm − dBm = dB      ← ไม่ใช่ dBm !
+dBm ± dB  = dBm       dBW ± dB = dBW
+dBm + dBm = ✗ ไม่มีความหมาย
+
+เหตุผล (เขียนไว้ตอบข้อบรรยาย):
+ X(dBm) − Y(dBm) = 10log(X/10⁻³) − 10log(Y/10⁻³)
+                 = 10[ logX − log10⁻³ − logY + log10⁻³ ]
+                 = 10 log(X/Y)     ← ฐาน 10⁻³ ตัดกันหมด
+ เหลือแค่ "อัตราส่วน" จึงเป็น dB เฉย ๆ ไม่ใช่ dBm</span></span></div>
+
+        <h5>⑦ สูตรทำโจทย์ link budget (ท่าประจำของข้อสอบ)</h5>
+        <div class="tick" data-t="d4" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">ขั้น 1  แปลงกำลังต้นทางเป็น dBW (หรือ dBm) ก่อน
+ขั้น 2  ไล่ไปทีละอุปกรณ์ตามเส้นทาง:
+          เกน (gain)  →  บวก
+          สูญเสีย (loss) →  ลบ
+ขั้น 3  Pr = Pt + Σเกน − Σloss     (บวกลบรวดเดียว)
+ขั้น 4  ถ้าโจทย์ถามหน่วยอื่น ค่อยแปลงตอนท้าย
+
+❗ ก่อนบวกลบ เช็คทุกก้อนว่าโจทย์ให้มาเป็น "เท่า" หรือ "dB"
+   ถ้าเป็นเท่า ต้อง 10log ก่อนเสมอ</span></span></div>
+        <div class="tick" data-t="d3c" data-core="1"><span class="box"></span><span class="txt"><b>🎙 "เวลาสอบเดี๋ยวจะเจอพวกนี้แหละ":</b> วัตต์ ÷ วัตต์ = อัตราส่วน<b>ไม่มีหน่วย</b> → ผลเป็น <b>dB</b> · จะเป็น dBW/dBm ได้ต้อง<b>หารด้วยฐาน 1 W หรือ 1 mW</b> เท่านั้น</span></div>
+
+        <h5>⑧ ตัวอย่างเดินมือ — แบบฝึกหัดสไลด์ 17 ครบทั้ง 4 ข้อ</h5>
+        <div class="tick" data-t="d10" data-core="1"><span class="box"></span><span class="txt"><b>ข้อ 1 · 30 W = ? dBm</b><span class="fxb">30 W ➜ dBW = 10 log 30 = 14.77 dBW
+        ➜ dBm = 14.77 + 30 = 44.77 dBm
+ตรวจอีกทาง: 30 W = 30,000 mW → 10 log 30000 = 44.77 ✓</span></span></div>
+        <div class="tick" data-t="d11" data-core="1"><span class="box"></span><span class="txt"><b>ข้อ 2 · 1 dBm = ? dBW = ? W</b><span class="fxb">dBW = 1 − 30 = −29 dBW
+W   = 10^(−29/10) = 10^(−2.9) = 1.2589×10⁻³ W = 1.26 mW
+ตรวจอีกทาง: 10^(1/10) = 1.2589 mW ✓</span></span></div>
+        <div class="tick" data-t="d12" data-core="1"><span class="box"></span><span class="txt"><b>ข้อ 3 · ทำไม X(dBm) − Y(dBm) = Z(dB) ไม่ใช่ Z(dBm)</b><span class="fxb">เพราะฐาน 10⁻³ ของทั้งสองตัวตัดกันหมดตอนลบ
+เหลือ 10 log(X/Y) ซึ่งเป็น "อัตราส่วน" ล้วน จึงไม่มีฐานให้อ้าง
+→ ตอบได้เป็น dB เท่านั้น  (ดูการกระจายในหัวข้อ ⑥)</span></span></div>
+        <div class="tick" data-t="d13" data-core="1"><span class="box"></span><span class="txt"><b>ข้อ 4 · Loss = 3 dB หมายความว่าอย่างไร มากหรือน้อย</b><span class="fxb">Loss 3 dB → กำลังเหลือ 10^(−3/10) = 0.501 ≈ ครึ่งหนึ่ง
+แปลว่า "สูญเสียไปประมาณ 50% ของกำลังเดิม"
+ถือว่า "ไม่มาก" — เพราะยังเหลือตั้งครึ่ง
+เทียบให้เห็นภาพ: loss 10 dB เหลือ 10% (หายไป 90%) นั่นแหละถึงเรียกว่ามาก</span></span></div>
+
+        <h5>⑨ [ยึด] เลขจริงที่รู้คำตอบแล้ว — กดเช็คว่าวิธียังถูก</h5>
+        <div class="tick" data-t="d7"><span class="box"></span><span class="txt"><b>ข้อทดสอบเก็บคะแนนจริง 15 ก.ค.:</b> Loss "1.5" ในโจทย์นั้น = <b>1.5 เท่า ไม่ใช่ 1.5 dB</b> · Pr 5 dBm → Pt = 4.74 mW = −23.24 dBW <b>(อาจารย์หลอกตรงหน่วยของ Loss)</b></span></div>
+        <div class="tick" data-t="d8"><span class="box"></span><span class="txt"><b>การบ้าน W1:</b> Pt 50 W ผ่าน Loss 25 dB → Pr = <b>−8.01 dBW = 21.99 dBm</b></span></div>
+
+        <h5>⑩ ค่า log ที่ควรจำ + ทริกเครื่องคิดเลข</h5>
         <div class="tick" data-t="d9" data-core="1"><span class="box"></span><span class="txt"><span class="fxb">log 1 = 0      log 2 = 0.301   log 3 = 0.477   log 4 = 0.602
 log 5 = 0.699  log 10 = 1      log 20 = 1.301  log 100 = 2
 ★ log(a × 10ⁿ) = log a + n     เช่น log(4×10⁹) = 0.602 + 9 = 9.602
 ★ log₂x = log x ÷ log 2        (เครื่องส่วนใหญ่ไม่มีปุ่ม log₂)
-★ แปลง dB กลับ: SHIFT+log = 10^x   เช่น −63 dBW → 10^(−6.3) = 5.01×10⁻⁷ W</span></span></div>
-
-        <h5>[ยึด] เลขจริงที่รู้คำตอบแล้ว — ไว้กดเช็คว่าวิธีเรายังถูกก่อนใช้กับโจทย์จริง</h5>
-        <div class="tick" data-t="d7"><span class="box"></span><span class="txt"><b>ข้อทดสอบเก็บคะแนนจริง 15 ก.ค.:</b> Loss "1.5" ในโจทย์นั้น = <b>1.5 เท่า ไม่ใช่ 1.5 dB</b> · Pr 5 dBm → Pt = 4.74 mW = −23.24 dBW <b>(อาจารย์หลอกตรงหน่วยของ Loss)</b></span></div>
-        <div class="tick" data-t="d8"><span class="box"></span><span class="txt"><b>การบ้าน W1:</b> Pt 50 W ผ่าน Loss 25 dB → Pr = <b>−8.01 dBW = 21.99 dBm</b></span></div>
+★ สมบัติ log: log(ab)=log a+log b · log(a/b)=log a−log b · log aⁿ = n log a</span></span></div>
       </div>
     </section>
 
