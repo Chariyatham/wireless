@@ -12,7 +12,9 @@
   /* นาทีโดยประมาณของแต่ละบล็อก (ตามจำนวนตัวอักษรจริง ที่ 100 ตัวอักษร/นาที) */
   var MIN = { c7a: 10, c7b: 5, c7c: 6, c2a: 8, c2b: 9, c6a: 9, c6b: 6, c6c: 12,
               c1a: 12, c4a: 9, c4b: 9, c4c: 10, c5a: 13, c5b: 16, c8a: 12, c8b: 10,
-              c3a: 10, c3b: 10 };
+              c3a: 10, c3b: 10,
+              /* ⚡ ฉบับตัดจริง (แทนบล็อก 5–8) */
+              x4: 17, x5: 20, x8: 11, x3: 10 };
 
   function load() {
     try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
