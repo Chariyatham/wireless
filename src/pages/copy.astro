@@ -258,9 +258,158 @@ Walsh ตั้งฉากสมบูรณ์ ❗เฉพาะเมื่�
       </div>
     </section>
 
+    <!-- ═════════ ⚡ ฉบับตัดจริง (แทนบล็อก 5–8) ═════════ -->
+    <section class="blk" id="cut" style="--blkc:#ff5f56">
+      <div class="blk-h"><span class="blk-n">⚡</span> ฉบับตัดจริง — จดแทนบล็อก 5–8 ทั้งหมด <span class="must">เหลือ 200 จาก 313 บรรทัด</span><span class="lines">≈ 58 นาที (เดิม 98)</span></div>
+      <div class="blk-body">
+        <p class="hint" style="margin-top:8px"><b>จดไม่ทันแล้ว ใช้ชุดนี้แทน</b> — ตัดโดยถ่วงตามน้ำหนักข้อสอบที่อาจารย์บอก
+        (<b>สายอากาศ 3 ข้อ · เข้ารหัส 2–3 · พื้นฐาน 2 · เติมคำ 3 + ถูก/ผิด 1 + บรรยาย 1.5</b>)
+        <b>กฎที่ใช้ตัด:</b> ① สูตรที่<u>มีในชีทแจกอยู่แล้ว</u> ตัดหมด เหลือแค่กับดักหน่วย
+        ② คำอธิบายเก็บเฉพาะที่ตอบเติมคำ/ถูก-ผิด/บรรยายได้ตรง ๆ
+        ③ [ยึด] เก็บบทละ 1–2 ทรงไว้เช็ควิธี ที่เหลือตัด
+        ④ ตัดบรรทัด ▸ ทิ้งทั้งหมด · <b>จดชุดนี้จบแล้วข้ามบล็อก 5–8 ข้างล่างได้เลย</b>
+        <span class="plus">การถ่วงน้ำหนัก/ตัดเป็นของผู้เขียน · ทุกบรรทัดยกมาจากเนื้อหาเดิมที่ verify แล้ว ไม่มีของใหม่</span></p>
+
+        <div class="note" style="border-left-color:#ffd66b;margin:10px 0 4px"><b>🚨 ถ้าเหลือน้อยกว่า 1 ชั่วโมง — ตัดต่ออีกตามลำดับนี้</b> (ตัดจากล่างขึ้นบน)<br/>
+          ① <b>ศัพท์ไทย=อังกฤษ</b> ในช่อง ⑧ (−4 บรรทัด) → ② <b>W2 ทั้งก้อน</b> ในช่อง ③ (−7) → ③ <b>รหัสเส้น + AM/FM</b> ในช่อง ⑤ (−9)
+          → ④ <b>【ตอบข้อคำ】ในช่อง ④</b> ทั้งก้อน (−12) → ⑤ <b>MFSK + B_T</b> ในช่อง ⑤ (−10)<br/>
+          ตัดครบทั้ง 5 ขั้น = เหลือ <b>~120 บรรทัด ≈ 35 นาที</b> · <b>ห้ามตัด:</b> ท่าหาเกน · FSL+ดาวเทียม · LOS · S(dBW) · encoder vs modulator · ถูก/ผิด 8 ข้อ · Nyquist vs Shannon
+        </div>
+
+        <h5>ช่อง ④ · W4 สายอากาศ — หน้า 2 คอลัมน์ซ้าย ช่องล่าง (ออก 3 ข้อ เก็บมากสุด)</h5>
+        <div class="tick" data-t="x4"><span class="box"></span><span class="txt"><span class="fxb">【สูตรที่ชีทแจกไม่มี】
+λ = c/f     c = 3×10⁸ m/s          ← "สอบไม่ให้สูตรนี้"
+A = πr² (r = Ø/2) หรือ กว้าง×ยาว    ·    G(dB) = 10 log G
+Pr = Pt(dBW) + Gt + Gr − L(dB)
+
+【ตารางสายอากาศ (2 แถวที่ใช้บ่อยสุด)】
+ฮอร์น : Ae = 0.81A , G = 10A/λ²      จาน : Ae = 0.56A , G = 7A/λ²
+❗ สูตร G ใช้ A (พื้นที่จริง) ไม่ใช่ Ae · G "เท่า" ไม่มีหน่วย · Ae เป็น m²
+❗ แปลง cm→m และ 10⁶/10⁹ ก่อนเสมอ
+
+【ท่าหาเกน】λ=c/f → r=Ø/2 → A=πr² → Ae → G=7A/λ² หรือ 10A/λ² → 10 log G
+[ยึด] จาน Ø 100 cm @ 40 GHz : λ=.0075 · A=.7854 · Ae=.44 m² · G = 49.90 dB
+
+【LOS】d = 3.57√(Kh) · 2 เสา 3.57(√Kh₁+√Kh₂) · K = 4/3 · h:m → d:km
+[ยึด] 75 m + 12 m → 3.57(10+4) = 50.0 km
+
+【FSL】L = 20log f + 20log d − 147.56  (f:Hz , d:m) ❗ไม่ขึ้นกับกำลังส่ง
+[ยึด] 35,368 km @ 4 GHz = 195.45 dB
+      + 23.98 (Pt 250 W) + 44 + 48 → Pr = −79.47 dBW
+path loss : L = 20log f + 10·n·log d − 147.56
+   n = 2 ที่โล่ง · n &gt; 2 เมือง/มีสิ่งบดบัง · n &lt; 2 ในตึกที่มองเห็นกัน
+
+【noise + Eb/N₀】4 ชนิด : thermal (kTB มีเสมอ) · intermodulation ·
+   crosstalk · impulse
+N = −228.6 + 10log T + 10log B     ·     K = °C + 273
+S(dBW) = (Eb/N₀) + 10log R − 228.6 + 10log T
+[ยึด] 8.4 dB / 290 K / 2400 bps → 8.4 + 33.80 − 228.6 + 24.62 = −161.77 dBW
+
+【ตอบข้อคำ】
+3 โหมดแพร่กระจาย : ground ≤ 2 MHz · sky 2–30 MHz · LOS &gt; 30 MHz
+เกน = บีบพลังงานก้อนเดิมให้พุ่งทิศเดียว ไม่ได้สร้างพลังงานเพิ่ม (ไฟฉาย)
+ไอโซทรอปิก = แผ่เท่ากันทุกทิศ อุดมคติสร้างจริงไม่ได้ ใช้อ้างอิง G = 1
+beamwidth วัดที่ −3 dB · ลำแคบ = เกนสูง ต้องเล็งแม่นขึ้น
+ไดโพล pattern = โดนัท · มองจากด้านบน = วงกลม → omni (Wi-Fi)
+multipath = เดินหลายเส้นทาง มาไม่พร้อมกัน → ISI + fading
+   Rayleigh = ไม่มี LOS · Rician = มี LOS เด่น 1 เส้น
+   flat = จางทั้งแบนด์เท่ากัน | selective = จางไม่เท่ากันแต่ละความถี่
+สู้ fading : ① FEC ② equalization ③ diversity ④ MIMO</span></span></div>
+
+        <h5>ช่อง ⑤ · W5 เข้ารหัส — หน้า 1 คอลัมน์ซ้าย ช่องล่าง (ออก 2–3 ข้อ)</h5>
+        <div class="tick" data-t="x5"><span class="box"></span><span class="txt"><span class="fxb">【หลักของบท】ขาออกเป็นตัวตัดสิน
+encoder → ออก "ดิจิทัล" (decoder) | modulator → ออก "แอนะล็อก" ใส่ carrier
+⭐ อาจารย์บอกเอง "ข้อสอบถามว่า encoder ต่างจาก modulator ยังไง"
+D→A : ASK/FSK/PSK = โมเด็ม      A→D : PCM/DM = โคเดก
+D→D : NRZ/Manchester/AMI        A→A : AM/FM/PM
+
+【มอดูเลตดิจิทัล】
+ASK เปลี่ยนแอมพลิจูด — ง่าย/ถูก แพ้ noise สุด
+FSK เปลี่ยนความถี่ — ทนกว่า ASK แต่กิน BW มากกว่า
+PSK เปลี่ยนเฟส — ทน noise ดีสุด (BPSK ต่าง 180°)
+DPSK เข้ารหัสที่ "การเปลี่ยนเฟส" ไม่ต้องมีเฟสอ้างอิง แย่กว่า BPSK ~1 dB
+ดี → แย่ : BPSK → DPSK → ASK/BFSK
+
+【bit rate ≠ baud】L = log₂M · D = R/L · R = D·log₂M
+[ยึด] QPSK 1 Mbps → 500 kbaud · M มาก = baud ต่ำ/BW น้อย แต่ต้อง SNR สูงขึ้น
+
+【MFSK】(ชีทไม่มี) f_i = f_c + (2i−1−M)·f_d , i = 1…M · W_d = 2M·f_d
+   T_s = L·T · ตัวคูณ f_d = เลขคี่สมมาตรรอบ f_c
+[ยึด] R 250k, M=8, f_c 250k, f_d 25k → L=3 , 83.33 kbaud , T_s = 12 µs
+      f = 75,125,175,225,275,325,375,425 kHz · W_d = 400 kHz
+   ⚠ ห้ามใช้ W = M/T_s (ได้ 666.7 ผิด)
+
+【B_T】(ตารางอยู่ในชีทแจก) MPSK ยิ่ง M มากยิ่งแคบ · MFSK ยิ่ง M มากยิ่งกว้าง
+⚠ ตาราง 6.2 แถว FSK/MFSK ในสไลด์ผิด — ยึดสูตร
+ประสิทธิภาพ = R/B_T · 10log(R/B_T) = SNR(dB) − (Eb/N₀)dB
+[ยึด] C/B = 6 → SNR = 63 เท่า = 17.99 dB → Eb/N₀ = 10.5 = 10.21 dB
+
+【กราฟ BER】ซ้ายสุด BPSK ดีสุด → DPSK → ASK/BFSK ขวาสุด
+[ยึด] BER 10⁻⁴ → BPSK ≈ 8.4 dB
+【constellation】QPSK : 11@45° · 01@135° · 00@225° · 10@315°
+QAM = ผสมแอมพลิจูด + เฟส · จุดเยอะ = เร็วขึ้นแต่ต้องการ SNR สูงขึ้น
+【AM/FM】AM B_T = 2B · SSB B_T = B · Carson B_T = 2(β+1)B
+   PM β = n_p·A_m · FM β = ΔF/B · FM ทน noise กว่า AM แต่กิน BW มากกว่า
+
+【PCM】① sampling f_s ≥ 2B ② quantizing ③ encoding n บิต
+ระดับ = 2ⁿ · R = n·f_s · SNR = 6.02n + 1.76  ❗ n ปัดขึ้นเสมอ
++1 บิต = ระดับ ×2 = noise ÷4 = SNR +6.02 dB
+[ยึด] 30 dB , 7000 sps → n = 4.69 → 5 บิต , 32 ระดับ , 35 kbps
+
+【รหัสเส้น】NRZ-L ระดับคงที่ (สไลด์ 1 = ลบ , 0 = บวก)
+NRZI เปลี่ยนระดับเมื่อเจอ 1
+Manchester เปลี่ยนกลางบิต ขึ้น = 1 ลง = 0 (มี clock แต่กิน BW 2 เท่า)
+Diff-Man กลางบิตเปลี่ยนเสมอ + ต้นบิตเปลี่ยน = 0 / ไม่เปลี่ยน = 1
+AMI 1 = พัลส์สลับขั้ว , 0 = เงียบ → ไม่มี DC + ตรวจจับข้อผิดพลาดได้</span></span></div>
+
+        <h5>ช่อง ⑧ · คลังตอบ — หน้า 1 คอลัมน์ขวา ช่องล่าง (ถูก/ผิด 1 ข้อเต็ม + เติมคำ)</h5>
+        <div class="tick" data-t="x8"><span class="box"></span><span class="txt"><span class="fxb">【ถูก/ผิด — 8 ประโยคหลอก (ทุกข้อนี้ "ผิด")】
+✗ เกนทำให้กำลังส่งรวมเพิ่ม → เท่าเดิม แค่บีบทิศ
+✗ FSL ขึ้นกับกำลังที่ส่ง → ขึ้นกับ f กับ d เท่านั้น
+✗ VC จองความจุล่วงหน้า → จำเส้นทาง แต่ไม่จองความจุ
+✗ เพิ่ม M แล้ว Shannon เพิ่มตาม → Shannon จำกัดด้วย SNR (M คือของ Nyquist)
+✗ repeater ขยายสัญญาณพร้อม noise → นั่นคือ amplifier
+✗ thermal noise ออกแบบวงจรดีแล้วหมดไป → กำจัดไม่ได้ ลดได้แค่ T กับ B
+✗ Walsh ตั้งฉากเสมอไม่ว่าจังหวะตรงหรือไม่ → ต้องซิงค์ตรงกันเท่านั้น
+✗ DSSS ทำให้กำลังส่งรวมสูงขึ้น → เท่าเดิม แค่กระจายจนความหนาแน่นต่ำ
+
+【คำตอบสั้น】
+thermal noise = อิเล็กตรอนสั่นตามอุณหภูมิ มีทุกอุปกรณ์ทุกความถี่ กำจัดไม่ได้
+FEC = ส่งบิตซ่อมล่วงหน้า ตัวรับซ่อมเอง ไม่ต้องขอส่งใหม่ (ดีกับดาวเทียม)
+sampling theorem = สุ่ม ≥ 2 เท่าของความถี่สูงสุด (f_s ≥ 2B) จึงกู้สัญญาณคืนได้
+quantizing noise = ความคลาดจากการปัดเข้าระดับใกล้สุด · ลดโดยเพิ่มบิต
+
+【ศัพท์ที่เดาเองไม่ได้】
+เส้นสายตา = LOS · คลื่นพื้นดิน = ground wave · คลื่นฟ้า = sky wave
+การจางหาย = fading · หลายวิถี = multipath · การแทรกสอดฯ = ISI
+การผสมข้าม = intermodulation · การรบกวนข้ามช่อง = crosstalk
+สัญญาณกระตุก = impulse · ตั้งฉาก = orthogonal · สหสัมพันธ์ไขว้ = cross-correlation</span></span></div>
+
+        <h5>ช่อง ③ · W3+W2 — หน้า 2 คอลัมน์ขวา ช่องบน (พื้นฐาน ~2 ข้อ)</h5>
+        <div class="tick" data-t="x3"><span class="box"></span><span class="txt"><span class="fxb">(λ = c/f เขียนไว้ในช่อง ④ แล้ว ไม่ต้องซ้ำ)
+【W3】Nyquist C = 2B log₂M      (ไร้ noise · จำกัดด้วย M)
+Shannon C = B log₂(1+SNR)      (มี noise · จำกัดด้วย SNR ❗ใช้ "เท่า")
+ใช้คู่กัน : Shannon บอกเพดาน → Nyquist บอกว่าต้องใช้ M เท่าไร
+[ยึด] B = 1 MHz , SNR 24 dB → 251.19 เท่า → C = 7.98 Mbps
+      → log₂M = 3.99 → M = 16
+s(t) = A sin(2πft + φ) · T = 1/f · B = f_สูง − f_ต่ำ · f_s ≥ 2B
+amplifier ขยายรวม noise ที่สะสมมา (แอนะล็อก)
+repeater ตีความเป็นบิตแล้วสร้างสัญญาณใหม่ที่สะอาด (ดิจิทัล)
+FDM แบ่งความถี่ ส่งพร้อมกัน (แอนะล็อก) | TDM แบ่งเวลา ผลัดกันส่ง (ดิจิทัล)
+
+【W2】Syntax รูปแบบ · Semantics ความหมาย/ควบคุม · Timing ความเร็ว+ลำดับ
+TCP/IP 5 ชั้น : Physical → Network access → Internet → Transport → Application
+OSI 7 ชั้น = แยก Session + Presentation เพิ่ม (TCP/IP ยุบไว้ใน Application)
+repeater/hub = ชั้น 1 · bridge/switch = 2 (MAC) · router = 3 (IP)
+switching : Circuit จองเส้นทาง + จองความจุ 3 เฟส เรียงแน่ = โทรศัพท์
+   Datagram ไม่จอง อาจสลับลำดับ ทุกแพ็กเก็ตมีที่อยู่ = IP
+   VC จองเส้นทาง เรียงแน่ ❗แต่ไม่จองความจุ = X.25 / Frame Relay</span></span></div>
+      </div>
+    </section>
+
     <!-- ═════════ 5) ช่อง ④ ═════════ -->
     <section class="blk" id="c4" style="--blkc:#c792ea">
-      <div class="blk-h"><span class="blk-n">5</span> ลงในช่อง ④ · W4 สายอากาศ + การแพร่กระจาย <span class="must">ออก 3 ข้อ — บทหนักสุด</span><span class="lines">88 บรรทัด · ≈ 28 นาที</span></div>
+      <div class="blk-h"><span class="blk-n">5</span> ลงในช่อง ④ · W4 สายอากาศ + การแพร่กระจาย <span class="must">ออก 3 ข้อ — บทหนักสุด</span><span class="cut">ฉบับเต็ม — ข้ามได้ถ้าจด ⚡ แล้ว</span><span class="lines">88 บรรทัด · ≈ 28 นาที</span></div>
       <div class="blk-body">
         <p class="hint" style="margin-top:8px"><b>หน้า 2 · คอลัมน์ซ้าย · ช่องล่าง</b> — สูตรหลักมีในชีทแจกแล้ว ที่จดคือ "ของที่ชีทไม่มี + หมุดเลขไว้เช็ควิธี"</p>
         <div class="tick" data-t="c4a"><span class="box"></span><span class="txt"><span class="fxb">【สูตรที่ชีทแจกไม่มี】
@@ -325,7 +474,7 @@ multipath = เดินหลายเส้นทาง มาถึงไม�
 
     <!-- ═════════ 6) ช่อง ⑤ ═════════ -->
     <section class="blk" id="c5" style="--blkc:#f78c6c">
-      <div class="blk-h"><span class="blk-n">6</span> ลงในช่อง ⑤ · W5 การเข้ารหัสสัญญาณ <span class="must">ออก 2–3 ข้อ</span><span class="lines">101 บรรทัด · ≈ 29 นาที</span></div>
+      <div class="blk-h"><span class="blk-n">6</span> ลงในช่อง ⑤ · W5 การเข้ารหัสสัญญาณ <span class="must">ออก 2–3 ข้อ</span><span class="cut">ฉบับเต็ม — ข้ามได้ถ้าจด ⚡ แล้ว</span><span class="lines">101 บรรทัด · ≈ 29 นาที</span></div>
       <div class="blk-body">
         <p class="hint" style="margin-top:8px"><b>หน้า 1 · คอลัมน์ซ้าย · ช่องล่าง</b></p>
         <div class="tick" data-t="c5a"><span class="box"></span><span class="txt"><span class="fxb">【หลักของบท + 4 คู่】
@@ -393,7 +542,7 @@ AMI 1 = พัลส์สลับขั้ว , 0 = เงียบ → ไม
 
     <!-- ═════════ 7) ช่อง ⑧ ═════════ -->
     <section class="blk" id="c8" style="--blkc:#e8b0ff">
-      <div class="blk-h"><span class="blk-n">7</span> ลงในช่อง ⑧ · คลังตอบเป๊ะ <span class="must">เติมคำ 3 + ถูก/ผิด 1 + บรรยาย 1.5</span><span class="lines">65 บรรทัด · ≈ 22 นาที</span></div>
+      <div class="blk-h"><span class="blk-n">7</span> ลงในช่อง ⑧ · คลังตอบเป๊ะ <span class="must">เติมคำ 3 + ถูก/ผิด 1 + บรรยาย 1.5</span><span class="cut">ฉบับเต็ม — ข้ามได้ถ้าจด ⚡ แล้ว</span><span class="lines">65 บรรทัด · ≈ 22 นาที</span></div>
       <div class="blk-body">
         <p class="hint" style="margin-top:8px"><b>หน้า 1 · คอลัมน์ขวา · ช่องล่าง</b> — นิยามอื่น ๆ อยู่ในช่อง ②–⑥ แล้ว ช่องนี้เก็บเฉพาะที่ยังไม่มีที่ไหน</p>
         <div class="tick" data-t="c8a"><span class="box"></span><span class="txt"><span class="fxb">【ถูก/ผิด — 8 ประโยคหลอก (ทุกข้อนี้ "ผิด")】
@@ -437,7 +586,7 @@ sampling theorem = สุ่มอย่างน้อย 2 เท่าขอ�
 
     <!-- ═════════ 8) ช่อง ③ ═════════ -->
     <section class="blk" id="c3" style="--blkc:#83c167">
-      <div class="blk-h"><span class="blk-n">8</span> ลงในช่อง ③ · W3 คลื่น/ความจุ + W2 เครือข่าย <span class="cut">ลอกท้ายสุด — ตัดได้ถ้าหมดเวลา</span><span class="lines">59 บรรทัด · ≈ 19 นาที</span></div>
+      <div class="blk-h"><span class="blk-n">8</span> ลงในช่อง ③ · W3 คลื่น/ความจุ + W2 เครือข่าย <span class="cut">ลอกท้ายสุด — ตัดได้ถ้าหมดเวลา</span><span class="cut">ฉบับเต็ม — ข้ามได้ถ้าจด ⚡ แล้ว</span><span class="lines">59 บรรทัด · ≈ 19 นาที</span></div>
       <div class="blk-body">
         <p class="hint" style="margin-top:8px"><b>หน้า 2 · คอลัมน์ขวา · ช่องบน</b> — λ = c/f สำคัญมาก (ชีทไม่ให้) ที่เหลือของ W2 ตัดได้ก่อนใคร</p>
         <div class="tick" data-t="c3a"><span class="box"></span><span class="txt"><span class="fxb">【W3】λ = c/f    c = 3×10⁸ m/s      ← ชีทแจกไม่มี!
